@@ -1,0 +1,115 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: #FFD700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 1.8em;
+  color: white;
+  position: relative;
+  z-index: 1100;
+}
+
+/* Бургер кнопка */
+.burger {
+  display: none;
+  width: 30px;
+  height: 25px;
+  position: relative;
+  z-index: 1100;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+}
+
+.burger span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background: white;
+  border-radius: 2px;
+  position: absolute;
+  left: 0;
+  transition: all 0.3s ease;
+   pointer-events: none;
+
+}
+
+.burger span:nth-child(1) {
+  top: 0;
+}
+.burger span:nth-child(2) {
+  top: 11px;
+}
+.burger span:nth-child(3) {
+  top: 22px;
+}
+
+/* Анимация в крестик */
+.burger.open span:nth-child(1) {
+  transform: rotate(45deg);
+  top: 11px;
+}
+
+.burger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.burger.open span:nth-child(3) {
+  transform: rotate(-45deg);
+  top: 11px;
+}
+
+/* Навигация */
+.nav {
+  display: flex;
+  gap: 20px;
+  z-index: 1000;
+}
+
+.nav a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.2em;
+}
+
+.nav a.active {
+  font-weight: bold;
+  border-bottom: 2px solid white;
+}
+
+/* Мобильное меню */
+@media (max-width: 768px) {
+  .burger {
+    display: block;
+  }
+
+  .nav {
+    position: fixed;
+    top: 100px;
+    left: -350px;
+    width: 250px;
+    height: calc(100% - 100px);
+    background: #FFD700;
+    flex-direction: column;
+    padding: 20px;
+    gap: 15px;
+    transition: left 0.3s ease;
+    z-index: 1000;
+  }
+
+  .nav.open {
+    left: 0 ;
+  }
+}
