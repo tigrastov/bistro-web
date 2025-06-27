@@ -6,6 +6,7 @@ import Info from './Pages/Info';
 import Cart from './Pages/Cart';
 import Profile from './Pages/Profile';
 import DetailView from './Pages/DetailView.jsx';
+import Auth from './Pages/Auth.jsx';
 import './App.css';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="/orders" element={<Orders />} />
           <Route path="/info" element={<Info />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/auth" element={<Auth />} />
           <Route path="/product/:id" element={<DetailView />} />
         </Routes>
       </div>

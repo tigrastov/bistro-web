@@ -14,11 +14,43 @@
 }
 
 .logo {
-  font-size: 1.8em;
+position: relative;
+  /* font-size: 1.8em;
   color: white;
-  position: relative;
-  z-index: 1100;
+  position: relative; */
+  /* z-index: 1100; */
 }
+button.logotype {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+button.logotype img {
+  display: block;
+  height: 60px; /* Подбери подходящую высоту */
+  width: auto;
+}
+@media (max-width: 768px) {
+  .nav {
+    position: fixed;
+    top: 100px;
+    left: -100%;  /* Скрываем за пределами экрана */
+    width: 100%;  /* Занимает всю ширину */
+    height: calc(100vh - 100px);  /* На всю высоту */
+    background: #FFD700;
+    flex-direction: column;
+    padding: 20px;
+    gap: 15px;
+    transition: left 0.3s ease;
+    z-index: 1100;
+  }
+
+  .nav.open {
+    left: 0;
+  }
+}
+
 
 /* Бургер кнопка */
 .burger {
