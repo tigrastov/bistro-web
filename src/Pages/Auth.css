@@ -110,26 +110,24 @@
 
 
 @media (max-width: 480px) {
+ @media (max-width: 480px) {
   .auth.is-authenticated {
     justify-content: center;
-    width: 100%; /* На всю ширину экрана */
-    max-width: 100%; /* Никаких ограничений */
-    padding: 20px; /* Отступы по краям */
-    margin: 0; /* Убираем внешние отступы */
-    box-sizing: border-box; /* Чтобы padding не увеличивал ширину */
-    min-height: 100vh; /* На весь экран по высоте */
-    background: white; /* Четко задаем фон */
-    position: fixed; /* Фиксируем на экране */
+    width: 100%;
+    max-width: 100%;
+    padding: 20px;
+    margin: 0;
+    box-sizing: border-box;
+    min-height: 100vh;
+    background: white;
+
     border-radius: 10px;
     top: 0;
     left: 0;
   }
+}
 
-  .auth.is-authenticated h1 {
-    font-size: 24px;
-
-    color: #333;
-  }
+  
 
   .auth.is-authenticated p {
     font-size: 16px;

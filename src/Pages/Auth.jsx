@@ -1,6 +1,8 @@
 
 
 import { useState, useEffect } from 'react';
+import { auth, db } from '../firebase';
+import { setDoc, doc } from "firebase/firestore";
 import { 
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -9,10 +11,10 @@ import {
   updateProfile,
   onAuthStateChanged
 } from 'firebase/auth';
-import { auth } from '../firebase';
+
 import './Auth.css';
 
-// Функция перевода ошибок Firebase
+// Функция перевода ошибок FirebaseТут
 const translateFirebaseError = (error) => {
   const errorMap = {
     'auth/invalid-email': 'Некорректный email',
@@ -44,20 +46,36 @@ function Auth() {
   }, []);
 
   const handleAuth = async (e) => {
-    e.preventDefault();
-    try {
-      if (isLogin) {
-        await signInWithEmailAndPassword(auth, email, password);
-      } else {
-        const { user } = await createUserWithEmailAndPassword(auth, email, password);
-        await updateProfile(user, { displayName: name });
-        localStorage.setItem('user_phone', phone);
-      }
-      setIsAuth(true);
-    } catch (err) {
-      setError(translateFirebaseError(err)); // Используем переводчик ошибок
+  e.preventDefault();
+  try {
+    if (isLogin) {
+      await signInWithEmailAndPassword(auth, email, password);
+    } else {
+      const { user } = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(user, { displayName: name });
+      // Сохраняем пользователя в Firestore
+      console.log('Данные для Firestore:', {
+  uid: user.uid,
+  email: user.email,
+  name,
+  phone,
+  createdAt: new Date()
+});
+      await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        email: user.email,
+        name,
+        phone,
+        createdAt: new Date()
+      });
+      console.log('Пользователь успешно сохранён в Firestore');
     }
-  };
+    setIsAuth(true);
+  } catch (err) {
+    setError(translateFirebaseError(err));
+console.error('Ошибка Firestore:', err);
+  }
+};
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -76,6 +94,7 @@ function Auth() {
       alert(`Письмо для сброса пароля отправлено на ${email}`);
     } catch (err) {
       setError(translateFirebaseError(err));
+      console.log('Firebase error code:', err.code); 
     }
   };
 
@@ -85,7 +104,7 @@ function Auth() {
         <h1>Вы авторизованы!</h1>
         <p>Email: {auth.currentUser?.email}</p>
         <p>Имя: {auth.currentUser?.displayName || 'Не указано'}</p>
-        <p>Телефон: {localStorage.getItem('user_phone') || 'Не указан'}</p>
+        {/* <p>Телефон: {localStorage.getItem('user_phone') || 'Не указан'}</p> */}
         
         <button 
           onClick={handleLogout}
