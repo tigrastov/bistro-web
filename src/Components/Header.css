@@ -112,13 +112,13 @@ button.logotype img {
 
 .nav a {
   text-decoration: none;
-  color: white;
+  color: brown;
   font-size: 1.2em;
 }
 
 .nav a.active {
   font-weight: bold;
-  border-bottom: 2px solid white;
+  border-bottom: 2px solid brown;
 }
 
 /* Мобильное меню */
