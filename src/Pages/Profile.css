@@ -1,0 +1,33 @@
+.profile p{
+font-size: 17px;
+font-weight: bolder;
+}
+
+
+
+
+.savephone-btn{
+ width: 95%;
+  padding: 12px;
+  background: green;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 0.8rem;
+  font-size: 16px;
+}
+
+.cancellSave{
+width: 95%;
+  padding: 12px;
+  background: white;
+  border: none;
+  border-radius: 10px;
+  color: brown;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 0.8rem;
+  font-size: 16px;
+}

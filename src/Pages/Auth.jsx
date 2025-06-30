@@ -12,7 +12,7 @@ import {
   onAuthStateChanged,
   deleteUser
 } from 'firebase/auth';
-const [resetMode, setResetMode] = useState(false);
+
 import './Auth.css';
 
 // Функция перевода ошибок Firebase
@@ -40,7 +40,7 @@ function Auth() {
   const [error, setError] = useState('');
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
-  
+  const [resetMode, setResetMode] = useState(false);
   useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, (user) => {
     setIsAuth(!!user);

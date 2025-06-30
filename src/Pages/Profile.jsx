@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signOut, deleteUser } from "firebase/auth";
 import { auth, db } from '../firebase';
-import { doc, getDoc, deleteDoc } from "firebase/firestore";
+import { doc, getDoc, deleteDoc, updateDoc } from "firebase/firestore";
 import './Profile.css';
 
 function Profile() {
@@ -10,6 +10,9 @@ function Profile() {
   const [loading, setLoading] = useState(true);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const [error, setError] = useState('');
+  const [editMode, setEditMode] = useState(false);
+  const [editPhone, setEditPhone] = useState('');
+  const [saveLoading, setSaveLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +26,13 @@ function Profile() {
     };
     fetchProfile();
   }, []);
+
+  // При входе в режим редактирования заполняем поле
+  useEffect(() => {
+    if (editMode && userData) {
+      setEditPhone(userData.phone || '');
+    }
+  }, [editMode, userData]);
 
   const handleLogoutClick = () => {
     setShowLogoutDialog(true);
@@ -52,6 +62,20 @@ function Profile() {
     }
   };
 
+  const handleSavePhone = async () => {
+    setSaveLoading(true);
+    setError('');
+    try {
+      const ref = doc(db, "users", auth.currentUser.uid);
+      await updateDoc(ref, { phone: editPhone });
+      setUserData({ ...userData, phone: editPhone });
+      setEditMode(false);
+    } catch (e) {
+      setError('Ошибка при сохранении телефона');
+    }
+    setSaveLoading(false);
+  };
+
   if (loading) return <div className="profile"><h1>Профиль</h1><p>Загрузка...</p></div>;
 
   if (!auth.currentUser) {
@@ -69,9 +93,35 @@ function Profile() {
     <div className="profile">
       <h1>Профиль</h1>
       {error && <p className="error">{error}</p>}
-      <p>Имя: {userData?.name}</p>
+      <p>{userData?.name}</p>
       <p>Email: {userData?.email}</p>
-      <p>Телефон: {userData?.phone}</p>
+      <p>
+        Телефон:{" "}
+        {editMode ? (
+          <>
+            <input
+              type="tel"
+              value={editPhone}
+              onChange={e => setEditPhone(e.target.value)}
+              placeholder="Телефон"
+              style={{ marginRight: 8 }}
+            />
+            <button className="savephone-btn" onClick={handleSavePhone} disabled={saveLoading}>
+              Сохранить
+            </button>
+            <button className="cancellSave" onClick={() => setEditMode(false)} disabled={saveLoading}>
+              Отмена
+            </button>
+          </>
+        ) : (
+          <>
+            {userData?.phone || "Не указан"}
+            <button className="auth-btn" style={{ marginLeft: 10 }} onClick={() => setEditMode(true)}>
+              Редактировать
+            </button>
+          </>
+        )}
+      </p>
       <button onClick={handleLogoutClick} className="auth-btn logout-btn">
         Выйти
       </button>

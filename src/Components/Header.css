@@ -145,3 +145,11 @@ button.logotype img {
     left: 0 ;
   }
 }
+
+
+@media (min-width: 769px) {
+  .logotype {
+    pointer-events: none;
+    cursor: default;
+  }
+}
