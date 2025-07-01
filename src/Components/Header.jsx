@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Header.css';
 
-export default function Header() {
+export default function Header({userData}) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -29,6 +29,10 @@ export default function Header() {
       <NavLink to="/cart" onClick={() => setIsOpen(false)}>Корзина</NavLink>
       <NavLink to="/orders" onClick={() => setIsOpen(false)}>Мои заказы</NavLink>
       <NavLink to="/info" onClick={() => setIsOpen(false)}>О нас</NavLink>
+      {userData && (userData.role === 'adminCuba' || userData.role === 
+'adminKarlMarks') && (
+          <NavLink to="/admin" onClick={() => setIsOpen(false)}>Админ-панель</NavLink>
+        )}
       <NavLink to="/profile" onClick={() => setIsOpen(false)}>Профиль</NavLink>
       <NavLink to="/auth" onClick={() => setIsOpen(false)}>Вход/Регистрация</NavLink>
     </nav>

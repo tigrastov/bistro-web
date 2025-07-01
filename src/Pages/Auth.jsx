@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { auth, db } from '../firebase';
 import { setDoc, doc, deleteDoc } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
+import { getDoc } from "firebase/firestore";
 import { 
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -29,7 +30,8 @@ const translateFirebaseError = (error) => {
   return errorMap[error.code] || 'Произошла неизвестная ошибка';
 };
 
-function Auth() {
+function Auth({setUserData}) {
+
    const navigate = useNavigate();
    const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -41,12 +43,19 @@ function Auth() {
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
   const [resetMode, setResetMode] = useState(false);
+
+
   useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, (user) => {
+  const unsubscribe = onAuthStateChanged(auth, async (user) => {
     setIsAuth(!!user);
     setAuthLoading(false);
     if (user) {
+      const ref = doc(db, "users", user.uid);
+      const snap = await getDoc(ref);
+      if (snap.exists()) setUserData(snap.data());
       navigate('/profile');
+    } else {
+      setUserData(null);
     }
   });
   return unsubscribe;
@@ -93,12 +102,13 @@ function Auth() {
       } else {
         const { user } = await createUserWithEmailAndPassword(auth, email, password);
         await updateProfile(user, { displayName: name });
-        // Сохраняем пользователя в Firestore
+
         await setDoc(doc(db, "users", user.uid), {
           uid: user.uid,
           email: user.email,
           name,
           phone,
+          role: "user", 
           createdAt: new Date()
         });
       }

@@ -3,7 +3,7 @@ function AdminPanel (){
 
 return (
     <div className="admin-panel">
-        <h1>AdminPanel</h1> /    
+        <h1>AdminPanel</h1>     
         </div>
   );
 
