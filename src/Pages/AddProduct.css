@@ -1,0 +1,143 @@
+.add-product {
+  background: #111;
+  color: #ffd600;
+  min-height: 100vh;
+  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.add-product h1 {
+  color: #ffd600;
+  margin-bottom: 32px;
+  font-size: 2.2rem;
+  letter-spacing: 1px;
+}
+
+.add-product form {
+  background: #222;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 320px;
+  max-width: 90vw;
+  box-sizing: border-box;
+}
+
+.add-product select,
+.add-product input[type="text"],
+.add-product input[type="number"],
+.add-product textarea {
+  background: #111;
+  color: #ffd600;
+  border: 1.5px solid #ffd600;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 1.1rem;
+  outline: none;
+  transition: border 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.add-product input[type="file"] {
+  color: #ffd600;
+  background: transparent;
+  border: none;
+}
+
+.add-product button {
+  background: #ffd600;
+  color: #111;
+  border: none;
+  border-radius: 6px;
+  padding: 14px 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.add-product button:hover {
+  background: #fff200;
+  color: #000;
+}
+
+.success {
+  color: #00e676;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+.error {
+  color: #ff5252;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+.admin-add-btn {
+  display: inline-block;
+  margin-top: 24px;
+  color: #ffd600;
+  background: #222;
+  border: 1px solid #ffd600;
+  border-radius: 6px;
+  padding: 10px 20px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.2s, color 0.2s;
+  font-size: 1.1rem;
+}
+
+.admin-add-btn:hover {
+  background: #ffd600;
+  color: #111;
+}
+
+.select {
+  background: #111;
+  color: #ffd600;
+  border: 1.5px solid #ffd600;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 1.1rem;
+  outline: none;
+  transition: border 0.2s;
+  width: 100%;
+  appearance: none; /* убирает стандартную стрелку в большинстве браузеров */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='yellow' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 24px 24px;
+  box-sizing: border-box;
+  min-height: 48px;
+  font-weight: bold;
+}
+
+@media (max-width: 480px) {
+  .add-product form {
+    min-width: unset;
+
+    max-width: 100%;
+    padding: 12px 4vw;
+    box-sizing: border-box;
+  }
+  .select {
+    font-size: 1.3rem;
+    padding: 18px 12px;
+    min-height: 80px;
+  }
+  .add-product input[type="text"],
+  .add-product input[type="number"],
+  .add-product textarea {
+    font-size: 1.2rem;
+    padding: 16px 10px;
+  }
+}

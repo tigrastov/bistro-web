@@ -11,6 +11,7 @@ import AdminPanel from './Pages/AdminPanel.jsx';
 import './App.css';
 import { useState } from 'react';
 import LocationSelect from './Components/LocationSelect.jsx'; 
+import AddProduct from './Pages/AddProduct.jsx';
 
 function App() {
   const [userData, setUserData] = useState(null);
@@ -57,6 +58,8 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/auth" element={<Auth setUserData={setUserData} />} />
             <Route path="/admin" element={<AdminPanel />} />
+            {/* <Route path="/admin/add-product" element={<AddProduct />} /> */}
+<Route path="/admin/add-product" element={<AddProduct location={effectiveLocation} />} />
             <Route path="/product/:id" element={<DetailView location={effectiveLocation} />} />
           </Routes>
         )}
