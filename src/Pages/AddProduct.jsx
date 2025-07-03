@@ -87,7 +87,7 @@ function AddProduct({ location }) {
         <select className='select' value={category} onChange={e => setCategory(e.target.value)} required>
           <option value="">Выберите категорию</option>
           <option value="drinks">Напитки</option>
-          <option value="desserts">Десерты</option>
+          <option value="desserts">Закуски</option>
           <option value="food">Еда</option>
         </select>
         <input
