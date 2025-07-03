@@ -1,0 +1,69 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.catalog {
+  background: #111;
+  height: 100vh;
+  color: #ffd600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+body, html {
+   overflow-x: hidden !important;
+  width: 100%;
+}
+
+.catalog-categories {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 100px;
+  z-index: 100;
+  background: #111;
+  display: flex;
+  gap: 12px;
+  padding: 12px 0 8px 0;
+  width: 100%;
+  justify-content: center;
+  border-bottom: 1.5px solid #222;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+.catalog-list-outer {
+  width: 100%;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.catalog-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 16px 8px 0 8px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+  .catalog-list {
+    max-width: 100%;
+    padding: 12px 4px 0 4px;
+    gap: 14px;
+  }
+  .catalog-categories {
+    gap: 8px;
+    padding: 8px 0 6px 0;
+  }
+}
