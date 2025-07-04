@@ -18,7 +18,7 @@ export default function Header({ userData, location, isAdmin, onChangeLocation }
   <div className="current-location">
     <button className="change-location-btn" onClick={onChangeLocation}>
       <img
-        src="public/loca.png"
+        src="/loca.png"
         alt="Геолокация"
         style={{ width: 20, height: 20, marginRight: 8, verticalAlign: 'middle' }}
       />
