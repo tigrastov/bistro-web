@@ -1,14 +1,25 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import './DetailView.css';
 import { Link } from 'react-router-dom';
 
 
-function DetailView({ location }) {
+function DetailView({ location, userData }) {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+
+  const handleDeleteProduct = async () => {
+  try {
+    const ref = doc(db, `locations/${location}/products`, id);
+    await deleteDoc(ref);
+
+    setProduct(null);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   useEffect(() => {
     async function fetchProduct() {
@@ -45,6 +56,9 @@ function DetailView({ location }) {
         <h2 className="detail-title">{product.name}</h2>
         <div className="detail-price">{product.price} ₽</div>
         <div className="detail-desc">{product.desc}</div>
+        {userData && (userData.role === 'adminCuba' || userData.role === 'adminKarlMarks') && (
+       <button onClick={handleDeleteProduct}>Удалить товар</button>
+     )}
       </div>
     </div>
   );
