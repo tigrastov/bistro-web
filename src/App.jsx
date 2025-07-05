@@ -9,7 +9,7 @@ import DetailView from './Pages/DetailView.jsx';
 import Auth from './Pages/Auth.jsx';
 import AdminPanel from './Pages/AdminPanel.jsx'; 
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import LocationSelect from './Components/LocationSelect.jsx'; 
 import AddProduct from './Pages/AddProduct.jsx';
 
@@ -17,7 +17,7 @@ import AddProduct from './Pages/AddProduct.jsx';
 function App() {
   const [userData, setUserData] = useState(null);
   const [location, setLocation] = useState(() => localStorage.getItem("location") || "");
-
+  const [cartCount, setCartCount] = useState(0);
   // Определяем, админ ли пользователь
   const isAdminCuba = userData?.role === 'adminCuba';
   const isAdminKarlMarks = userData?.role === 'adminKarlMarks';
@@ -35,6 +35,23 @@ function App() {
     localStorage.setItem("location", loc);
   };
 
+
+  useEffect(() => {
+    const updateCartCount = () => {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const count = cart.reduce((sum, item) => sum + item.quantity, 0); // количество товаров
+      setCartCount(count);
+    };
+
+    updateCartCount();
+
+    // Подписка на событие — любое обновление localStorage
+    window.addEventListener('storage', updateCartCount);
+
+    return () => {
+      window.removeEventListener('storage', updateCartCount);
+    };
+  }, []);
   return (
     <Router>
       <div className='app-container'>
@@ -42,6 +59,7 @@ function App() {
           userData={userData}
           location={effectiveLocation}
           isAdmin={isAdmin}
+          cartCount={cartCount}
           onChangeLocation={() => {
             setLocation("");
             localStorage.removeItem("location");
@@ -53,7 +71,7 @@ function App() {
         ) : (
           <Routes>
             <Route path="/" element={<Catalog location={effectiveLocation} />} />
-            <Route path="/cart" element={<Cart location={effectiveLocation} />} />
+            <Route path="/cart"element={<Cart location={effectiveLocation} setCartCount={setCartCount} />}/>
             <Route path="/orders" element={<Orders location={effectiveLocation} />} />
             <Route path="/info" element={<Info />} />
             <Route path="/profile" element={<Profile />} />
@@ -61,8 +79,17 @@ function App() {
             <Route path="/admin" element={<AdminPanel />} />
             {/* <Route path="/product/:id" element={<DetailView />} /> */}
             {/* <Route path="/admin/add-product" element={<AddProduct />} /> */}
-<Route path="/admin/add-product" element={<AddProduct location={effectiveLocation} />} />
-            <Route path="/product/:id" element={<DetailView location={effectiveLocation} userData={userData} />} />
+            <Route path="/admin/add-product" element={<AddProduct location={effectiveLocation} />} />
+            <Route
+           path="/product/:id"
+           element={
+         <DetailView
+      location={effectiveLocation}
+      userData={userData}
+      setCartCount={setCartCount}
+    />
+  }
+/>
           </Routes>
         )}
       </div>

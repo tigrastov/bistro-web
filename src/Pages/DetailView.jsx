@@ -1,68 +1,123 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { doc, getDoc, deleteDoc } from 'firebase/firestore';
+
 import { db } from '../firebase';
 import './DetailView.css';
-import { Link } from 'react-router-dom';
 
-
-function DetailView({ location, userData }) {
+function DetailView({ location, userData, setCartCount }) {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1);
 
-  const handleDeleteProduct = async () => {
-  try {
-    const ref = doc(db, `locations/${location}/products`, id);
-    await deleteDoc(ref);
-
-    setProduct(null);
-  } catch (error) {
-    console.error(error);
-  }
-};
+  // Проверяем, админ ли текущий пользователь
+  const isAdmin = userData?.role === 'adminCuba' || userData?.role === 'adminKarlMarks';
 
   useEffect(() => {
     async function fetchProduct() {
       try {
         const ref = doc(db, `locations/${location}/products`, id);
         const snap = await getDoc(ref);
-        if (snap.exists()) setProduct({ id: snap.id, ...snap.data() });
-        else setProduct(null);
+        if (snap.exists()) {
+          setProduct({ id: snap.id, ...snap.data() });
+        } else {
+          setProduct(null);
+        }
       } catch (e) {
         console.error(e);
         setProduct(null);
       }
     }
-    if (location && id) fetchProduct();
+
+    if (location && id) {
+      fetchProduct();
+    }
   }, [id, location]);
 
-  if (!product) return <div className="detail-loading">
-    <Link to="/" className="back-to-catalog">В каталог тваров
-  </Link></div>;
+  const handleDeleteProduct = async () => {
+    try {
+      const ref = doc(db, `locations/${location}/products`, id);
+      await deleteDoc(ref);
+      setProduct(null);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
- return (
+  const handleAddToCart = () => {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  const existingIndex = cart.findIndex(item => item.id === product.id);
+  if (existingIndex >= 0) {
+    cart[existingIndex].quantity += Number(quantity);
+  } else {
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: Number(quantity),
+    });
+  }
+
+  localStorage.setItem('cart', JSON.stringify(cart));
+
+  // 👉 Обновляем бейдж
+  if (setCartCount) {
+    const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+    setCartCount(count);
+  }
+};
+
+  if (!product) {
+    return (
+      <div className="detail-loading">
+        <Link to="/" className="back-to-catalog">В каталог товаров</Link>
+      </div>
+    );
+  }
+
+  return (
     <div className="detail-page no-header">
       <div className="back-to-catalog-wrap">
         <Link to="/" className="back-to-catalog">
           Вернуться в каталог
         </Link>
       </div>
+
       <div className="detail-view">
         {product.photo && (
           <div className="detail-photo-wrap">
             <img src={product.photo} alt={product.name} className="detail-photo" />
           </div>
         )}
+
         <h2 className="detail-title">{product.name}</h2>
         <div className="detail-price">{product.price} ₽</div>
         <div className="detail-desc">{product.desc}</div>
-        {userData && (userData.role === 'adminCuba' || userData.role === 'adminKarlMarks') && (
-       <button onClick={handleDeleteProduct}>Удалить товар</button>
-     )}
+
+        {isAdmin ? (
+          <div className="admin-actions">
+            <button className="delete-button" onClick={handleDeleteProduct}>
+              Удалить товар
+            </button>
+          </div>
+        ) : (
+          <div className="add-to-cart-container">
+            <input
+              type="number"
+              min="1"
+              value={quantity}
+              onChange={(e) => setQuantity(Number(e.target.value))}
+            />
+            <button className="add-to-cart-button" onClick={handleAddToCart}>
+              Добавить в корзину
+            </button>
+            <span className="price">Цена: {product.price * quantity} ₽</span>
+          </div>
+        )}
       </div>
     </div>
   );
-
 }
 
 export default DetailView;

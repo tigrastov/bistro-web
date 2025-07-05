@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Header.css';
 
-export default function Header({ userData, location, isAdmin, onChangeLocation }) {
+export default function Header({ userData, location, isAdmin, onChangeLocation, cartCount }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -27,17 +27,30 @@ export default function Header({ userData, location, isAdmin, onChangeLocation }
   </div>
 )}
 
-      <button className={`burger ${isOpen ? 'open' : ''}`} onClick={toggleMenu}>
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+    <div className="burger-wrap">
+  <button className={`burger ${isOpen ? 'open' : ''}`} onClick={toggleMenu}>
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  {/* Бейдж рендерим вне кнопки */}
+  {cartCount > 0 && <span className="cart-badge burger-badge">{cartCount}</span>}
+</div>
+
 
       {isOpen && <div className="nav-overlay" onClick={() => setIsOpen(false)}></div>}
 
       <nav className={`nav ${isOpen ? 'open' : ''}`}>
         <NavLink to="/" end onClick={() => setIsOpen(false)}>Меню</NavLink>
-        <NavLink to="/cart" onClick={() => setIsOpen(false)}>Корзина</NavLink>
+        
+        <NavLink to="/cart" onClick={() => setIsOpen(false)} className="cart-link">
+  Корзина
+  {cartCount > 0 && (
+    <span className="cart-badge inline">{cartCount}</span>
+  )}
+</NavLink>
+
         <NavLink to="/orders" onClick={() => setIsOpen(false)}>Мои заказы</NavLink>
         <NavLink to="/info" onClick={() => setIsOpen(false)}>О нас</NavLink>
         {userData && (userData.role === 'adminCuba' || userData.role === 'adminKarlMarks') && (
