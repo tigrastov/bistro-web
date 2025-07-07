@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  collection,
+  addDoc,
+  serverTimestamp,
+} from 'firebase/firestore';
 import './Cart.css';
 
 function Cart({ setCartCount }) {
@@ -54,15 +62,53 @@ function Cart({ setCartCount }) {
     item.addEventListener('touchend', handleTouchEnd);
   };
 
-  const handleCheckout = () => {
+  const sendOrder = async () => {
     if (!user) {
       alert('Вы должны авторизоваться, чтобы оформить заказ');
       navigate('/auth');
       return;
     }
 
-    // Здесь можно продолжить оформление заказа
-    console.log('Оформление заказа:', cartItems);
+    const location = localStorage.getItem('location');
+    if (!location) {
+      alert('Локация не выбрана');
+      return;
+    }
+
+    const db = getFirestore();
+
+    try {
+      const userRef = doc(db, 'users', user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        alert('Не удалось получить данные пользователя');
+        return;
+      }
+
+      const userData = userSnap.data();
+
+      const total = cartItems.reduce(
+        (acc, item) => acc + item.price * item.quantity,
+        0
+      );
+
+      await addDoc(collection(db, 'locations', location, 'orders'), {
+        userId: user.uid,
+        userName: userData.name,
+        userPhone: userData.phone,
+        items: cartItems,
+        total,
+        createdAt: serverTimestamp(),
+        status: 'new',
+      });
+
+      clearCart();
+      alert('Заказ успешно оформлен!');
+    } catch (error) {
+      console.error('Ошибка при оформлении заказа:', error);
+      alert('Произошла ошибка при оформлении заказа');
+    }
   };
 
   return (
@@ -93,17 +139,29 @@ function Cart({ setCartCount }) {
           </ul>
 
           <p>
-            Общая стоимость:{" "}
-            {cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)} ₽
+            Общая стоимость:{' '}
+            {cartItems.reduce(
+              (acc, item) => acc + item.price * item.quantity,
+              0
+            )}{' '}
+            ₽
           </p>
 
           <button onClick={clearCart} className="clear-cart-btn">
             Очистить корзину
           </button>
 
-          <button onClick={handleCheckout} className="checkout-btn">
-            Оформить заказ
-          </button>
+          <button
+  onClick={() => {
+    const confirmed = window.confirm('Вы уверены, что хотите оформить заказ?');
+    if (confirmed) {
+      sendOrder();
+    }
+  }}
+  className="checkout-btn"
+>
+  Оформить заказ
+</button>
         </>
       )}
     </div>
