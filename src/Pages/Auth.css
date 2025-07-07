@@ -79,7 +79,7 @@
     background: white; /* Четко задаем фон */
     position: fixed; /* Фиксируем на экране */
     border-radius: 10px;
-    top: 0;
+    top: 100px;
     left: 0;
   }
 

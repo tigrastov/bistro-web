@@ -109,9 +109,11 @@ function DetailView({ location, userData, setCartCount }) {
               value={quantity}
               onChange={(e) => setQuantity(Number(e.target.value))}
             />
-            <button className="add-to-cart-button" onClick={handleAddToCart}>
-              Добавить в корзину
-            </button>
+            <Link to="/" replace>
+  <button className="add-to-cart-button" onClick={handleAddToCart}>
+    Добавить в корзину
+  </button>
+</Link>
             <span className="price">Цена: {product.price * quantity} ₽</span>
           </div>
         )}

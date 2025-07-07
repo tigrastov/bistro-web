@@ -1,16 +1,27 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import './Cart.css';
 
 function Cart({ setCartCount }) {
   const [cartItems, setCartItems] = useState([]);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
     setCartItems(storedCart);
+
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const removeItem = (id) => {
-    const updatedCart = cartItems.filter(item => item.id !== id);
+    const updatedCart = cartItems.filter((item) => item.id !== id);
     setCartItems(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
     const newCount = updatedCart.reduce((sum, item) => sum + item.quantity, 0);
@@ -44,7 +55,14 @@ function Cart({ setCartCount }) {
   };
 
   const handleCheckout = () => {
-    alert('Переходим к оформлению заказа');
+    if (!user) {
+      alert('Вы должны авторизоваться, чтобы оформить заказ');
+      navigate('/auth');
+      return;
+    }
+
+    // Здесь можно продолжить оформление заказа
+    console.log('Оформление заказа:', cartItems);
   };
 
   return (
