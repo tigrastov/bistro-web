@@ -100,7 +100,8 @@ function Cart({ setCartCount }) {
         items: cartItems,
         total,
         createdAt: serverTimestamp(),
-        status: 'new',
+        status: 'новый',
+
       });
 
       clearCart();

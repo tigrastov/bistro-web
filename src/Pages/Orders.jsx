@@ -15,8 +15,6 @@ function Orders() {
   const auth = getAuth();
   const db = getFirestore();
 
-
-
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -32,11 +30,6 @@ const goToNextPage = () => {
 const goToPrevPage = () => {
   if (currentPage > 1) setCurrentPage(currentPage - 1);
 };
-
-
-
-
-
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -130,5 +123,4 @@ const goToPrevPage = () => {
 );
 
 }
-
 export default Orders;

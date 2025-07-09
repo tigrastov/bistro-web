@@ -76,7 +76,12 @@ function App() {
             <Route path="/info" element={<Info />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/auth" element={<Auth setUserData={setUserData} />} />
-            <Route path="/admin" element={<AdminPanel />} />
+            <Route path="/admin" element={<AdminPanel location={effectiveLocation}userData={userData} />
+  }
+/>
+
+            {/* <Route path="/admin" element={<AdminPanel />} /> */}
+
             {/* <Route path="/product/:id" element={<DetailView />} /> */}
             {/* <Route path="/admin/add-product" element={<AddProduct />} /> */}
             <Route path="/admin/add-product" element={<AddProduct location={effectiveLocation} />} />
