@@ -3,7 +3,7 @@
 }
 
 .catalog {
-  background: #111;
+
   height: 100vh;
   color: #ffd600;
   display: flex;
@@ -20,12 +20,13 @@ body, html {
 }
 
 .catalog-categories {
+
   position: fixed;
   left: 0;
   right: 0;
   top: 100px;
   z-index: 100;
-  background: #111;
+  background: #EF7E22;
   display: flex;
   gap: 12px;
   padding: 12px 0 8px 0;
@@ -35,6 +36,16 @@ body, html {
   box-shadow: 0 2px 8px rgba(0,0,0,0.12);
 }
 
+.catalog-categories-button{
+  background-color: white;
+  border-radius: 10px;
+  color: #4A1504;
+
+}
+.catalog-categories-button.active {
+background-color: #4A1504;
+color: white;
+}
 .catalog-list-outer {
   width: 100%;
   flex: 1 1 auto;
@@ -65,5 +76,6 @@ body, html {
   .catalog-categories {
     gap: 8px;
     padding: 8px 0 6px 0;
+
   }
 }

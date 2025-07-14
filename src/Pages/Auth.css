@@ -1,11 +1,22 @@
+
+
 .auth {
-  max-width: 400px;
-  margin: 1rem auto;
-  padding: 1.5rem;
-  border-radius: 10px;
-  background: #fff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #EF7E22;
+  padding-top: 100px; 
   text-align: center;
+}
+
+.auth h2 {
+  color: #222;
+  margin-bottom: 1.2rem;
+  font-size: 20px;
 }
 
 .auth p {
@@ -21,10 +32,11 @@
   border: 1px solid #ddd;
   border-radius: 10px;
   font-size: 16px;
+  font-weight: bold;
 }
 
 .auth-btn {
-  width: 95%;
+  width: 200px;
   padding: 12px;
   background: #FFD700;
   border: none;
@@ -37,27 +49,34 @@
 }
 
 .logout-btn {
-  width: 95%;
-  background: #ff4444 !important;
-  color: white !important;
+
+  width: 200px;
+  padding: 12px;
+  background: #e53935;
+  border: none;
   border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 0.8rem;
+  font-size: 16px;
 }
 
 .auth-links {
-  margin-top: 1.2rem;
+  margin-top: 1.6rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1.5rem;
 }
 
 .auth-link {
   background: none;
   border: none;
-  color: #555;
+  color: white;
   text-decoration: underline;
   cursor: pointer;
-  font-size: 14px;
-  padding: 0;
+  font-size: 16px;
+  padding: 20px ;
 }
 
 .error {
@@ -66,82 +85,21 @@
   font-size: 14px;
 }
 
-/* Мобильная адаптация */
-@media (max-width: 480px) {
-  .auth {
-    justify-content: center;
-    width: 100%; /* На всю ширину экрана */
-    max-width: 100%; /* Никаких ограничений */
-    padding: 20px; /* Отступы по краям */
-    margin: 0; /* Убираем внешние отступы */
-    box-sizing: border-box; /* Чтобы padding не увеличивал ширину */
-    min-height: 100vh; /* На весь экран по высоте */
-    background: white; /* Четко задаем фон */
-    position: fixed; /* Фиксируем на экране */
-    border-radius: 10px;
-    top: 100px;
-    left: 0;
-  }
-
-  .auth input {
-    padding: 10px;
-    font-size: 14px;
-    width: 90%;
-  }
-
-  .auth-btn {
-    width: 95%;
-    padding: 10px;
-    font-size: 15px;
-    border-radius: 10px;
-  }
-
-  .auth p {
-    font-size: 15px;
-    margin-bottom: 1rem;
-  }
-
-  .auth-links {
-    margin-top: 1rem;
-  }
-
-
-}
-
-/* --- Стили для контейнера авторизованного пользователя --- */
 .auth.is-authenticated {
   max-width: 350px;
   width: 90vw;
   margin: 60px auto 0 auto;
   background: #fff;
-  border-radius: 14px;
+
   box-shadow: 0 4px 24px rgba(0,0,0,0.13);
-  padding: 32px 20px 28px 20px;
+  padding: 32px 20px 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  color: #222; /* Яркий текст */
-}
-
-.auth.is-authenticated h1,
-.auth.is-authenticated p {
   color: #222;
-  margin-bottom: 1.2rem;
-  font-size: 18px;
 }
 
-/* --- Мобильная адаптация --- */
-@media (max-width: 480px) {
-  .auth.is-authenticated {
-    padding: 18px 4vw 16px 4vw;
-    max-width: 98vw;
-    margin: 20px auto 0 auto;
-  }
-  .auth.is-authenticated h1 {
-    font-size: 17px;
-  }
-}
 
 
 .dialog-overlay {
@@ -157,7 +115,7 @@
 .dialog {
   background: #fff;
   padding: 24px 20px;
-  border-radius: 12px;
+
   box-shadow: 0 4px 32px rgba(0,0,0,0.18);
   display: flex;
   flex-direction: column;
@@ -171,7 +129,7 @@
 }
 
 .dialog p {
-  margin: 0 0 10px 0;
+  margin: 0 0 10px;
   font-size: 1.1rem;
   color: #222;
 }
@@ -180,32 +138,66 @@
   width: 100%;
   min-height: 40px;
   font-size: 1rem;
-  margin: 0;
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  transition: background 0.2s;
 }
 
 .dialog button:not(:last-child) {
   margin-bottom: 10px;
 }
 
-/* @media (max-width: 480px) {
-  .dialog {
-    width: 96vw;
-    max-width: 98vw;
-    min-width: unset;
-    padding: 14px 4vw;
-    font-size: 0.98rem;
-  }
-  .dialog button {
-    min-height: 36px;
-    font-size: 0.97rem;
-  }
-} */
+.delete-btn {
+  background: #e53935;
+  color: #fff;
+}
 
+.auth-btn-yellow {
+  background-color: #FFD700;
+  color: #4A1504;
+}
+
+.auth-btn-green {
+  background-color: green;
+  color: #fff;
+}
+
+/* Адаптив для мобилок */
 @media (max-width: 480px) {
+  .auth {
+    width: 100%;
+    padding: 20px;
+    margin: 0;
+    box-sizing: border-box;
+    min-height: 100vh;
+
+    position: fixed;
+    top: 100px;
+    left: 0;
+  }
+
+  .auth input {
+    padding: 10px;
+    font-size: 14px;
+    width: 90%;
+  }
+
+  .auth-btn {
+    width: 200px;
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 10px;
+  }
+
+  .auth.is-authenticated {
+    position: static !important;
+    width: 98% !important;
+    max-width: 360px !important;
+    margin: 24px auto 0 auto !important;
+    padding: 16px 12px 14px 12px !important;
+    /* border-radius: 12px !important; */
+  }
+
   .dialog {
     width: 98%;
     max-width: 260px;
@@ -213,69 +205,8 @@
     padding: 14px 12px;
     font-size: 15px;
   }
+
   .dialog-overlay {
     align-items: flex-start;
   }
-  .auth.is-authenticated {
-    position: static !important;
-    min-height: unset !important;
-    width: 98% !important;
-    max-width: 360px !important;
-    margin: 24px auto 0 auto !important;
-    padding: 16px 12px 14px 12px !important;
-    border-radius: 12px !important;
-  }
-}
-
-.dialog-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-
-}
-.dialog {
-  background: white;
-  padding: 24px 32px;
-  border-radius: 15px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.15);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.dialog button {
-  width: 100%;
-  box-sizing: border-box;
-  font-size: 14px;
-  border-radius: 10px;
-}
-.dialog button:not(:last-child) {
-  margin-bottom: 10px;
-}
-.delete-btn {
-  background: #e53935;
-  color: #fff;
-
-}
-.auth-btn-yellow{
-  background-color: #FFD700;
-  color: brown;
-}
-.auth-btn-green{
-  background-color: green;
-}
-
-
-
-.nav-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.25);
-  z-index: 99;
-}
-.nav.open {
-  z-index: 100;
 }

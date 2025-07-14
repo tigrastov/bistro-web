@@ -1,33 +1,141 @@
-.profile p{
-font-size: 17px;
-font-weight: bolder;
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;         
+  justify-content: flex-start; 
+  min-height: 100vh;
+  width: 100%;
+  background-color: #EF7E22;
+  padding-top: 100px;
+  text-align: center;
+  gap: 1rem;                  
+  box-sizing: border-box;
 }
 
-
-
-
-.savephone-btn{
- width: 95%;
-  padding: 12px;
-  background: green;
-  border: none;
-  border-radius: 10px;
+.profile p {
+  font-size: 17px;
+  font-weight: bolder;
   color: white;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 0.8rem;
-  font-size: 16px;
+  margin: 0;
 }
 
-.cancellSave{
-  width: 95%;
-  padding: 12px;
-  background: white;
+
+.phone-edit-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.savephone-input,
+.savephone-btn,
+.cancellSave {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 12px 10px;
+  box-sizing: border-box;
+  background-color: white;
+  color: #4A1504;
+  border: none;
+  cursor: pointer;
+}
+
+.savephone-btn {
+  background-color: green;
+  color: white;
+}
+
+.cancellSave {
+  background-color: #FBE038;
+  color: #4A1504;
+  border: none;
+}
+
+.auth-btn {
+  background-color: #FFD700;
   border: none;
   border-radius: 10px;
-  color: brown;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 12px 10px;
+  cursor: pointer;
+  color: #000;
+  margin-top: 0.8rem;
+}
+
+.logout-btn {
+  margin-top: 1.5rem;
+  padding: 12px 20px;
+  background-color: #00CCCC;
+  border: none;
+  border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
-  margin-top: 0.8rem;
   font-size: 16px;
+  color: white;
+}
+
+
+.dialog-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.dialog {
+  background: #fff;
+  padding: 24px 20px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 90vw;
+  max-width: 350px;
+  align-items: stretch;
+  text-align: center;
+  color: #222;
+}
+
+.dialog p {
+  margin: 0 0 10px;
+  font-size: 1.1rem;
+  color: #222;
+}
+
+.dialog button {
+  width: 100%;
+  min-height: 40px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.dialog button:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.delete-btn {
+  background: #e53935;
+  color: #fff;
+}
+
+.auth-btn-yellow {
+  background-color: #FFD700;
+  color: #4A1504;
+}
+
+.auth-btn-green {
+  background-color: green;
+  color: #fff;
 }

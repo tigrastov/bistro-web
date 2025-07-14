@@ -9,48 +9,50 @@ export default function Header({ userData, location, isAdmin, onChangeLocation, 
 
   return (
     <header className="header">
-      <button className="logotype" onClick={toggleMenu}>
-        <img src="/logo100.png" alt="" />
-      </button>
+      {/* Кнопка логотипа слева (бургер в mobile) */}
+      <div className="header-left">
+        <button className="logotype" onClick={toggleMenu}>
+          <img src="public/LogoIcon.png" alt="Логотип" />
+        </button>
 
-      {/* Блок с текущей локацией — только для НЕ админов */}
-{!isAdmin && location && (
-  <div className="current-location">
-    <button className="change-location-btn" onClick={onChangeLocation}>
-      <img
-        src="/loca.png"
-        alt="Геолокация"
-        style={{ width: 20, height: 20, marginRight: 8, verticalAlign: 'middle' }}
-      />
-      {location === 'cuba' ? 'Куба' : 'Карла Маркса'}
-    </button>
-  </div>
-)}
+        {!isAdmin && location && (
+          <div className="current-location">
+            <button className="change-location-btn" onClick={onChangeLocation}>
+              <img
+                src="/loca.png"
+                alt="Геолокация"
+                style={{ width: 20, height: 20, marginRight: 8, verticalAlign: 'middle' }}
+              />
+              {location === 'cuba' ? 'Куба' : 'Карла Маркса'}
+            </button>
+          </div>
+        )}
+      </div>
 
-    <div className="burger-wrap">
-  <button className={`burger ${isOpen ? 'open' : ''}`} onClick={toggleMenu}>
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+      {/* Центрированный логотип-текст — только на десктопе */}
+      <div className="logo-center">
+        <img src="public/LogoText.png" alt="LogoText" />
+      </div>
 
-  {/* Бейдж рендерим вне кнопки */}
-  {cartCount > 0 && <span className="cart-badge burger-badge">{cartCount}</span>}
-</div>
-
+      {/* Бургер-меню справа */}
+      <div className="burger-wrap">
+        <button className={`burger ${isOpen ? 'open' : ''}`} onClick={toggleMenu}>
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        {cartCount > 0 && <span className="cart-badge burger-badge">{cartCount}</span>}
+      </div>
 
       {isOpen && <div className="nav-overlay" onClick={() => setIsOpen(false)}></div>}
 
+      {/* Навигация */}
       <nav className={`nav ${isOpen ? 'open' : ''}`}>
         <NavLink to="/" end onClick={() => setIsOpen(false)}>Меню</NavLink>
-        
         <NavLink to="/cart" onClick={() => setIsOpen(false)} className="cart-link">
-  Корзина
-  {cartCount > 0 && (
-    <span className="cart-badge inline">{cartCount}</span>
-  )}
-</NavLink>
-
+          Корзина
+          {cartCount > 0 && <span className="cart-badge inline">{cartCount}</span>}
+        </NavLink>
         <NavLink to="/orders" onClick={() => setIsOpen(false)}>Мои заказы</NavLink>
         <NavLink to="/info" onClick={() => setIsOpen(false)}>О нас</NavLink>
         {userData && (userData.role === 'adminCuba' || userData.role === 'adminKarlMarks') && (

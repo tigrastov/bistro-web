@@ -26,10 +26,10 @@ function Catalog({ location }) {
   return (
   <div className="catalog">
     <div className="catalog-categories">
-      <button onClick={() => setCategory('all')}>Все</button>
-      <button onClick={() => setCategory('drinks')}>Напитки</button>
-      <button onClick={() => setCategory('desserts')}>Закуски</button>
-      <button onClick={() => setCategory('food')}>Еда</button>
+      <button className={`catalog-categories-button ${category === 'all' ? 'active' : ''}`} onClick={() => setCategory('all')}>Все</button>
+      <button className={`catalog-categories-button ${category === 'drinks' ? 'active' : ''}`} onClick={() => setCategory('drinks')}>Напитки</button>
+      <button className={`catalog-categories-button ${category === 'desserts' ? 'active' : ''}`} onClick={() => setCategory('desserts')}>Закуски</button>
+      <button className={`catalog-categories-button ${category === 'food' ? 'active' : ''}`} onClick={() => setCategory('food')}>Еда</button>
     </div>
     <div className="catalog-list-outer">
       <div className="catalog-list">

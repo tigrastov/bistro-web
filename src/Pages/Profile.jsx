@@ -27,7 +27,6 @@ function Profile() {
     fetchProfile();
   }, []);
 
-  // При входе в режим редактирования заполняем поле
   useEffect(() => {
     if (editMode && userData) {
       setEditPhone(userData.phone || '');
@@ -81,7 +80,6 @@ function Profile() {
   if (!auth.currentUser) {
     return (
       <div className="profile">
-        <h1>Профиль</h1>
         <button onClick={() => navigate('/auth')} className="auth-btn">
           Войти или зарегистрироваться
         </button>
@@ -91,53 +89,61 @@ function Profile() {
 
   return (
     <div className="profile">
-      <h1>Профиль</h1>
-      {error && <p className="error">{error}</p>}
-      <p>{userData?.name}</p>
-      <p>Email: {userData?.email}</p>
-      <p>
-        Телефон:{" "}
-        {editMode ? (
-          <>
-            <input
-              type="tel"
-              value={editPhone}
-              onChange={e => setEditPhone(e.target.value)}
-              placeholder="Телефон"
-              style={{ marginRight: 8 }}
-            />
-            <button className="savephone-btn" onClick={handleSavePhone} disabled={saveLoading}>
-              Сохранить
-            </button>
-            <button className="cancellSave" onClick={() => setEditMode(false)} disabled={saveLoading}>
-              Отмена
-            </button>
-          </>
-        ) : (
-          <>
-            {userData?.phone || "Не указан"}
-            <button className="auth-btn" style={{ marginLeft: 10 }} onClick={() => setEditMode(true)}>
-              Редактировать
-            </button>
-          </>
-        )}
-      </p>
-      <button onClick={handleLogoutClick} className="auth-btn logout-btn">
-        Выйти
-      </button>
+  {error && <p className="error">{error}</p>}
 
-      {showLogoutDialog && (
-         <div className="dialog-overlay">
-            <div className="dialog">
-              <p>Выйти?</p>
-              <button onClick={() => setShowLogoutDialog(false)}  className="auth-btn-green delete-btn">Отмена</button>
-              <button onClick={confirmLogout} className="auth-btn-yellow delete-btn">Выйти</button>
-              <button onClick={confirmDeleteAccount} className="auth-btn delete-btn delete-btn">Удалить аккаунт и 
-                все данные о пользователе</button>
-            </div>
-          </div>
-      )}
+  <p>{userData?.name}</p>
+  <p>Email: {userData?.email}</p>
+
+  <div className="phone-block">
+    <p>Телефон:</p>
+    {editMode ? (
+      <div className="phone-edit-wrapper">
+        <input
+          className="savephone-input"
+          type="tel"
+          value={editPhone}
+          onChange={e => setEditPhone(e.target.value)}
+          placeholder="Телефон"
+        />
+        <button className="savephone-btn" onClick={handleSavePhone} disabled={saveLoading}>
+          Сохранить
+        </button>
+        <button className="cancellSave" onClick={() => setEditMode(false)} disabled={saveLoading}>
+          Отмена
+        </button>
+      </div>
+    ) : (
+      <>
+        <span>{userData?.phone || "Не указан"}</span>
+        <button
+          className="auth-btn"
+          onClick={() => setEditMode(true)}
+          style={{ marginLeft: 10 }}
+        >
+          Редактировать
+        </button>
+      </>
+    )}
+  </div>
+
+  <button onClick={handleLogoutClick} className="logout-btn">
+    Выйти
+  </button>
+
+  {showLogoutDialog && (
+    <div className="dialog-overlay">
+      <div className="dialog">
+        <p>Выйти?</p>
+        <button onClick={() => setShowLogoutDialog(false)} className="auth-btn-green delete-btn">Отмена</button>
+        <button onClick={confirmLogout} className="auth-btn-yellow delete-btn">Выйти</button>
+        <button onClick={confirmDeleteAccount} className="auth-btn delete-btn delete-btn">
+          Удалить аккаунт и все данные о пользователе
+        </button>
+      </div>
     </div>
+  )}
+</div>
+
   );
 }
 

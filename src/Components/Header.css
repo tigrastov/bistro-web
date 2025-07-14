@@ -4,7 +4,7 @@
   left: 0;
   width: 100%;
   height: 100px;
-  background: #FFD700;
+  background: #FBE038;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -13,46 +13,62 @@
   z-index: 1000;
 }
 
-.logo {
-position: relative;
-  /* font-size: 1.8em;
-  color: white;
-  position: relative; */
-  /* z-index: 1100; */
+/* Левая часть (бургер + геолокация) */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-button.logotype {
+
+/* Центрированный текст-логотип */
+.logo-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.logo-center img {
+  height: 70px;
+}
+
+/* Скрывать логотип на мобильных */
+@media (max-width: 1300px) {
+  .logo-center {
+    display: none;
+  }
+}
+
+.logotype {
   background: transparent;
   border: none;
   padding: 0;
   margin: 0;
+  cursor: pointer;
 }
-button.logotype img {
+.logotype img {
   display: block;
-  height: 60px; /* Подбери подходящую высоту */
+  height: 80px;
   width: auto;
 }
-@media (max-width: 768px) {
-  .nav {
-    position: fixed;
-    top: 100px;
-    left: -100%;  /* Скрываем за пределами экрана */
-    width: 100%;  /* Занимает всю ширину */
-    height: calc(100vh - 100px);  /* На всю высоту */
-    background: #FFD700;
-    flex-direction: column;
-    padding: 20px;
-    gap: 15px;
-    transition: left 0.3s ease;
-    z-index: 1100;
-  }
 
-  .nav.open {
-    left: 0;
-  }
+.nav {
+  display: flex;
+  gap: 10px;
+  z-index: 1000;
 }
 
+.nav a {
+  text-decoration: none;
+  color: #4A1504;
+  font-size: 15px;
+  font-weight: bold;
+}
 
-/* Бургер кнопка */
+.nav a.active {
+  font-weight: bold;
+  border-bottom: 2px solid #4A1504;
+}
+
+/* Бургер */
 .burger {
   display: none;
   width: 30px;
@@ -62,7 +78,6 @@ button.logotype img {
   background: none;
   border: none;
   cursor: pointer;
-
 }
 
 .burger span {
@@ -74,8 +89,7 @@ button.logotype img {
   position: absolute;
   left: 0;
   transition: all 0.3s ease;
-   pointer-events: none;
-
+  pointer-events: none;
 }
 
 .burger span:nth-child(1) {
@@ -88,103 +102,19 @@ button.logotype img {
   top: 22px;
 }
 
-/* Анимация в крестик */
 .burger.open span:nth-child(1) {
   transform: rotate(45deg);
   top: 11px;
 }
-
 .burger.open span:nth-child(2) {
   opacity: 0;
 }
-
 .burger.open span:nth-child(3) {
   transform: rotate(-45deg);
   top: 11px;
 }
 
-/* Навигация */
-.nav {
-  display: flex;
-  gap: 20px;
-  z-index: 1000;
-}
-
-.nav a {
-  text-decoration: none;
-  color: brown;
-  font-size: 1.2em;
-}
-
-.nav a.active {
-  font-weight: bold;
-  border-bottom: 2px solid brown;
-}
-
-/* Мобильное меню */
-@media (max-width: 768px) {
-  .burger {
-    display: block;
-  }
-
-  .nav {
-    position: fixed;
-    top: 100px;
-    left: -350px;
-    width: 250px;
-    height: calc(100% - 100px);
-    background: #FFD700;
-    flex-direction: column;
-    padding: 20px;
-    gap: 15px;
-    transition: left 0.3s ease;
-    z-index: 1000;
-  }
-
-  .nav.open {
-    left: 0 ;
-  }
-}
-
-
-@media (min-width: 769px) {
-  .logotype {
-    pointer-events: none;
-    cursor: default;
-  }
-}
-
-
-
-.change-location-btn{
-  background-color: brown;
-
-}
-
-
-.cart-link {
-  position: relative;
-  display: inline-block;
-}
-
-/* Бейдж общий */
-.cart-badge {
-  background-color: red;
-  color: white;
-  font-size: 11px;
-  font-weight: bold;
-  line-height: 1;
-  padding: 2px 6px;
-  border-radius: 50%;
-}
-
-/* Бейдж внутри меню (рядом со ссылкой "Корзина") */
-.cart-badge.inline {
-  margin-left: 4px;
-  vertical-align: top;
-}
-
-/* Бейдж над бургером */
+/* Бейдж на бургер */
 .burger-wrap {
   position: relative;
 }
@@ -193,8 +123,8 @@ button.logotype img {
   position: absolute;
   top: -6px;
   right: -6px;
-  z-index: 1200; /* Выше чем у .burger (1100) */
-  background-color: red;
+  z-index: 1200;
+  background-color: #DB2E27;
   color: white;
   font-size: 11px;
   font-weight: bold;
@@ -203,9 +133,67 @@ button.logotype img {
   border-radius: 50%;
 }
 
-/* Только для мобильной — скрываем бейдж бургер-меню на больших экранах */
+/* Скрываем бейдж на десктопе */
 @media (min-width: 768px) {
   .burger-badge {
     display: none;
   }
 }
+
+/* Навигация на мобилке */
+@media (max-width: 768px) {
+  .burger {
+    display: block;
+  }
+
+  .nav {
+    
+    position: fixed;
+    top: 100px;
+    left: -350px;
+    width: 250px;
+    height: calc(100% - 100px);
+    background: #FBE038;
+
+    flex-direction: column;
+    padding: 20px;
+    gap: 15px;
+    transition: left 0.3s ease;
+  }
+.nav a {
+font-size: 18px; 
+ color: #4A1504; 
+  }
+  .nav.open {
+    left: 0;
+  }
+}
+
+/* Бейдж в навигации */
+.cart-badge {
+  background-color: #DB2E27;
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
+
+.cart-badge.inline {
+  margin-left: 4px;
+  vertical-align: top;
+}
+
+.change-location-btn {
+  background-color: #DB2E27;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+

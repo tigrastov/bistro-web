@@ -142,7 +142,7 @@ function Auth({setUserData}) {
   if (resetMode) {
   return (
     <div className="auth">
-      <h1>Восстановление пароля</h1>
+      <h2>Восстановление пароля</h2>
       {error && <p className="error">{error}</p>}
       <form
         onSubmit={async (e) => {
@@ -191,14 +191,14 @@ function Auth({setUserData}) {
     return (
       <div className="auth is-authenticated">
 
-        <h1> Мы всегда вам рады!</h1>
+        <h2> Мы всегда вам рады!</h2>
         {/* <p>Email: {auth.currentUser?.email}</p>
         <p>Имя: {auth.currentUser?.displayName || 'Не указано'}</p> */}
         {/* <p>Телефон: {localStorage.getItem('user_phone') || 'Не указан'}</p> */}
         
         <button 
           onClick={handleLogout}
-          className="auth-btn logout-btn"
+          className="logout-btn"
         >
           Выйти
         </button>
@@ -220,7 +220,7 @@ function Auth({setUserData}) {
 
   return (
     <div className="auth">
-      <h1>{isLogin ? 'Вход' : 'Регистрация'}</h1>
+      <h2>{isLogin ? 'Вход' : 'Регистрация'}</h2>
       {error && <p className="error">{error}</p>}
 
       <form onSubmit={handleAuth}>

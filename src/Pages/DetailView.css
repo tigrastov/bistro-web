@@ -13,7 +13,7 @@ margin-bottom: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   position: relative;
   z-index: 1;
-  color: brown;
+  color: #4A1504;
 }
 
 
@@ -109,7 +109,7 @@ margin-bottom: 20px;
 
 .add-to-cart-button{
   background-color: #FFD700;
-  color: brown;
+  color: #4A1504;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
