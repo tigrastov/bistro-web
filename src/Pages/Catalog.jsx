@@ -28,8 +28,14 @@ function Catalog({ location }) {
     <div className="catalog-categories">
       <button className={`catalog-categories-button ${category === 'all' ? 'active' : ''}`} onClick={() => setCategory('all')}>Все</button>
       <button className={`catalog-categories-button ${category === 'drinks' ? 'active' : ''}`} onClick={() => setCategory('drinks')}>Напитки</button>
-      <button className={`catalog-categories-button ${category === 'desserts' ? 'active' : ''}`} onClick={() => setCategory('desserts')}>Закуски</button>
-      <button className={`catalog-categories-button ${category === 'food' ? 'active' : ''}`} onClick={() => setCategory('food')}>Еда</button>
+      <button className={`catalog-categories-button ${category === 'appetizers' ? 'active' : ''}`} onClick={() => setCategory('appetizers')}>Закуски</button>
+      <button className={`catalog-categories-button ${category === 'desserts' ? 'active' : ''}`} onClick={() => setCategory('desserts')}>Десерты</button>
+      <button className={`catalog-categories-button ${category === 'burgers' ? 'active' : ''}`} onClick={() => setCategory('burgers')}>Бургеры</button>
+      <button className={`catalog-categories-button ${category === 'shawarma' ? 'active' : ''}`} onClick={() => setCategory('shawarma')}>Шаурма</button>
+      <button className={`catalog-categories-button ${category === 'sauces' ? 'active' : ''}`} onClick={() => setCategory('sauces')}>Соусы</button>
+      <button className={`catalog-categories-button ${category === 'french-fries' ? 'active' : ''}`} onClick={() => setCategory('french-fries')}>Картофель фри</button>
+      <button className={`catalog-categories-button ${category === 'additionally' ? 'active' : ''}`} onClick={() => setCategory('additionally')}>Дополнительно</button>
+      <button className={`catalog-categories-button ${category === 'new' ? 'active' : ''}`} onClick={() => setCategory('new')}>Новинки</button>
     </div>
     <div className="catalog-list-outer">
       <div className="catalog-list">

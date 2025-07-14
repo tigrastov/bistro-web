@@ -2,57 +2,76 @@
   box-sizing: border-box;
 }
 
-.catalog {
+body, html {
+  overflow-x: hidden;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
 
+.catalog {
   height: 100vh;
   color: #ffd600;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
-  overflow: hidden;
   width: 100%;
-}
-
-body, html {
-   overflow-x: hidden !important;
-  width: 100%;
+  background-color: white;
 }
 
 .catalog-categories {
-
   position: fixed;
+  top: 100px;
   left: 0;
   right: 0;
-  top: 100px;
   z-index: 100;
   background: #EF7E22;
   display: flex;
-  gap: 12px;
-  padding: 12px 0 8px 0;
-  width: 100%;
+  flex-wrap: wrap;
   justify-content: center;
+  padding: 12px 8px;
+  gap: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
   border-bottom: 1.5px solid #222;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  overflow-x: auto;
+  scrollbar-width: none;
 }
 
-.catalog-categories-button{
+.catalog-categories::-webkit-scrollbar {
+  display: none;
+}
+
+.catalog-categories-button {
+  flex: 0 0 auto;
+  padding: 8px 16px;
   background-color: white;
-  border-radius: 10px;
   color: #4A1504;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 0.2s ease;
+}
 
+.catalog-categories-button:hover {
+  background-color: #f0f0f0;
 }
+
 .catalog-categories-button.active {
-background-color: #4A1504;
-color: white;
+  background-color: #4A1504;
+  color: white;
 }
+
 .catalog-list-outer {
   width: 100%;
-  flex: 1 1 auto;
+  flex: 1;
   overflow-y: auto;
   display: flex;
   justify-content: center;
-  margin-top: 100px;
+  margin-top: 220px; /* Учитываем высоту фиксированной шапки */
 }
 
 .catalog-list {
@@ -68,14 +87,21 @@ color: white;
 }
 
 @media (max-width: 600px) {
+  .catalog-categories {
+    gap: 8px;
+    padding: 10px 6px;
+    justify-content: flex-start;
+  }
+
+  .catalog-categories-button {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+
   .catalog-list {
     max-width: 100%;
     padding: 12px 4px 0 4px;
     gap: 14px;
   }
-  .catalog-categories {
-    gap: 8px;
-    padding: 8px 0 6px 0;
-
-  }
 }
+

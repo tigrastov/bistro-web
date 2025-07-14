@@ -23,7 +23,7 @@ export default function Header({ userData, location, isAdmin, onChangeLocation, 
                 alt="Геолокация"
                 style={{ width: 20, height: 20, marginRight: 8, verticalAlign: 'middle' }}
               />
-              {location === 'cuba' ? 'Куба' : 'Карла Маркса'}
+              {location === 'cuba' ? 'c.Кубенское, Ленина, 10' : 'г.Вологда, Карла Маркса, 37'}
             </button>
           </div>
         )}
