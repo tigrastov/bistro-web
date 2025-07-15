@@ -71,7 +71,7 @@ body, html {
   overflow-y: auto;
   display: flex;
   justify-content: center;
-  margin-top: 220px; /* Учитываем высоту фиксированной шапки */
+  margin-top: 150px; 
 }
 
 .catalog-list {
@@ -103,5 +103,9 @@ body, html {
     padding: 12px 4px 0 4px;
     gap: 14px;
   }
+  .catalog-list-outer {
+  
+  margin-top: 210px; 
+}
 }
 

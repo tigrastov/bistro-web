@@ -71,18 +71,14 @@ function DetailView({ location, userData, setCartCount }) {
   if (!product) {
     return (
       <div className="detail-loading">
-        <Link to="/" className="back-to-catalog">В каталог товаров</Link>
+        <Link to="/" className="back-to-catalog-button">В каталог товаров</Link>
       </div>
     );
   }
 
   return (
     <div className="detail-page no-header">
-      <div className="back-to-catalog-wrap">
-        <Link to="/" className="back-to-catalog">
-          Вернуться в каталог
-        </Link>
-      </div>
+      
 
       <div className="detail-view">
         {product.photo && (
@@ -93,7 +89,7 @@ function DetailView({ location, userData, setCartCount }) {
 
         <h2 className="detail-title">{product.name}</h2>
         <div className="detail-price">{product.price} ₽</div>
-        <div className="detail-desc">{product.desc}</div>
+       
 
         {isAdmin ? (
           <div className="admin-actions">
@@ -103,20 +99,48 @@ function DetailView({ location, userData, setCartCount }) {
           </div>
         ) : (
           <div className="add-to-cart-container">
-            <input
+
+            {/* <input
               type="number"
               min="1"
               value={quantity}
               onChange={(e) => setQuantity(Number(e.target.value))}
-            />
+            /> */}
+
+            {/* <div className="quantity-control">
+  <button onClick={() => setQuantity(prev => Math.max(1, prev - 1))}>−</button>
+  <span>{quantity}</span>
+  <button onClick={() => setQuantity(prev => prev + 1)}>+</button>
+</div> */}
+           
+
+           <div className="quantity-control">
+  <label className="quantity-label">Количество:</label>
+  <div className="quantity-buttons">
+    <button onClick={() => setQuantity(prev => Math.max(1, prev - 1))}>−</button>
+    <span>{quantity}</span>
+    <button onClick={() => setQuantity(prev => prev + 1)}>+</button>
+  </div>
+</div>
+
+
             <Link to="/" replace>
   <button className="add-to-cart-button" onClick={handleAddToCart}>
     Добавить в корзину
   </button>
 </Link>
+
+     <Link to="/" replace>
+  <button className="back-to-catalog-button" >
+    Вернуться в каталог 
+  </button>
+</Link>
+
             <span className="price">Цена: {product.price * quantity} ₽</span>
           </div>
         )}
+          <div className="detail-desc">{product.desc}</div>
+       
       </div>
     </div>
   );
