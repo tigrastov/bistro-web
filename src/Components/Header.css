@@ -4,7 +4,8 @@
   left: 0;
   width: 100%;
   height: 100px;
-  background: #FBE038;
+  /* background: #FBE038; */
+  background-color: #492A03;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -80,7 +81,8 @@
 
 .nav a {
   text-decoration: none;
-  color: #4A1504;
+  /* color: #4A1504; */
+  color: white;
   font-size: 15px;
   font-weight: bold;
 }
@@ -188,7 +190,7 @@
   }
 .nav a {
 font-size: 18px; 
- color: #4A1504; 
+ color: #492A03; 
   }
   .nav.open {
     left: 0;
