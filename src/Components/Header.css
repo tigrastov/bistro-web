@@ -13,14 +13,14 @@
   z-index: 1000;
 }
 
-/* Левая часть (бургер + геолокация) */
+
 .header-left {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* Центрированный текст-логотип */
+
 .logo-center {
   position: absolute;
   left: 50%;
@@ -30,10 +30,32 @@
   height: 70px;
 }
 
-/* Скрывать логотип на мобильных */
+
 @media (max-width: 1300px) {
   .logo-center {
     display: none;
+  }
+  
+
+}
+
+
+.nav-overlay {
+  position: fixed;
+  top: 100px;
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 100px);
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: none;          
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+  .nav-overlay.open {
+    display: block;      
   }
 }
 
@@ -53,7 +75,7 @@
 .nav {
   display: flex;
   gap: 10px;
-  z-index: 1000;
+  z-index: 1100;
 }
 
 .nav a {
@@ -68,7 +90,7 @@
   border-bottom: 2px solid #4A1504;
 }
 
-/* Бургер */
+
 .burger {
   display: none;
   width: 30px;
@@ -114,9 +136,13 @@
   top: 11px;
 }
 
-/* Бейдж на бургер */
+
 .burger-wrap {
-  position: relative;
+
+  position: fixed;
+  top: 35px;  
+  right: 30px; 
+  z-index: 1200;
 }
 
 .burger-badge {
@@ -133,14 +159,14 @@
   border-radius: 50%;
 }
 
-/* Скрываем бейдж на десктопе */
+
 @media (min-width: 768px) {
   .burger-badge {
     display: none;
   }
 }
 
-/* Навигация на мобилке */
+
 @media (max-width: 768px) {
   .burger {
     display: block;
@@ -169,7 +195,7 @@ font-size: 18px;
   }
 }
 
-/* Бейдж в навигации */
+
 .cart-badge {
   background-color: #DB2E27;
   color: white;
@@ -178,12 +204,27 @@ font-size: 18px;
   line-height: 1;
   padding: 5px;
   border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+
 }
 
+
 .cart-badge.inline {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
   margin-left: 4px;
   vertical-align: top;
 }
+
+
+
 
 .change-location-btn {
   max-width: 150px;

@@ -66,7 +66,7 @@
   object-fit: cover;
   border-radius: 12px;
   background-color: #eee;
-  /* box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1); */
+
 }
 
 .detail-title {
@@ -76,8 +76,7 @@
   background-color: rgba(0, 0, 0, 0.8)
 ;
   padding: 10px;
-  /* border-radius: 15px;
-  box-shadow: #333 0px 0px 4px; */
+  
 }
 
 .detail-price {

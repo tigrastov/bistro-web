@@ -10,7 +10,7 @@ function DetailView({ location, userData, setCartCount }) {
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
 
-  // Проверяем, админ ли текущий пользователь
+
   const isAdmin = userData?.role === 'adminCuba' || userData?.role === 'adminKarlMarks';
 
   useEffect(() => {
@@ -61,7 +61,7 @@ function DetailView({ location, userData, setCartCount }) {
 
   localStorage.setItem('cart', JSON.stringify(cart));
 
-  // 👉 Обновляем бейдж
+
   if (setCartCount) {
     const count = cart.reduce((sum, item) => sum + item.quantity, 0);
     setCartCount(count);

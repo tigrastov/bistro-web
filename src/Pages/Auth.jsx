@@ -16,7 +16,7 @@ import {
 
 import './Auth.css';
 
-// Функция перевода ошибок Firebase
+
 const translateFirebaseError = (error) => {
   const errorMap = {
     'auth/invalid-email': 'Некорректный email',
@@ -77,8 +77,8 @@ function Auth({setUserData}) {
   try {
     const user = auth.currentUser;
     if (user) {
-      await deleteDoc(doc(db, "users", user.uid)); // Firestore
-      await deleteUser(user); // Auth
+      await deleteDoc(doc(db, "users", user.uid)); 
+      await deleteUser(user); 
     }
     setIsAuth(false);
     setEmail('');

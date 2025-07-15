@@ -9,7 +9,7 @@ export default function Header({ userData, location, isAdmin, onChangeLocation, 
 
   return (
     <header className="header">
-      {/* Кнопка логотипа слева (бургер в mobile) */}
+
       <div className="header-left">
         <button className="logotype" onClick={toggleMenu}>
           <img src="public/LogoIcon.png" alt="Логотип" />
@@ -29,12 +29,12 @@ export default function Header({ userData, location, isAdmin, onChangeLocation, 
         )}
       </div>
 
-      {/* Центрированный логотип-текст — только на десктопе */}
+
       <div className="logo-center">
         <img src="public/LogoText.png" alt="LogoText" />
       </div>
 
-      {/* Бургер-меню справа */}
+
       <div className="burger-wrap">
         <button className={`burger ${isOpen ? 'open' : ''}`} onClick={toggleMenu}>
           <span></span>
@@ -44,9 +44,10 @@ export default function Header({ userData, location, isAdmin, onChangeLocation, 
         {cartCount > 0 && <span className="cart-badge burger-badge">{cartCount}</span>}
       </div>
 
-      {isOpen && <div className="nav-overlay" onClick={() => setIsOpen(false)}></div>}
+     {isOpen && <div className="nav-overlay open" onClick={() => setIsOpen(false)}></div>}
 
-      {/* Навигация */}
+
+
       <nav className={`nav ${isOpen ? 'open' : ''}`}>
         <NavLink to="/" end onClick={() => setIsOpen(false)}>Меню</NavLink>
         <NavLink to="/cart" onClick={() => setIsOpen(false)} className="cart-link">
