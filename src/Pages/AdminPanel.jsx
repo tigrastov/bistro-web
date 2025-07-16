@@ -9,6 +9,8 @@ import {
   updateDoc,
   doc,
 } from 'firebase/firestore';
+import { NavLink } from 'react-router-dom';
+
 import './AdminPanel.css';
 
 function AdminPanel({ location, userData }) {
@@ -92,6 +94,14 @@ function AdminPanel({ location, userData }) {
   return (
     <div className="admin-orders">
       <h1 className="admin-title">Заказы вашего магазина</h1>
+      
+
+    <div className="admin-add-product-wrapper">
+  <NavLink to="/admin/add-product" className="admin-add-btn">
+    ➕ Добавить товар
+  </NavLink>
+</div>
+
 
       <div className="admin-status-tabs">
         <button onClick={() => setSelectedStatus('all')} className={selectedStatus === 'all' ? 'active' : ''}>Все</button>

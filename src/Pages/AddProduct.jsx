@@ -52,44 +52,25 @@ function AddProduct({ location }) {
 
 
 
-// const handleAdd = async (e) => {
-//   e.preventDefault();
-//   setError('');
-//   setSuccess('');
-//   if (!category || !name || !price) {
-//     setError('Заполните все обязательные поля');
-//     return;
-//   }
-//   try {
-//     // Просто добавляем товар без фото
-//     await addDoc(collection(db, `locations/${location}/products`), {
-//       category,
-//       name,
-//       price: Number(price),
-//       desc,
-//       photo: '', // или можно не добавлять это поле вовсе
-//       createdAt: new Date()
-//     });
-//     setSuccess('Товар добавлен!');
-//     setCategory('');
-//     setName('');
-//     setPrice('');
-//     setDesc('');
-//     setFile(null);
-//   } catch (err) {
-//     setError('Ошибка при добавлении товара');
-//   }
-// };
+
   return (
     <div className="add-product">
       <h1>Добавить товар</h1>
       <form onSubmit={handleAdd}>
+       
         <select className='select' value={category} onChange={e => setCategory(e.target.value)} required>
-          <option value="">Выберите категорию</option>
-          <option value="drinks">Напитки</option>
-          <option value="desserts">Закуски</option>
-          <option value="food">Еда</option>
-        </select>
+  <option value="">Выберите категорию</option>
+  <option value="drinks">Напитки</option>
+  <option value="appetizers">Закуски</option>
+  <option value="desserts">Десерты</option>
+  <option value="burgers">Бургеры</option>
+  <option value="shawarma">Шаурма</option>
+  <option value="sauces">Соусы</option>
+  <option value="french-fries">Картофель фри</option>
+  <option value="additionally">Дополнительно</option>
+  <option value="new">Новинки</option>
+</select>
+
         <input
           type="text"
           placeholder="Название"

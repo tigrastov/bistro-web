@@ -23,7 +23,7 @@ export default function Header({ userData, location, isAdmin, onChangeLocation, 
                 alt="Геолокация"
                 style={{ width: 20, height: 20, marginRight: 8, verticalAlign: 'middle' }}
               />
-              {location === 'cuba' ? 'c.Кубенское, Ленина, 10' : 'г.Вологда, Карла Маркса, 37'}
+              {location === 'Kubenskoye-Lenina-Street' ? 'c.Кубенское, Ленина, 10' : 'г.Вологда, Карла Маркса, 17'}
             </button>
           </div>
         )}
@@ -54,7 +54,10 @@ export default function Header({ userData, location, isAdmin, onChangeLocation, 
           Корзина
           {cartCount > 0 && <span className="cart-badge inline">{cartCount}</span>}
         </NavLink>
-        <NavLink to="/orders" onClick={() => setIsOpen(false)}>Мои заказы</NavLink>
+        {/* <NavLink to="/orders" onClick={() => setIsOpen(false)}>Мои заказы</NavLink> */}
+        {!isAdmin && (
+  <NavLink to="/orders" onClick={() => setIsOpen(false)}>Мои заказы</NavLink>
+)}
         <NavLink to="/info" onClick={() => setIsOpen(false)}>О нас</NavLink>
         {userData && (userData.role === 'adminCuba' || userData.role === 'adminKarlMarks') && (
           <NavLink to="/admin" onClick={() => setIsOpen(false)}>Админ-панель</NavLink>

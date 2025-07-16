@@ -25,9 +25,9 @@ function App() {
 
   // Жёстко привязываем location для админов
   const effectiveLocation = isAdminCuba
-    ? 'cuba'
+    ? 'Kubenskoye-Lenina-Street'
     : isAdminKarlMarks
-      ? 'karlmarks'
+      ? 'Vologda-Karla-Marksa-Street'
       : location;
 
   const handleLocationSelect = (loc) => {

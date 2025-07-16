@@ -5,8 +5,8 @@ export default function LocationSelect({ onSelect }) {
     <div className="location-overlay">
       <div className="location-modal">
         <h2>Выберите торговую точку</h2>
-        <button className='cuba' onClick={() => onSelect("cuba")}>с.Кубенское, Ленина, 10</button>
-        <button className='karlmarks' onClick={() => onSelect("karlmarks")}>г.Вологда, Карла Маркса, 37</button>
+        <button className='cuba' onClick={() => onSelect("Kubenskoye-Lenina-Street")}>с.Кубенское, Ленина</button>
+        <button className='karlmarks' onClick={() => onSelect("Vologda-Karla-Marksa-Street")}>г.Вологда, Карла Маркса, 17</button>
       </div>
     </div>
   );

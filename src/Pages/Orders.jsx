@@ -37,7 +37,7 @@ const goToPrevPage = () => {
       if (!user) return;
 
       try {
-        const locationIds = ['cuba', 'karlmarks'];
+        const locationIds = ['Kubenskoye-Lenina-Street', 'Vologda-Karla-Marksa-Street'];
         const allOrders = [];
 
         for (const locationId of locationIds) {
