@@ -88,7 +88,7 @@ const goToPrevPage = () => {
       {currentOrders.map((order) => (
         <li key={order.id} className="order-card">
           <div className="order-header">
-            <span className="order-location">Магазин: {order.location}</span>
+            <span className="order-location">Торговая точка: {order.location}</span>
             <span className="order-date">
               {order.createdAt
                 ? new Date(order.createdAt.seconds * 1000).toLocaleString()
@@ -96,7 +96,7 @@ const goToPrevPage = () => {
             </span>
           </div>
           <div className="order-info">
-            <p>Статус: <strong>{order.status || 'новый'}</strong></p>
+            <p className='status-field'>Статус: <strong >{order.status || 'новый'}</strong></p>
             <p>Сумма: <strong>{order.total} ₽</strong></p>
           </div>
           <ul className="order-items">
