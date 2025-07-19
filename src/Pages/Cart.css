@@ -70,19 +70,19 @@
   position: relative;
 }
 
-/* Сдвиг при свайпе на мобилке */
+
 .cart-item.swipe-left .info {
   transform: translateX(-80px);
 }
 
-/* Кнопка удаления */
+
 .cart-item .actions {
   position: absolute;
   top: 0;
   right: 0;
   height: 100%;
   width: 80px;
-  display: none; /* скрыта по умолчанию */
+  display: none; 
   align-items: center;
   justify-content: center;
   background: transparent;
@@ -116,7 +116,7 @@
   background-color: #FBE038;
 }
 
-/* Кнопки снизу */
+
 .clear-cart-btn,
 .checkout-btn {
   font-weight: bold;
@@ -152,7 +152,7 @@
   color: #DB2E27;
 }
 
-/* Адаптация под мобилки */
+
 @media (max-width: 768px) {
   .cart {
     padding: 20px 12px 60px 12px;
@@ -175,13 +175,13 @@
     padding: 16px;
   }
 
-  /* Показываем actions только при свайпе */
+
   .cart-item.swipe-left .actions {
     display: flex;
   }
 }
 
-/* Десктоп: всегда показываем кнопку удаления */
+
 .info .left-space {
   display: none;
 }
@@ -189,7 +189,7 @@
 @media (min-width: 769px) {
 .info .left-space {
     display: inline-block;
-    width: 20px; /* совпадает с шириной translateX и actions */
+    width: 20px; 
     flex-shrink: 0;
   }
 

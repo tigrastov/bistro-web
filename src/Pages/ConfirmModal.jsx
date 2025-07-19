@@ -1,4 +1,4 @@
-// ConfirmModal.jsx
+
 import './ConfirmModal.css';
 
 function ConfirmModal({ title, message, onConfirm, onCancel }) {

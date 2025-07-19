@@ -160,7 +160,7 @@
   color: #fff;
 }
 
-/* Адаптив для мобилок */
+
 @media (max-width: 480px) {
   .auth {
     width: 100%;

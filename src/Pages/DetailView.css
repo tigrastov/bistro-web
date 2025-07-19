@@ -9,20 +9,7 @@ background-color: #492A03;
   box-sizing: border-box;
 }
 
-/* .back-to-catalog-wrap {
-  align-self: flex-start;
-  margin-bottom: 20px;
-} */
 
-/* .back-to-catalog {
-  background-color: #EF7E22;
-  color: white;
-  padding: 10px 16px;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.2s ease;
-} */
 
 .back-to-catalog-button{
   background-color: rgba(0, 0, 0, 0.8);

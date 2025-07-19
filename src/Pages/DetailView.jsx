@@ -100,18 +100,7 @@ function DetailView({ location, userData, setCartCount }) {
         ) : (
           <div className="add-to-cart-container">
 
-            {/* <input
-              type="number"
-              min="1"
-              value={quantity}
-              onChange={(e) => setQuantity(Number(e.target.value))}
-            /> */}
-
-            {/* <div className="quantity-control">
-  <button onClick={() => setQuantity(prev => Math.max(1, prev - 1))}>−</button>
-  <span>{quantity}</span>
-  <button onClick={() => setQuantity(prev => prev + 1)}>+</button>
-</div> */}
+            
            
 
            <div className="quantity-control">

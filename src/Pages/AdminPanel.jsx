@@ -29,7 +29,7 @@ function AdminPanel({ location, userData }) {
       setOrdersPerPage(window.innerWidth > 768 ? 10 : 5);
     };
 
-    handleResize(); // set initially
+    handleResize(); 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);

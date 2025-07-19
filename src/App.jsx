@@ -18,12 +18,12 @@ function App() {
   const [userData, setUserData] = useState(null);
   const [location, setLocation] = useState(() => localStorage.getItem("location") || "");
   const [cartCount, setCartCount] = useState(0);
-  // Определяем, админ ли пользователь
+
   const isAdminCuba = userData?.role === 'adminCuba';
   const isAdminKarlMarks = userData?.role === 'adminKarlMarks';
   const isAdmin = isAdminCuba || isAdminKarlMarks;
 
-  // Жёстко привязываем location для админов
+
   const effectiveLocation = isAdminCuba
     ? 'Kubenskoye-Lenina-Street'
     : isAdminKarlMarks
@@ -39,13 +39,13 @@ function App() {
   useEffect(() => {
     const updateCartCount = () => {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const count = cart.reduce((sum, item) => sum + item.quantity, 0); // количество товаров
+      const count = cart.reduce((sum, item) => sum + item.quantity, 0); 
       setCartCount(count);
     };
 
     updateCartCount();
 
-    // Подписка на событие — любое обновление localStorage
+
     window.addEventListener('storage', updateCartCount);
 
     return () => {
@@ -65,7 +65,7 @@ function App() {
             localStorage.removeItem("location");
           }}
         />
-        {/* Для админов не показываем выбор локации */}
+
         {!effectiveLocation && !isAdmin ? (
           <LocationSelect onSelect={handleLocationSelect} />
         ) : (
