@@ -4,15 +4,16 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: white;
+  background-color: #FF6600;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 999;
+  font-family: Evolventa
 }
 
 .location-modal {
-  background: #FFD700;
+  background: #FFFF00;
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.2);
@@ -23,7 +24,7 @@
 .location-modal h2 {
   margin-bottom: 1.2rem;
   font-size: 18px;
-  color: #4A1504;
+  color: #261200;
 }
 
 .location-modal button {
@@ -39,12 +40,12 @@
 
 .cuba {
   background-color: white;
-  color: #4A1504;
+  color: #261200;
   font-weight: bold;
 }
 
 .karlmarks {
   background-color: white;
-  color: #4A1504;
+  color: #261200;
   font-weight: bold;
 }

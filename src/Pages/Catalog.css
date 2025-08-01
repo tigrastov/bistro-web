@@ -11,13 +11,14 @@ body, html {
 
 .catalog {
   height: 100vh;
-  color: #ffd600;
+  color: #FFFF00;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
   width: 100%;
-  background-color: #492A03;
+  /* background-color: #492A03; */
+  background-color: #261200;
 }
 
 .catalog-categories {
@@ -26,7 +27,8 @@ body, html {
   left: 0;
   right: 0;
   z-index: 100;
-  background: #EF7E22;
+  /* background: #EF7E22; */
+  background-color: #FF6600;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -36,6 +38,7 @@ body, html {
   border-bottom: 1.5px solid #222;
   overflow-x: auto;
   scrollbar-width: none;
+  font-family: Impact;
 }
 
 .catalog-categories::-webkit-scrollbar {
@@ -46,9 +49,10 @@ body, html {
   flex: 0 0 auto;
   padding: 8px 16px;
   background-color: white;
-  color: #4A1504;
+  color: #261200;
   font-size: 14px;
-  font-weight: bold;
+  font-family: Impact;
+
   border-radius: 10px;
   border: none;
   cursor: pointer;
@@ -61,7 +65,7 @@ body, html {
 }
 
 .catalog-categories-button.active {
-  background-color: #492A03;
+  background-color: #261200;
   color: white;
 }
 

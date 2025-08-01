@@ -5,17 +5,18 @@
   justify-content: flex-start; 
   min-height: 100vh;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.1)
-;
+  background-color: rgba(0, 0, 0, 0.1);
+   font-family: Impact;
   padding-top: 100px;
   text-align: center;
   gap: 1rem;                  
   box-sizing: border-box;
+
 }
 
 .profile p {
   font-size: 17px;
-  font-weight: bolder;
+
   color: white;
   margin: 0;
 }
@@ -42,7 +43,7 @@
   padding: 12px 10px;
   box-sizing: border-box;
   background-color: white;
-  color: #4A1504;
+  color: #261200 ;
   border: none;
   cursor: pointer;
 }
@@ -53,20 +54,20 @@
 }
 
 .cancellSave {
-  background-color: #FBE038;
-  color: #4A1504;
+  background-color: #FFFF00;
+  color: #261200 ;
   border: none;
 }
 
 .auth-btn {
-  background-color: #FFD700;
+  background-color: #FFFF00;
   border: none;
   border-radius: 10px;
   font-weight: bold;
   font-size: 16px;
   padding: 12px 10px;
   cursor: pointer;
-  color: #000;
+  color:  #0A0002;
   margin-top: 0.8rem;
 }
 
@@ -104,13 +105,13 @@
   max-width: 350px;
   align-items: stretch;
   text-align: center;
-  color: #222;
+  color:  #0A0002;
 }
 
 .dialog p {
   margin: 0 0 10px;
   font-size: 1.1rem;
-  color: #222;
+  color:  #0A0002;
 }
 
 .dialog button {
@@ -132,8 +133,8 @@
 }
 
 .auth-btn-yellow {
-  background-color: #FFD700;
-  color: #4A1504;
+  background-color: #FFFF00;
+  color: #261200;
 }
 
 .auth-btn-green {

@@ -12,7 +12,7 @@ export default function Header({ userData, location, isAdmin, onChangeLocation, 
 
       <div className="header-left">
         <button className="logotype" onClick={toggleMenu}>
-          <img src="public/LogoIcon.png" alt="Логотип" />
+          <img src="public/logoFull.png" alt="Логотип" />
         </button>
 
         {!isAdmin && location && (
@@ -30,9 +30,9 @@ export default function Header({ userData, location, isAdmin, onChangeLocation, 
       </div>
 
 
-      <div className="logo-center">
+      {/* <div className="logo-center">
         <img src="public/LogoText.png" alt="LogoText" />
-      </div>
+      </div> */}
 
 
       <div className="burger-wrap">
@@ -45,7 +45,6 @@ export default function Header({ userData, location, isAdmin, onChangeLocation, 
       </div>
 
      {isOpen && <div className="nav-overlay open" onClick={() => setIsOpen(false)}></div>}
-
 
 
       <nav className={`nav ${isOpen ? 'open' : ''}`}>

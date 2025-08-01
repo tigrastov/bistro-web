@@ -1,6 +1,6 @@
 .add-product {
-  background: #111;
-  color: #ffd600;
+  background: #0A0002 ;
+  color: #FFFF00;
   min-height: 100vh;
   padding: 40px 0;
   display: flex;
@@ -10,14 +10,14 @@
 }
 
 .add-product h1 {
-  color: #ffd600;
+  color: #FFFF00;
   margin-bottom: 32px;
   font-size: 2.2rem;
   letter-spacing: 1px;
 }
 
 .add-product form {
-  background: #222;
+  background: #0A0002 ;
   border-radius: 16px;
   box-shadow: 0 4px 24px rgba(0,0,0,0.3);
   padding: 32px 24px;
@@ -33,9 +33,9 @@
 .add-product input[type="text"],
 .add-product input[type="number"],
 .add-product textarea {
-  background: #111;
-  color: #ffd600;
-  border: 1.5px solid #ffd600;
+  background: #0A0002 ;
+  color: #FFFF00;
+  border: 1.5px solid #FFFF00;
   border-radius: 6px;
   padding: 12px;
   font-size: 1.1rem;
@@ -46,14 +46,14 @@
 }
 
 .add-product input[type="file"] {
-  color: #ffd600;
+  color: #FFFF00;
   background: transparent;
   border: none;
 }
 
 .add-product button {
-  background: #ffd600;
-  color: #111;
+  background: #FFFF00;
+  color: #0A0002;
   border: none;
   border-radius: 6px;
   padding: 14px 0;
@@ -65,8 +65,8 @@
 }
 
 .add-product button:hover {
-  background: #fff200;
-  color: #000;
+  background: #FFFF00;
+  color: #0A0002;
 }
 
 .success {
@@ -84,9 +84,9 @@
 .admin-add-btn {
   display: inline-block;
   margin-top: 24px;
-  color: #ffd600;
-  background: #222;
-  border: 1px solid #ffd600;
+  color:  #FFFF00;
+  background:  #0A0002 ;
+  border: 1px solid  #FFFF00;
   border-radius: 6px;
   padding: 10px 20px;
   text-decoration: none;
@@ -96,14 +96,14 @@
 }
 
 .admin-add-btn:hover {
-  background: #ffd600;
-  color: #111;
+  background:  #FFFF00;
+  color: #0A0002;
 }
 
 .select {
-  background: #111;
-  color: #ffd600;
-  border: 1.5px solid #ffd600;
+  background: #0A0002 ;
+  color:  #FFFF00;
+  border: 1.5px solid  #FFFF00;
   border-radius: 6px;
   padding: 12px;
   font-size: 1.1rem;

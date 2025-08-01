@@ -6,13 +6,14 @@
   justify-content: flex-start;
   min-height: 100vh;
   width: 100%;
-  background-color: #EF7E22;
+  background-color: #FF6600;
   padding-top: 100px; 
   text-align: center;
+   font-family: Impact;
 }
 
 .auth h2 {
-  color: #222;
+  color: #0A0002;
   margin-bottom: 1.2rem;
   font-size: 20px;
 }
@@ -20,7 +21,7 @@
 .auth p {
   margin-bottom: 1.2rem;
   font-size: 16px;
-  color: #333;
+  color: #0A0002;
 }
 
 .auth input {
@@ -36,10 +37,10 @@
 .auth-btn {
   width: 200px;
   padding: 12px;
-  background: #FFD700;
+  background: #FFFF00;
   border: none;
   border-radius: 10px;
-  color: #000;
+  color: #0A0002;
   font-weight: bold;
   cursor: pointer;
   margin-top: 0.8rem;
@@ -95,7 +96,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  color: #222;
+  color: #0A0002;
 }
 
 
@@ -123,13 +124,13 @@
   min-width: 220px;
   align-items: stretch;
   text-align: center;
-  color: #222;
+  color: #0A0002;
 }
 
 .dialog p {
   margin: 0 0 10px;
   font-size: 1.1rem;
-  color: #222;
+  color: #0A0002;
 }
 
 .dialog button {
@@ -151,8 +152,8 @@
 }
 
 .auth-btn-yellow {
-  background-color: #FFD700;
-  color: #4A1504;
+  background-color: #FFFF00;
+  color: #261200;
 }
 
 .auth-btn-green {

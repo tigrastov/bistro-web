@@ -3,6 +3,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  font-family: Impact;
 }
 
 .catalog-item {
@@ -15,7 +16,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #4A1504;
+  color: #261200;
   width: 100%;
   max-width: 360px;
   min-width: 240px;
@@ -40,10 +41,10 @@
 .catalog-item h2 {
   font-size: 1.1rem;
   margin: 0 0 8px 0;
-  color: #4A1504;
+  color: #261200;
   text-align: center;
   font-weight: bold;
-  background-color: #FBE038;
+  background-color: #FFFF00;
   padding: 8px 8px;
   border-radius: 15px;
   box-shadow: #333 0px 0px 4px;
@@ -58,13 +59,13 @@
 .catalog-item .price {
   font-size: 1.05rem;
   font-weight: bold;
-  color: #EF7E22;
+  color: #FF6600;
   margin-bottom: 4px;
 }
 
 .catalog-item .desc {
   font-size: 0.95rem;
-  color: #333;
+  color: #0A0002;
 }
 
 @media (max-width: 600px) {

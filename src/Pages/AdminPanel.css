@@ -3,7 +3,7 @@
   margin: 0 auto;
   padding: 2rem 1rem;
   background: #fffbea;
-  color: #222;
+  color: #0A0002;
   font-family: sans-serif;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -32,7 +32,7 @@
   text-align: center;
   margin-bottom: 1.5rem;
   font-size: 1.8rem;
-  color: #000;
+  color: #0A0002;
 }
 
 .admin-status-tabs {
@@ -44,22 +44,22 @@
 }
 
 .admin-status-tabs button {
-  background: #ffdd00;
+  background: #FFFF00;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-weight: bold;
-  color: #000;
+  color: #0A0002;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
 
 .admin-status-tabs button:hover {
-  background: #ffcc00;
+  background: #FFFF00;
 }
 
 .admin-status-tabs .active {
-  background: #000;
+  background: #0A0002;
   color: #fff;
 }
 
@@ -82,8 +82,8 @@
 
 .admin-order-card {
   background: #fff;
-  border: 2px solid #ffdd00;
-  border-left: 6px solid #FFD700;
+  border: 2px solid  #FFFF00;
+  border-left: 6px solid  #FFFF00;
   border-radius: 10px;
   padding: 1rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
@@ -108,7 +108,7 @@
   border: 1px solid #ccc;
   font-weight: bold;
   background: #fff8c4;
-  color: #000;
+  color: #0A0002;
 }
 
 .admin-order-items {
@@ -130,8 +130,8 @@
 }
 
 .admin-pagination button {
-  background: #000;
-  color: #FFD700;
+  background: #0A0002;
+  color: #FFFF00;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 6px;
@@ -141,7 +141,7 @@
 }
 
 .admin-pagination button:hover:not(:disabled) {
-  background: #222;
+  background: #0A0002;
 }
 
 .admin-pagination button:disabled {
@@ -152,7 +152,7 @@
 
 .admin-pagination span {
   font-weight: bold;
-  color: #000;
+  color: #0A0002;
 }
 
 /* Мобильная адаптация */
@@ -180,8 +180,8 @@
 }
 
 .admin-add-btn {
-  background: #000;
-  color: #FFD700;
+  background: #0A0002;
+  color: #FFFF00;
   padding: 0.6rem 1.2rem;
   border-radius: 10px;
   font-weight: bold;
@@ -190,6 +190,6 @@
 }
 
 .admin-add-btn:hover {
-  background: #222;
+  background: #0A0002;
 }
 

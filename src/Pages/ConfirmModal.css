@@ -23,7 +23,7 @@
 
 .modal h2 {
   font-size: 1.4rem;
-  color: #4A1504;
+  color: #261200;
   margin-bottom: 12px;
 }
 
@@ -51,18 +51,18 @@
 }
 
 .modal-confirm {
-  background-color: #FBE038;
+  background-color:  #FFFF00;
   color: #4A1504;
 }
 
 .modal-confirm:hover {
-  background-color: #EF7E22;
+  background-color: #FF6600;
   color: white;
 }
 
 .modal-cancel {
   background-color: #e0e0e0;
-  color: #4A1504;
+  color: #261200;
 }
 
 .modal-cancel:hover {

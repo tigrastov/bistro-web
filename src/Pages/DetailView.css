@@ -4,9 +4,10 @@
   flex-direction: column;
   align-items: center;
   padding: 20px 16px 60px 16px;
-background-color: #492A03;
+background-color: #261200;
   min-height: 100vh;
   box-sizing: border-box;
+  font-family: Impact;
 }
 
 
@@ -14,7 +15,7 @@ background-color: #492A03;
 .back-to-catalog-button{
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
-  font-weight: bold;
+ font-family: Impact;
   border: none;
   border-radius: 10px;
   padding: 12px;
@@ -27,8 +28,9 @@ background-color: #492A03;
 
 
 .back-to-catalog-button:hover {
-  background-color: #FBE038;
-  color: black;
+  background-color: #FFFF00;
+  color: #0A0002;
+   font-family: Impact;
 }
 
 .detail-view {
@@ -58,6 +60,7 @@ background-color: #492A03;
 
 .detail-title {
   font-size: 1.3rem;
+ font-family: Impact;
   margin: 0 0 12px 0;
   color: white;
   background-color: rgba(0, 0, 0, 0.8)
@@ -69,14 +72,16 @@ background-color: #492A03;
 .detail-price {
   font-size: 1.1rem;
   font-weight: bold;
-  color: #EF7E22;
+  font-family: Impact;
+  color: #FF6600;
   margin-bottom: 12px;
 }
 
 .detail-desc {
   font-size: 1rem;
-  color: #333;
+  color:  #0A0002 ;
   margin-bottom: 20px;
+  font-family: Evolventa ;
 }
 
 .add-to-cart-container {
@@ -95,24 +100,25 @@ background-color: #492A03;
 }
 
 .add-to-cart-button {
-  background-color: #FBE038;
-  color: #4A1504;
+  background-color: #FFFF00;
+  color: #261200;
   font-weight: bold;
   border: none;
   border-radius: 10px;
   padding: 12px;
   font-size: 1rem;
+  font-family: Impact;
   cursor: pointer;
   width: 100%;
 }
 
 .add-to-cart-button:hover {
-  background-color: #EF7E22;
+  background-color: #FF6600;
   color: white;
 }
 
 .add-to-cart-container .price {
-  color: #EF7E22;
+  color: #FF6600;
   font-size: 1rem;
   font-weight: bold;
 }
@@ -159,7 +165,7 @@ background-color: #492A03;
   font-weight: bold;
   font-size: 1rem;
   margin-bottom: 8px;
-  color: #4A1504;
+  color: #261200;
 }
 
 .quantity-buttons {
@@ -188,13 +194,13 @@ background-color: #492A03;
 }
 
 .quantity-buttons button:hover {
-  background: #d96c1c;
+  background: #FF6600;
 }
 
 .quantity-buttons span {
   font-size: 20px;
   font-weight: bold;
-  color: #4A1504;
+  color: #261200;
   min-width: 28px;
   text-align: center;
 }
