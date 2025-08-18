@@ -1,5 +1,3 @@
-
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -13,12 +11,15 @@ import {
 } from 'firebase/firestore';
 import './Cart.css';
 import ConfirmModal from './ConfirmModal';
+import PaymentHandler from '../Components/PaymentHandler';
 
 function Cart({ setCartCount }) {
   const [cartItems, setCartItems] = useState([]);
   const [user, setUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [swipedIndex, setSwipedIndex] = useState(null);
+  const [showPayment, setShowPayment] = useState(false);
+  const [currentOrder, setCurrentOrder] = useState(null);
   const navigate = useNavigate();
 
   let touchStartX = 0;
@@ -94,7 +95,8 @@ function Cart({ setCartCount }) {
         0
       );
 
-      await addDoc(collection(db, 'locations', location, 'orders'), {
+      // Создаем заказ
+      const orderRef = await addDoc(collection(db, 'locations', location, 'orders'), {
         userId: user.uid,
         userName: userData.name,
         userPhone: userData.phone,
@@ -104,13 +106,55 @@ function Cart({ setCartCount }) {
         status: 'новый',
       });
 
-      clearCart();
-      alert('Заказ успешно оформлен!');
+      // Сохраняем информацию о заказе
+      setCurrentOrder({
+        id: orderRef.id,
+        totalAmount: total,
+        status: 'новый',
+        clientEmail: userData.email || '',
+        clientName: userData.name,
+        items: cartItems
+      });
+
+      // Закрываем модальное окно и показываем оплату
+      setIsModalOpen(false);
+      setShowPayment(true);
+
     } catch (error) {
       console.error('Ошибка при оформлении заказа:', error);
       alert('Произошла ошибка при оформлении заказа');
     }
   };
+
+  // Обработчик успешной оплаты
+  const handlePaymentSuccess = () => {
+    clearCart();
+    setShowPayment(false);
+    setCurrentOrder(null);
+    alert('Заказ успешно оплачен!');
+  };
+
+  // Обработчик ошибки оплаты
+  const handlePaymentError = (error) => {
+    console.error('Ошибка платежа:', error);
+    alert('Произошла ошибка при оплате. Попробуйте еще раз.');
+  };
+
+  // Если показываем оплату
+  if (showPayment && currentOrder) {
+    return (
+      <div className="cart-page">
+        <div className="cart">
+          <h1>Оплата заказа #{currentOrder.id}</h1>
+          <PaymentHandler 
+            order={currentOrder}
+            onPaymentSuccess={handlePaymentSuccess}
+            onPaymentError={handlePaymentError}
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="cart-page">
@@ -132,9 +176,6 @@ function Cart({ setCartCount }) {
                     <div className="left-space" />
                     <span>{item.quantity}</span>
                     <span>{item.name}</span>
-                    
-                    {/* <span>{` x ${item.quantity} `}</span> */}
-                    {/* <span>{` = `}</span> */}
                     <span className="nowrap">{item.price * item.quantity} ₽</span>
                   </div>
                   <div className="actions">
@@ -174,7 +215,6 @@ function Cart({ setCartCount }) {
                 title="Подтвердить оформление заказа?"
                 onConfirm={() => {
                   sendOrder();
-                  setIsModalOpen(false);
                 }}
                 onCancel={() => setIsModalOpen(false)}
               />
