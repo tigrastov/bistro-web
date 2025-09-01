@@ -12,7 +12,7 @@ export default function Header({ userData, location, isAdmin, onChangeLocation, 
 
       <div className="header-left">
         <button className="logotype" onClick={toggleMenu}>
-          <img src="public/logoFull.png" alt="Логотип" />
+          <img src="/logoFull.png" alt="Логотип" />
         </button>
 
         {!isAdmin && location && (

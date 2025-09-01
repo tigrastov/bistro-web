@@ -1,0 +1,30 @@
+# Включаем модуль перезаписи
+RewriteEngine On
+RewriteBase /
+
+# --- Редирект на HTTPS ---
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# --- Редирект www → основной домен (убираем www) ---
+RewriteCond %{HTTP_HOST} ^www\.вкусно\.online [NC]
+RewriteRule ^(.*)$ https://вкусно.online/$1 [R=301,L]
+
+# --- SPA-роутинг для React ---
+RewriteRule ^index\.html$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.html [L]
+
+# --- Кэширование (пример) ---
+<FilesMatch "\.(html)$">
+    Header set Cache-Control "max-age=300, must-revalidate"
+</FilesMatch>
+
+<FilesMatch "\.(js|css)$">
+    Header set Cache-Control "max-age=604800, public"
+</FilesMatch>
+
+<FilesMatch "\.(png|jpg|jpeg|gif|ico|svg)$">
+    Header set Cache-Control "max-age=2592000, public"
+</FilesMatch>

@@ -1,0 +1,166 @@
+.info {
+  color: #261200;
+  font-size: 18px; /* увеличь размер шрифта */
+  font-weight: bold; /* сделай текст жирным */
+  margin-top: 150px;
+  margin-left: 30px;
+}
+
+.info-div{
+  background-color: #FFFF00;
+  border-radius: 15px;
+  padding: 20px;
+  align-self: center;
+  margin-right: 30px;
+
+}
+
+
+
+
+
+
+
+
+.place-container {
+  width: 500px;
+  height: 500px;
+  background-color: rgba(233, 17, 17, 0.15);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-left: auto;
+  margin-right: 30px;
+
+  border-radius: 16px;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.location-info {
+  flex: 0 0 auto;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.location-info h3 {
+  color: rgb(3, 32, 60);
+  margin-bottom: 15px;
+  font-size: 24px;
+}
+
+.location-info p {
+  margin: 8px 0;
+  color: rgb(255, 255, 255);
+  font-size: 20px;font-weight: bold;
+}
+
+.map-placeholder {
+  flex: 1;
+
+  border-radius: 12px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-style: italic;
+}
+
+/* Адаптивная версия */
+@media (max-width: 768px) {
+  .place-container {
+    width: 90%;
+    height: auto;
+    min-height: 400px;
+    margin: 20px auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .place-container {
+    width: 90%;
+    height: auto;
+    min-height: 300px; /* Чтобы не сжимался слишком сильно */
+    margin: 20px auto; /* Вертикальные отступы + центрирование */
+    float: none;
+  }
+}
+
+.map-container {
+  flex: 1;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.map-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  transition: transform 0.3s;
+}
+
+.map-image:hover {
+  transform: scale(1.02);
+}
+
+.map-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.map-button {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.map-button.yandex {
+  background-color: #FFCB08;
+  color: white;
+}
+
+.map-button.google {
+  background-color: #1367B1;
+  color: white;
+}
+
+.map-button:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 480px) {
+  .map-buttons {
+    flex-direction: column;
+  }
+}
+
+
+
+
+.location-wrapper {
+  display: flex;
+  flex-wrap: wrap; /* если мало места — блоки упадут вниз */
+  justify-content: center;
+  gap: 20px; /* расстояние между контейнерами */
+  margin-right: 30px;
+}
+
+/* На мобильных — вертикально */
+@media (max-width: 768px) {
+  .location-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+}
