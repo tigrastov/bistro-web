@@ -1,114 +1,92 @@
-const {setGlobalOptions} = require("firebase-functions");
-const {onRequest} = require("firebase-functions/https");
-const logger = require("firebase-functions/logger");
+const functions = require("firebase-functions");
+const admin = require("firebase-admin");
+const crypto = require("crypto");
 const fetch = require("node-fetch");
 
-// Настройки для контроля стоимости
-setGlobalOptions({ maxInstances: 10 });
+if (!admin.apps.length) admin.initializeApp();
+const db = admin.firestore();
 
-// Функция создания платежа через API Альфа-Банка
-exports.createPayment = onRequest(async (request, response) => {
-  // Разрешаем CORS для веб-приложения
-  response.set('Access-Control-Allow-Origin', '*');
-  response.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  response.set('Access-Control-Allow-Headers', 'Content-Type');
+// Берём данные из environment variables
+const ALFA_LOGIN = process.env.ALFA_LOGIN;
+const ALFA_PASSWORD = process.env.ALFA_PASSWORD;
+const ALFA_CALLBACK_SECRET = process.env.ALFA_CALLBACK_SECRET;
 
-  // Обрабатываем preflight запрос
-  if (request.method === 'OPTIONS') {
-    response.status(204).send('');
+// Функция для создания реального платежа
+exports.createPayment = functions.https.onRequest(async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") {
+    res.status(204).send("");
     return;
   }
 
   try {
-    // Получаем данные из запроса
-    const { orderId, amount, description, clientEmail, clientName, items } = request.body;
+    const { orderId, amount, description, clientEmail, clientName } = req.body;
 
-    // Проверяем обязательные поля
     if (!orderId || !amount || !clientName) {
-      throw new Error('Отсутствуют обязательные поля: orderId, amount, clientName');
+      throw new Error("Отсутствуют обязательные поля: orderId, amount, clientName");
     }
 
-    logger.info('Создание платежа', { orderId, amount, clientName });
-
-    // TODO: Замените на реальные данные от Альфа-Банка
-    const paykeeperUrl = 'https://demo.alfa-processing.ru'; // URL вашего PayKeeper сервера
-    const login = 'demo'; // Логин от Альфа-Банка
-    const password = 'demo'; // Пароль от Альфа-Банка
-
-    // Создаем счет через API PayKeeper
-    const paymentResponse = await fetch(`${paykeeperUrl}/api/invoices`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Basic ' + Buffer.from(`${login}:${password}`).toString('base64')
-      },
+    // Регистрируем платёж через API Альфа-Банка
+    const response = await fetch("https://payment.alfabank.ru/payment/rest/register.do", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({
-        clientid: clientName,
-        orderid: orderId,
-        sum: amount,
-        service_name: description || `Заказ #${orderId}`,
-        client_email: clientEmail || '',
-        // Дополнительные параметры для товаров
-        ...(items && items.reduce((acc, item, index) => ({
-          ...acc,
-          [`item_${index + 1}_name`]: item.name,
-          [`item_${index + 1}_price`]: item.price,
-          [`item_${index + 1}_quantity`]: item.quantity,
-        }), {}))
-      })
+        userName: ALFA_LOGIN,
+        password: ALFA_PASSWORD,
+        orderNumber: orderId,
+        amount: amount * 100, // в копейках
+        returnUrl: "https://xn--b1aqjenl.online/success",
+        failUrl: "https://xn--b1aqjenl.online/fail",
+        description: description || `Заказ #${orderId}`,
+        clientEmail: clientEmail || "",
+      }),
     });
 
-    const paymentData = await paymentResponse.json();
+    const data = await response.json();
 
-    if (paymentData.result === 'success') {
-      logger.info('Платеж создан успешно', { paymentId: paymentData.id });
-      
-      // Возвращаем URL для оплаты
-      response.json({
-        success: true,
-        paymentUrl: paymentData.payment_url,
-        paymentId: paymentData.id,
-        message: 'Платеж создан успешно'
-      });
+    if (data.formUrl) {
+      res.json({ success: true, paymentUrl: data.formUrl, paymentId: data.orderId });
     } else {
-      throw new Error(paymentData.msg || 'Ошибка создания платежа');
+      throw new Error(data.errorMessage || "Ошибка создания платежа");
     }
 
-  } catch (error) {
-    logger.error('Ошибка создания платежа', { error: error.message });
-    
-    response.status(500).json({
-      success: false,
-      message: error.message,
-      error: process.env.NODE_ENV === 'development' ? error.stack : undefined
-    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
   }
 });
 
-// Функция обработки уведомлений об оплате (webhook)
-exports.paymentWebhook = onRequest(async (request, response) => {
+// Функция для обработки webhook с проверкой подписи
+exports.paymentWebhook = functions.https.onRequest(async (req, res) => {
   try {
-    const { orderId, status, paymentId } = request.body;
-    
-    logger.info('Получено уведомление об оплате', { orderId, status, paymentId });
+    const callbackData = req.body;
 
-    // TODO: Обновите статус заказа в вашей базе данных
-    // Здесь должен быть код для обновления Firestore
-    
-    response.json({ success: true, message: 'Уведомление обработано' });
-    
-  } catch (error) {
-    logger.error('Ошибка обработки webhook', { error: error.message });
-    response.status(500).json({ success: false, message: error.message });
+    const signatureFromBank = callbackData.token;
+    const dataString = Object.keys(callbackData)
+      .filter(k => k !== "token")
+      .sort()
+      .map(k => `${callbackData[k]}`)
+      .join("");
+
+    // Проверяем подпись
+    const hash = crypto.createHmac("sha256", ALFA_CALLBACK_SECRET).update(dataString).digest("hex");
+    if (hash !== signatureFromBank) {
+      return res.status(403).json({ success: false, message: "Неверная подпись" });
+    }
+
+    // Обновляем заказ в Firestore
+    const orderNumber = callbackData.orderNumber;
+    const status = callbackData.status;
+
+    await db.collection("orders").doc(orderNumber).update({
+      paymentStatus: status,
+      updatedAt: new Date(),
+    });
+
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
   }
-});
-
-// Тестовая функция для проверки
-exports.helloWorld = onRequest((request, response) => {
-  logger.info("Hello logs!", {structuredData: true});
-  response.json({
-    message: "Hello from Firebase Functions!",
-    timestamp: new Date().toISOString(),
-    project: "bistro-app-acfb4"
-  });
 });
