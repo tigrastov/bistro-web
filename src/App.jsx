@@ -12,6 +12,8 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import LocationSelect from './Components/LocationSelect.jsx'; 
 import AddProduct from './Pages/AddProduct.jsx';
+import Success from './Pages/Success.jsx';
+import Fail from './Pages/Fail.jsx';
 
 
 function App() {
@@ -77,6 +79,19 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/auth" element={<Auth setUserData={setUserData} />} />
             <Route path="/admin" element={<AdminPanel location={effectiveLocation}userData={userData} />
+
+
+} />
+            <Route path="/success" element={<Success />} />
+            <Route path="/fail" element={<Fail />} />
+            <Route
+  path="/product/:id"
+  element={
+    <DetailView
+      location={effectiveLocation}
+      userData={userData}
+      setCartCount={setCartCount}
+    />
   }
 />
 
