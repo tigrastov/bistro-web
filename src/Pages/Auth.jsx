@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { auth, db } from '../firebase';
 import { setDoc, doc, deleteDoc } from "firebase/firestore";
+import { setPersistence, browserLocalPersistence } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { getDoc } from "firebase/firestore";
 import { 
@@ -53,7 +54,7 @@ function Auth({setUserData}) {
       const ref = doc(db, "users", user.uid);
       const snap = await getDoc(ref);
       if (snap.exists()) setUserData(snap.data());
-      navigate('/profile');
+      //navigate('/profile');
     } else {
       setUserData(null);
     }
@@ -98,6 +99,7 @@ function Auth({setUserData}) {
     e.preventDefault();
     try {
       if (isLogin) {
+        await setPersistence(auth, browserLocalPersistence);
         await signInWithEmailAndPassword(auth, email, password);
       } else {
         const { user } = await createUserWithEmailAndPassword(auth, email, password);
