@@ -73,3 +73,23 @@
     margin-bottom: 16px;
     text-align: center;
   }
+
+
+
+
+  .cancel-button{
+    width: 100%;
+    padding: 16px;
+    background: #e53935;
+    margin-top: 5px;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+    .cancel-button:hover:not(:disabled) {
+    background: #261200;
+  }
