@@ -119,3 +119,21 @@ body, html {
 }
 }
 
+
+.mini-cart {
+  position: fixed;
+  bottom: 20px;   /* левый нижний угол */
+  left: 20px;
+  background-color: #FF6600;  /* как кнопки каталога */
+  color: white;
+  font-family: Impact;
+  font-weight: bold;
+  padding: 12px 16px;
+  border-radius: 50px;       /* круглая форма */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  cursor: pointer;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

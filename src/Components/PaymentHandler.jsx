@@ -36,10 +36,9 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError }) => {
       const data = await response.json();
 
       if (data.success && data.paymentUrl) {
-        // редирект на страницу оплаты
+        
         window.location.href = data.paymentUrl;
-        // ⚠️ тут мы предполагаем, что Cloud Function/банк вернёт успех,
-        // и на callback в Cart вызовется onPaymentSuccess()
+      
       } else {
         throw new Error(data.message || 'Ошибка создания платежа');
       }

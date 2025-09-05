@@ -35,8 +35,8 @@ background-color: #261200;
 
 .detail-view {
   background: white;
-  border: 1px solid #ccc;
-  border-radius: 16px;
+  border: 10px solid #FF6600;
+  border-radius: 20px;
   padding: 20px 16px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   max-width: 420px;
