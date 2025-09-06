@@ -229,7 +229,7 @@ font-size: 18px;
   color: white;
   padding: 8px 12px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
@@ -239,7 +239,15 @@ font-size: 18px;
   position: relative;
   left: 0;
   transform: none;
+  transition: transform 0.3s ease, left 0.3s ease;
 }
+
+.change-location-btn:hover {
+
+  border: white 5px solid;
+  transform: scale(1.2);
+}
+
 
 @media (max-width: 768px) {
   .change-location-btn {

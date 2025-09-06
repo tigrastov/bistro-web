@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { locationNames } from './locationNames';
 import './PaymentHandler.css';
 
 const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError }) => {
@@ -36,9 +37,9 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError }) => {
       const data = await response.json();
 
       if (data.success && data.paymentUrl) {
-        
+
         window.location.href = data.paymentUrl;
-      
+
       } else {
         throw new Error(data.message || 'Ошибка создания платежа');
       }
@@ -54,6 +55,7 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError }) => {
     <div className="payment-handler">
       <h3>Оплата заказа</h3>
       <div className="order-summary">
+        <p>Адрес пункта заказа: <strong>{locationNames[order.location]}</strong></p>
         <p>Сумма к оплате: <strong>{order.totalAmount} ₽</strong></p>
         <p>Статус: <span className={`status ${order.status}`}>{order.status}</span></p>
         <div className="order-items">

@@ -114,7 +114,7 @@
 .dialog {
   background: #fff;
   padding: 24px 20px;
-
+ border-radius: 20px;
   box-shadow: 0 4px 32px rgba(0,0,0,0.18);
   display: flex;
   flex-direction: column;
@@ -201,4 +201,12 @@
   .dialog-overlay {
     align-items: flex-start;
   }
+}
+
+
+.auth-alreadys{
+background-color: white;
+border-radius: 20px;
+margin-top: 250px;
+padding: 20px;
 }

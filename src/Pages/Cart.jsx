@@ -13,6 +13,8 @@ import './Cart.css';
 import ConfirmModal from './ConfirmModal';
 import PaymentHandler from '../Components/PaymentHandler';
 
+
+
 function Cart({ setCartCount }) {
   const [cartItems, setCartItems] = useState([]);
   const [user, setUser] = useState(null);
@@ -47,7 +49,7 @@ function Cart({ setCartCount }) {
     setCartCount(0);
   };
 
-  // ⚡️ теперь заказ не сохраняется в Firestore, пока не будет оплаты
+  // ⚡️ заказ сохраняется локально, пока не оплачено
   const sendOrder = async () => {
     if (!user) {
       alert('Вы должны авторизоваться, чтобы оформить заказ');
@@ -76,8 +78,7 @@ function Cart({ setCartCount }) {
       0
     );
 
-    // сохраняем заказ только локально, пока не будет оплаты
-    setCurrentOrder({
+    const order = {
       totalAmount: total,
       status: 'ожидает оплаты',
       clientEmail: userData.email || '',
@@ -85,14 +86,18 @@ function Cart({ setCartCount }) {
       userId: user.uid,
       userPhone: userData.phone,
       items: cartItems,
-      location
-    });
+      location,
+    };
+
+    // сохраняем заказ в состоянии и localStorage, чтобы Success.js мог его прочитать
+    setCurrentOrder(order);
+    localStorage.setItem('currentOrder', JSON.stringify(order));
 
     setIsModalOpen(false);
     setShowPayment(true);
   };
 
-  // ✅ успешная оплата → создаём заказ в Firestore
+  // ✅ успешная оплата → заказ в Firestore
   const handlePaymentSuccess = async () => {
     if (!currentOrder) return;
 
@@ -107,7 +112,7 @@ function Cart({ setCartCount }) {
           items: currentOrder.items,
           total: currentOrder.totalAmount,
           createdAt: serverTimestamp(),
-          status: 'paid', // заказ точно оплачен
+          status: 'paid',
         }
       );
 
@@ -115,7 +120,6 @@ function Cart({ setCartCount }) {
       setShowPayment(false);
       setCurrentOrder(null);
       alert(`Заказ #${orderRef.id} успешно оплачен!`);
-
     } catch (error) {
       console.error('Ошибка при сохранении оплаченного заказа:', error);
       alert('Не удалось сохранить заказ после оплаты.');
@@ -132,7 +136,7 @@ function Cart({ setCartCount }) {
       <div className="cart-page">
         <div className="cart">
           <h1>Оплата заказа</h1>
-          <PaymentHandler 
+          <PaymentHandler
             order={currentOrder}
             onPaymentSuccess={handlePaymentSuccess}
             onPaymentError={handlePaymentError}
@@ -157,7 +161,9 @@ function Cart({ setCartCount }) {
                     <div className="left-space" />
                     <span>{item.quantity}</span>
                     <span>{item.name}</span>
-                    <span className="nowrap">{item.price * item.quantity} ₽</span>
+                    <span className="nowrap">
+                      {item.price * item.quantity} ₽
+                    </span>
                     <button
                       className="remove-item-btn"
                       onClick={() => removeItem(item.id)}
@@ -191,10 +197,8 @@ function Cart({ setCartCount }) {
 
             {isModalOpen && (
               <ConfirmModal
-                title="Подтвердить оформление заказа?"
-                onConfirm={() => {
-                  sendOrder();
-                }}
+                title={`Подтвердить оформление заказа ?`}
+                onConfirm={sendOrder}
                 onCancel={() => setIsModalOpen(false)}
               />
             )}

@@ -61,7 +61,9 @@ body, html {
 }
 
 .catalog-categories-button:hover {
-  background-color: #f0f0f0;
+
+  transform: scale(1.2);
+
 }
 
 .catalog-categories-button.active {
@@ -136,4 +138,8 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: center;
+  border: white 5px solid;
+
+
 }
+

@@ -5,7 +5,7 @@ import { setDoc, doc, deleteDoc } from "firebase/firestore";
 import { setPersistence, browserLocalPersistence } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { getDoc } from "firebase/firestore";
-import { 
+import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
@@ -31,10 +31,10 @@ const translateFirebaseError = (error) => {
   return errorMap[error.code] || 'Произошла неизвестная ошибка';
 };
 
-function Auth({setUserData}) {
+function Auth({ setUserData }) {
 
-   const navigate = useNavigate();
-   const [email, setEmail] = useState('');
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -47,20 +47,20 @@ function Auth({setUserData}) {
 
 
   useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, async (user) => {
-    setIsAuth(!!user);
-    setAuthLoading(false);
-    if (user) {
-      const ref = doc(db, "users", user.uid);
-      const snap = await getDoc(ref);
-      if (snap.exists()) setUserData(snap.data());
-      //navigate('/profile');
-    } else {
-      setUserData(null);
-    }
-  });
-  return unsubscribe;
-}, [navigate]);
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      setIsAuth(!!user);
+      setAuthLoading(false);
+      if (user) {
+        const ref = doc(db, "users", user.uid);
+        const snap = await getDoc(ref);
+        if (snap.exists()) setUserData(snap.data());
+        //navigate('/profile');
+      } else {
+        setUserData(null);
+      }
+    });
+    return unsubscribe;
+  }, [navigate]);
 
   const handleLogout = () => {
     setShowLogoutDialog(true);
@@ -75,25 +75,25 @@ function Auth({setUserData}) {
   };
 
   const confirmDeleteAccount = async () => {
-  try {
-    const user = auth.currentUser;
-    if (user) {
-      await deleteDoc(doc(db, "users", user.uid)); 
-      await deleteUser(user); 
+    try {
+      const user = auth.currentUser;
+      if (user) {
+        await deleteDoc(doc(db, "users", user.uid));
+        await deleteUser(user);
+      }
+      setIsAuth(false);
+      setEmail('');
+      setPassword('');
+    } catch (err) {
+      if (err.code === 'auth/requires-recent-login') {
+        setError('Для удаления аккаунта нужно заново войти. Пожалуйста, выйдите и войдите снова.');
+      } else {
+        setError('Ошибка при удалении аккаунта: ' + (err.message || ''));
+      }
     }
-    setIsAuth(false);
-    setEmail('');
-    setPassword('');
-  } catch (err) {
-    if (err.code === 'auth/requires-recent-login') {
-      setError('Для удаления аккаунта нужно заново войти. Пожалуйста, выйдите и войдите снова.');
-    } else {
-      setError('Ошибка при удалении аккаунта: ' + (err.message || ''));
-    }
-  }
-  setShowLogoutDialog(false);
-  navigate('/auth'); 
-};
+    setShowLogoutDialog(false);
+    navigate('/auth');
+  };
 
   const handleAuth = async (e) => {
     e.preventDefault();
@@ -110,12 +110,12 @@ function Auth({setUserData}) {
           email: user.email,
           name,
           phone,
-          role: "user", 
+          role: "user",
           createdAt: new Date()
         });
       }
       setIsAuth(true);
-      navigate('/profile'); 
+      navigate('/profile');
     } catch (err) {
       setError(translateFirebaseError(err));
       console.error('Ошибка Firestore:', err);
@@ -132,86 +132,85 @@ function Auth({setUserData}) {
       alert(`Письмо для сброса пароля отправлено на ${email}`);
     } catch (err) {
       setError(translateFirebaseError(err));
-      console.log('Firebase error code:', err.code); 
+      console.log('Firebase error code:', err.code);
     }
   };
 
   if (authLoading) {
-   return <div className="auth"><p>Загрузка...</p></div>;
+    return <div className="auth"><p>Загрузка...</p></div>;
   }
 
 
   if (resetMode) {
-  return (
-    <div className="auth">
-      <h2>Восстановление пароля</h2>
-      {error && <p className="error">{error}</p>}
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          if (!email) {
-            setError('Введите email для восстановления');
-            return;
-          }
-          try {
-            await sendPasswordResetEmail(auth, email);
-            alert(`Письмо для сброса пароля отправлено на ${email}`);
+    return (
+      <div className="auth">
+        <h2>Восстановление пароля</h2>
+        {error && <p className="error">{error}</p>}
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+            if (!email) {
+              setError('Введите email для восстановления');
+              return;
+            }
+            try {
+              await sendPasswordResetEmail(auth, email);
+              alert(`Письмо для сброса пароля отправлено на ${email}`);
+              setResetMode(false);
+              setError('');
+            } catch (err) {
+              setError(translateFirebaseError(err));
+            }
+          }}
+        >
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            required
+          />
+          <button type="submit" className="auth-btn">
+            Отправить письмо
+          </button>
+        </form>
+        <button
+          className="auth-link"
+          onClick={() => {
             setResetMode(false);
             setError('');
-          } catch (err) {
-            setError(translateFirebaseError(err));
-          }
-        }}
-      >
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          required
-        />
-        <button type="submit" className="auth-btn">
-          Отправить письмо
+          }}
+        >
+          Назад к авторизации
         </button>
-      </form>
-      <button
-        className="auth-link"
-        onClick={() => {
-          setResetMode(false);
-          setError('');
-        }}
-      >
-        Назад к авторизации
-      </button>
-    </div>
-  );
-}
+      </div>
+    );
+  }
 
 
 
   if (isAuth) {
     return (
       <div className="auth is-authenticated">
+        <div className='auth-alreadys'>
+          <h2> Мы всегда вам рады!</h2>
+         
+          <button
+            onClick={handleLogout}
+            className="logout-btn"
+          >
+            Выйти
+          </button>
+        </div>
 
-        <h2> Мы всегда вам рады!</h2>
-        {/* <p>Email: {auth.currentUser?.email}</p>
-        <p>Имя: {auth.currentUser?.displayName || 'Не указано'}</p> */}
-        {/* <p>Телефон: {localStorage.getItem('user_phone') || 'Не указан'}</p> */}
-        
-        <button 
-          onClick={handleLogout}
-          className="logout-btn"
-        >
-          Выйти
-        </button>
 
         {showLogoutDialog && (
           <div className="dialog-overlay">
             <div className="dialog">
               <p>Выйти?</p>
-              <button onClick={() => setShowLogoutDialog(false)}  className="auth-btn-green delete-btn">Отмена</button>
+              <button onClick={() => setShowLogoutDialog(false)} className="auth-btn-green delete-btn">Отмена</button>
               <button onClick={confirmLogout} className="auth-btn-yellow delete-btn">Выйти</button>
-              <button onClick={confirmDeleteAccount} className="auth-btn delete-btn delete-btn">Удалить аккаунт и 
+              <button onClick={confirmDeleteAccount} className="auth-btn delete-btn delete-btn">Удалить аккаунт и
                 все данные о пользователе</button>
             </div>
           </div>
@@ -267,14 +266,14 @@ function Auth({setUserData}) {
       <div className="auth-links">
         {isLogin && (
           <button
-  onClick={() => setResetMode(true)}
-  className="auth-link"
->
-  Забыли пароль?
-</button>
+            onClick={() => setResetMode(true)}
+            className="auth-link"
+          >
+            Забыли пароль?
+          </button>
         )}
-        <button 
-          onClick={() => setIsLogin(!isLogin)} 
+        <button
+          onClick={() => setIsLogin(!isLogin)}
           className="auth-link"
         >
           {isLogin ? 'Нет аккаунта? Создать' : 'Уже есть аккаунт? Войти'}

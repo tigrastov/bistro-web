@@ -172,16 +172,46 @@ function App() {
     localStorage.setItem("location", loc);
   };
 
-  useEffect(() => {
-    const updateCartCount = () => {
+
+
+  // внутри App(), заменяем старый useEffect подсчёта корзины на этот:
+useEffect(() => {
+  const updateCartCount = () => {
+    try {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const count = Array.isArray(cart)
+        ? cart.reduce((sum, item) => sum + (item.quantity || 0), 0)
+        : 0;
       setCartCount(count);
-    };
-    updateCartCount();
-    window.addEventListener('storage', updateCartCount);
-    return () => window.removeEventListener('storage', updateCartCount);
-  }, []);
+    } catch (e) {
+      console.error('Ошибка чтения cart из localStorage', e);
+      setCartCount(0);
+    }
+  };
+
+  // вызывать при монтировании / при смене location (см. deps)
+  updateCartCount();
+
+  const onStorage = (e) => {
+    // обработаем запись именно про cart (или если ключ null — перезапись)
+    if (!e.key || e.key === 'cart' || e.key === 'currentOrder') updateCartCount();
+  };
+
+  // кастомное событие — удобно, если мы будем диспатчить его из Cart.jsx
+  const onCartChanged = () => updateCartCount();
+
+  window.addEventListener('storage', onStorage);
+  window.addEventListener('cart-changed', onCartChanged);
+  window.addEventListener('focus', updateCartCount);
+
+  return () => {
+    window.removeEventListener('storage', onStorage);
+    window.removeEventListener('cart-changed', onCartChanged);
+    window.removeEventListener('focus', updateCartCount);
+  };
+}, [location.pathname, effectiveLocation]); // пересчёт при смене пути и/или локации
+
+
 
   return (
     <div className='app-container'>
@@ -193,6 +223,9 @@ function App() {
         onChangeLocation={() => {
           setLocationState("");
           localStorage.removeItem("location");
+          localStorage.removeItem("cart");
+          localStorage.removeItem("currentOrder");
+          setCartCount(0);
         }}
       />
 

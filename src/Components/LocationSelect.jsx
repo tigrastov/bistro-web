@@ -1,3 +1,4 @@
+import { locationNames } from './locationNames';
 import './LocationSelect.css'; 
 
 export default function LocationSelect({ onSelect }) {
@@ -5,8 +6,11 @@ export default function LocationSelect({ onSelect }) {
     <div className="location-overlay">
       <div className="location-modal">
         <h2>Выберите торговую точку</h2>
-        <button className='cuba' onClick={() => onSelect("Kubenskoye-Lenina-Street")}>с.Кубенское, Ленина</button>
-        <button className='karlmarks' onClick={() => onSelect("Vologda-Karla-Marksa-Street")}>г.Вологда, Карла Маркса, 17</button>
+        {Object.entries(locationNames).map(([key, name]) => (
+          <button className='btn-location' key={key} onClick={() => onSelect(key)}>
+            {name}
+          </button>
+        ))}
       </div>
     </div>
   );

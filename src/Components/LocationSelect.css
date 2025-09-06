@@ -9,8 +9,10 @@
   align-items: center;
   justify-content: center;
   z-index: 999;
-  font-family: Evolventa
+  font-family: Evolventa;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 
 .location-modal {
   background: #FFFF00;
@@ -38,13 +40,8 @@
   cursor: pointer;
 }
 
-.cuba {
-  background-color: white;
-  color: #261200;
-  font-weight: bold;
-}
 
-.karlmarks {
+.btn-location{
   background-color: white;
   color: #261200;
   font-weight: bold;
