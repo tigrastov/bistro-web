@@ -49,39 +49,27 @@
 .cart-list {
   display: flex;
   flex-direction: column;
-  gap: 10px; /* расстояние между карточками */
+  gap: 10px; 
   padding: 0;
   margin: 0;
   width: 100%;
 }
 
 .cart-item {
- position: relative;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
-  margin-bottom: 10px;
-  font-weight: 600;
-  color: #261200;
-  font-size: 1rem;
   display: flex;
-  align-items: center;
-  /* убрал max-height и overflow */
-  padding: 0; 
+  align-items: center;   
+  height: 50px;
+  border: #261200 2px solid;
+  padding: 0 8px;
+  box-sizing: border-box;
+  gap: 8px;
+  color: #261200;
 }
 
-/* Информация о товаре */
-.cart-item .info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 4px 8px;         /* минимальный паддинг */
-  width: 100%;
-  line-height: 1.2;
-}
+
 
 .remove-item-btn {
-  margin-left: auto; /* уезжает вправо */
+  margin-left: auto; 
   background-color: #DB2E27;
   color: white;
   border: none;
@@ -101,7 +89,7 @@
 .nowrap {
   white-space: nowrap;
   font-weight: bold;
-  background-color: #FFFF00;
+
 }
 
 .clear-cart-btn,

@@ -157,20 +157,13 @@ function Cart({ setCartCount }) {
             <ul className="cart-list">
               {cartItems.map((item) => (
                 <li key={item.id} className="cart-item">
-                  <div className="info">
-                    <div className="left-space" />
-                    <span>{item.quantity}</span>
-                    <span>{item.name}</span>
-                    <span className="nowrap">
-                      {item.price * item.quantity} ₽
-                    </span>
-                    <button
-                      className="remove-item-btn"
-                      onClick={() => removeItem(item.id)}
-                    >
-                      Удалить
-                    </button>
-                  </div>
+                  <div className="left-space" />
+                  <span>{item.quantity}</span>
+                  <span>{item.name}</span>
+                  <span className="nowrap">{item.price * item.quantity} ₽</span>
+                  <button className="remove-item-btn" onClick={() => removeItem(item.id)}>
+                    Удалить
+                  </button>
                 </li>
               ))}
             </ul>
