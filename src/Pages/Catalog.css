@@ -98,29 +98,27 @@ body, html {
 
 
 @media (max-width: 600px) {
-  .catalog-categories {
-    gap: 8px;
-    padding: 10px 6px;
-    justify-content: flex-start;
-  }
-
-  .catalog-categories-button {
-    font-size: 13px;
-    padding: 6px 12px;
+  .catalog-list-outer {
+    margin-top: 250px;
+    height: calc(100vh - 210px); /* оставшееся место под список */
+    overflow-y: auto;
+    padding: 0 8px;
+    display: block; /* больше не flex */
   }
 
   .catalog-list {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    max-width: 100%;
-    padding: 12px 4px 0 4px;
     gap: 14px;
+    max-width: 100%;
+    align-items: stretch; /* карточки растягиваются на всю ширину */
   }
-  .catalog-list-outer {
-  
-  margin-top: 210px; 
-}
+
+  .catalog-list > * {
+    flex: none;
+    width: 100%; /* карточки на всю ширину */
+    max-width: 100%;
+  }
 }
 
 
