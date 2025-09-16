@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { doc, getDoc, deleteDoc } from 'firebase/firestore';
+import { doc, getDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 
 import { db } from '../firebase';
 import './DetailView.css';
@@ -44,6 +44,17 @@ function DetailView({ location, userData, setCartCount }) {
     }
   };
 
+  const handleTogglePause = async () => {
+    try {
+      const ref = doc(db, `locations/${location}/products`, id);
+      const newPaused = !product?.paused;
+      await updateDoc(ref, { paused: newPaused });
+      setProduct(prev => prev ? { ...prev, paused: newPaused } : prev);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleAddToCart = () => {
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -76,6 +87,15 @@ function DetailView({ location, userData, setCartCount }) {
     );
   }
 
+  if (product.paused && !isAdmin) {
+    return (
+      <div className="detail-loading">
+        <Link to="/" className="back-to-catalog-button">В каталог товаров</Link>
+        <div className="paused-notice">Этот товар временно недоступен</div>
+      </div>
+    );
+  }
+
   return (
     <div className="detail-page no-header">
       
@@ -95,6 +115,9 @@ function DetailView({ location, userData, setCartCount }) {
           <div className="admin-actions">
             <button className="delete-button" onClick={handleDeleteProduct}>
               Удалить товар
+            </button>
+            <button className="pause-button" onClick={handleTogglePause}>
+              {product?.paused ? 'Снять с паузы' : 'Поставить на паузу'}
             </button>
           </div>
         ) : (
@@ -129,6 +152,9 @@ function DetailView({ location, userData, setCartCount }) {
           </div>
         )}
           <div className="detail-desc">{product.desc}</div>
+          {product?.paused && !isAdmin && (
+            <div className="paused-notice">Товар временно недоступен</div>
+          )}
        
       </div>
     </div>

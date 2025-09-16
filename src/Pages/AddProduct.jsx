@@ -37,6 +37,7 @@ function AddProduct({ location }) {
         price: Number(price),
         desc,
         photo: photoURL,
+        paused: false,
         createdAt: new Date()
       });
       setSuccess('Товар добавлен!');

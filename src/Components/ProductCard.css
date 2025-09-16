@@ -30,6 +30,16 @@
   border-color: #FF6600;
 }
 
+.catalog-item.paused {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.paused-label {
+  color: #8a0000;
+  font-weight: bold;
+}
+
 .catalog-item img {
   width: 100%;
   height: 140px;
