@@ -7,6 +7,7 @@ import {
   getDoc,
   collection,
   addDoc,
+  updateDoc,
   serverTimestamp,
 } from 'firebase/firestore';
 import './Cart.css';
@@ -99,31 +100,11 @@ function Cart({ setCartCount }) {
 
   // ✅ успешная оплата → заказ в Firestore
   const handlePaymentSuccess = async () => {
-    if (!currentOrder) return;
-
-    const db = getFirestore();
-    try {
-      const orderRef = await addDoc(
-        collection(db, 'locations', currentOrder.location, 'orders'),
-        {
-          userId: currentOrder.userId,
-          userName: currentOrder.clientName,
-          userPhone: currentOrder.userPhone,
-          items: currentOrder.items,
-          total: currentOrder.totalAmount,
-          createdAt: serverTimestamp(),
-          status: 'paid',
-        }
-      );
-
-      clearCart();
-      setShowPayment(false);
-      setCurrentOrder(null);
-      alert(`Заказ #${orderRef.id} успешно оплачен!`);
-    } catch (error) {
-      console.error('Ошибка при сохранении оплаченного заказа:', error);
-      alert('Не удалось сохранить заказ после оплаты.');
-    }
+    // После внедрения вебхука заказ обновляется сервером, здесь просто очистка
+    clearCart();
+    setShowPayment(false);
+    setCurrentOrder(null);
+    alert('Оплата успешно проведена. Заказ сохранён.');
   };
 
   const handlePaymentError = (error) => {

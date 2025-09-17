@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { locationNames } from './locationNames';
 import './PaymentHandler.css';
+import { getFirestore, addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
 const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,14 +13,31 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError }) => {
     setError(null);
 
     try {
-      // создаём платёж через Cloud Function
+      // 1) Создаём предзаказ (pending) в Firestore, получаем его ID
+      const db = getFirestore();
+      const preOrderRef = await addDoc(
+        collection(db, 'locations', order.location, 'orders'),
+        {
+          userId: order.userId,
+          userName: order.clientName,
+          userPhone: order.userPhone,
+          items: order.items,
+          total: order.totalAmount,
+          status: 'ожидает оплаты',
+          createdAt: serverTimestamp(),
+        }
+      );
+
+      const preOrderId = preOrderRef.id;
+
+      // 2) создаём платёж через Cloud Function и передаём preOrderId
       const response = await fetch(
         'https://us-central1-bistro-app-acfb4.cloudfunctions.net/createPayment',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            orderId: Date.now().toString(), // временный ID, Firestore даст свой
+            orderId: preOrderId,
             location: order.location,
             amount: order.totalAmount,
             description: `Заказ на ${order.totalAmount} ₽`,
