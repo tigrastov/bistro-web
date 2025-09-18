@@ -58,19 +58,21 @@ function AddProduct({ location }) {
     <div className="add-product">
       <h1>Добавить товар</h1>
       <form onSubmit={handleAdd}>
-       
+
         <select className='select' value={category} onChange={e => setCategory(e.target.value)} required>
-  <option value="">Выберите категорию</option>
-  <option value="drinks">Напитки</option>
-  <option value="appetizers">Закуски</option>
-  <option value="desserts">Десерты</option>
-  <option value="burgers">Бургеры</option>
-  <option value="shawarma">Шаурма</option>
-  <option value="sauces">Соусы</option>
-  <option value="french-fries">Картофель фри</option>
-  <option value="additionally">Дополнительно</option>
-  <option value="new">Новинки</option>
-</select>
+          <option value="">Выберите категорию</option>
+          <option value="drinks">Напитки</option>
+          <option value="appetizers">Закуски</option>
+          <option value="desserts">Десерты</option>
+          <option value="burgers">Бургеры</option>
+          <option value="shawarma">Шаурма</option>
+          <option value="sauces">Соусы</option>
+          <option value="french-fries">Картофель </option>
+          <option value="additionally">Дополнительно</option>
+          <option value="hot-dogs">Хот-Доги</option>
+          <option value="combo">Комбо</option>
+          <option value="new">Новинки</option>
+        </select>
 
         <input
           type="text"
