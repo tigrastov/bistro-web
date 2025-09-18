@@ -120,6 +120,7 @@ function AdminPanel({ location, userData }) {
             <li key={order.id} className="admin-order-card">
               <div className="admin-order-header">
                 <span>Пользователь: {order.userName || 'Неизвестно'}</span>
+                 <span>Телефон: {order.userPhone || 'Неизвестно'}</span>
                 <span>
                   {order.createdAt
                     ? new Date(order.createdAt.seconds * 1000).toLocaleString()
