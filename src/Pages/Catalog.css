@@ -124,14 +124,14 @@ body, html {
 
 .mini-cart {
   position: fixed;
-  bottom: 20px;   /* левый нижний угол */
+  bottom: 20px;   
   left: 20px;
-  background-color: #FF6600;  /* как кнопки каталога */
+  background-color: #FF6600;  
   color: white;
   font-family: Impact;
   font-weight: bold;
-  padding: 12px 16px;
-  border-radius: 50px;       /* круглая форма */
+  padding: 16px 18px;
+  border-radius: 50px;       
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   cursor: pointer;
   z-index: 200;
@@ -139,7 +139,31 @@ body, html {
   align-items: center;
   justify-content: center;
   border: white 5px solid;
-
+  transition: transform 0.2s ease;
 
 }
 
+.mini-cart:hover {
+  border-color: #FFFF00;
+}
+
+.mini-orders{
+  position: fixed;
+  left: 20px;
+  bottom: 100px;
+  z-index: 9999;
+  padding: 16px 20px;
+  border-radius: 50px;
+  background: #FFFF00;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  cursor: pointer;
+  user-select: none;
+  font-size: 20px;
+  font-weight: bold;
+  border: #FF6600 5px solid;
+  transition: transform 0.2s ease;
+}
+
+.mini-orders:hover {
+  border-color: white;
+}

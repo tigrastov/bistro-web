@@ -7,7 +7,7 @@ import ProductCard from '../Components/ProductCard';
 import './Catalog.css';
 
 
-function Catalog({ location, cartCount, ordersCount }) {
+function Catalog({ location, cartCount, hasOrders }) {
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState('all');
   const navigate = useNavigate();
@@ -62,7 +62,8 @@ function Catalog({ location, cartCount, ordersCount }) {
           🛒 {cartCount}
         </motion.div>
       )}
-      {ordersCount > 0 && (
+
+       {hasOrders && (
         <motion.div
           className="mini-orders"
           onClick={() => navigate('/orders')}
@@ -71,7 +72,7 @@ function Catalog({ location, cartCount, ordersCount }) {
           exit={{ opacity: 0, scale: 0.5 }}
           transition={{ duration: 0.5, ease: [0.42, 0, 0.58, 1] }}
         >
-          🛍️ {ordersCount}
+          🛍️
         </motion.div>
       )}
     </div>
@@ -79,3 +80,7 @@ function Catalog({ location, cartCount, ordersCount }) {
 }
 
 export default Catalog;
+
+
+
+
