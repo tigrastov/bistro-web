@@ -3,6 +3,11 @@ const admin = require("firebase-admin");
 const crypto = require("crypto");
 const fetch = require("node-fetch");
 
+const { onDocumentCreated } = require("firebase-functions/v2/firestore");
+
+// Переменные окружения для Telegram (настраиваются через Firebase CLI)
+
+
 if (!admin.apps.length) admin.initializeApp();
 const db = admin.firestore();
 
@@ -221,3 +226,62 @@ exports.paymentWebhook = functions.https.onRequest(async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 });
+
+
+
+
+// Новый заказ → сообщение в телегу
+exports.newOrder = onDocumentCreated({
+  document: "locations/{location}/orders/{orderId}",
+  secrets: ["TELEGRAM_BOT_TOKEN", "TELEGRAM_CHAT_ID"]
+}, async (event) => {
+  try {
+    console.log("newOrder function triggered!");
+    const snap = event.data;
+    if (!snap) {
+      console.log("No snapshot data, exiting");
+      return;
+    }
+    
+    const order = snap.data();
+    const location = event.params.location;
+    const orderId = event.params.orderId;
+    
+    // Формируем список товаров
+    let itemsText = "";
+    if (order.items && Array.isArray(order.items)) {
+      itemsText = order.items.map(item => 
+        `• ${item.name} × ${item.quantity} = ${item.price * item.quantity} ₽`
+      ).join("\n");
+    } else {
+      itemsText = "Товары не указаны";
+    }
+    
+    // Формируем сообщение
+    const displayOrderNumber = order.orderNumber ? `#${String(order.orderNumber).padStart(4, '0')}` : `#${orderId}`;
+    const text = `🛒 <b>Новый заказ ${displayOrderNumber}</b>
+
+📍 <b>Локация:</b> ${location}
+👤 <b>Имя:</b> ${order.userName || order.name || "Не указано"}
+📞 <b>Телефон:</b> ${order.userPhone || order.phone || "Не указан"}
+💰 <b>Сумма:</b> ${order.total || 0} ₽
+📦 <b>Статус:</b> ${order.status || "новый"}
+
+🛍️ <b>Товары:</b>
+${itemsText}
+
+
+
+    const { sendTelegramMessage } = require("./telegram");
+    const success = await sendTelegramMessage(text);
+    
+    if (success) {
+      console.log(`Уведомление о заказе ${orderId} отправлено в Telegram`);
+    } else {
+      console.error(`Не удалось отправить уведомление о заказе ${orderId}`);
+    }
+  } catch (error) {
+    console.error("Ошибка при отправке уведомления о новом заказе:", error);
+  }
+});
+

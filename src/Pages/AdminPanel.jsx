@@ -119,8 +119,9 @@ function AdminPanel({ location, userData }) {
           {currentOrders.map((order) => (
             <li key={order.id} className="admin-order-card">
               <div className="admin-order-header">
+                <span><strong>Заказ #{order.orderNumber ? String(order.orderNumber).padStart(4, '0') : order.id}</strong></span>
                 <span>Пользователь: {order.userName || 'Неизвестно'}</span>
-                 <span>Телефон: {order.userPhone || 'Неизвестно'}</span>
+                <span>Телефон: {order.userPhone || 'Неизвестно'}</span>
                 <span>
                   {order.createdAt
                     ? new Date(order.createdAt.seconds * 1000).toLocaleString()

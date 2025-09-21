@@ -2,18 +2,47 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { locationNames } from './locationNames';
 import './PaymentHandler.css';
-import { getFirestore, addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { getFirestore, addDoc, collection, serverTimestamp, doc, updateDoc, getDoc, increment, setDoc } from 'firebase/firestore';
 
 const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  // Функция для получения следующего номера заказа
+  const getNextOrderNumber = async (location) => {
+    const db = getFirestore();
+    const counterRef = doc(db, 'counters', `orders_${location}`);
+    
+    try {
+      const counterSnap = await getDoc(counterRef);
+      if (counterSnap.exists()) {
+        // Увеличиваем счетчик
+        const currentCount = counterSnap.data().count;
+        const newCount = currentCount + 1;
+        await updateDoc(counterRef, { count: newCount });
+        return newCount;
+      } else {
+        // Создаем новый счетчик
+        await setDoc(counterRef, { count: 1 });
+        return 1;
+      }
+    } catch (error) {
+      console.error('Ошибка при получении номера заказа:', error);
+      // Fallback - используем простой номер
+      return Math.floor(Math.random() * 1000) + 1;
+    }
+  };
+
   const handlePayment = async () => {
     setIsLoading(true);
     setError(null);
 
     try {
-      // 1) Создаём предзаказ (pending) в Firestore, получаем его ID
+      // 1) Получаем следующий номер заказа
+      const orderNumber = await getNextOrderNumber(order.location);
+      
+      // 2) Создаём предзаказ (pending) в Firestore, получаем его ID
       const db = getFirestore();
       const preOrderRef = await addDoc(
         collection(db, 'locations', order.location, 'orders'),
@@ -24,6 +53,7 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError }) => {
           items: order.items,
           total: order.totalAmount,
           status: 'ожидает оплаты',
+          orderNumber: orderNumber,
           createdAt: serverTimestamp(),
         }
       );

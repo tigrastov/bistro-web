@@ -88,6 +88,7 @@ const goToPrevPage = () => {
       {currentOrders.map((order) => (
         <li key={order.id} className="order-card">
           <div className="order-header">
+            <span className="order-number"><strong>Заказ #{order.orderNumber ? String(order.orderNumber).padStart(4, '0') : order.id}</strong></span>
             <span className="order-location">Торговая точка: {order.location}</span>
             <span className="order-date">
               {order.createdAt
