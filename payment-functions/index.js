@@ -268,7 +268,7 @@ exports.newOrder = onDocumentCreated({
 📦 <b>Статус:</b> ${order.status || "новый"}
 
 🛍️ <b>Товары:</b>
-${itemsText}
+${itemsText}`;
 
 
 
