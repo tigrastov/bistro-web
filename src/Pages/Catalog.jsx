@@ -42,6 +42,8 @@ function Catalog({ location, cartCount, hasOrders }) {
         <button className={`catalog-categories-button ${category === 'sauces' ? 'active' : ''}`} onClick={() => setCategory('sauces')}>Соусы</button>
         <button className={`catalog-categories-button ${category === 'additionally' ? 'active' : ''}`} onClick={() => setCategory('additionally')}>Дополнительно</button>
         <button className={`catalog-categories-button ${category === 'new' ? 'active' : ''}`} onClick={() => setCategory('new')}>Новинки</button>
+        <button className={`catalog-categories-button ${category === 'delivery-coupons' ? 'active' : ''}`} onClick={() => setCategory('delivery-coupons')}>Купоны на доставку</button>
+         <button className={`catalog-categories-button ${category === 'company-coupons' ? 'active' : ''}`} onClick={() => setCategory('company-coupons')}>Купоны в предприятии</button>
       </div>
       <div className="catalog-list-outer">
         <div className="catalog-list">

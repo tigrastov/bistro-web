@@ -40,12 +40,15 @@ function App() {
   const [hasOrders, setHasOrders] = useState(!!localStorage.getItem('hasOrders'));
 
   const isAdminCuba = userData?.role === 'adminCuba';
+  const isTerminalCuba = userData?.role === 'terminalCuba';
+  const isTerminalKarlMarks = userData?.role === 'terminalKarlMarks';
   const isAdminKarlMarks = userData?.role === 'adminKarlMarks';
   const isAdmin = isAdminCuba || isAdminKarlMarks;
+  const isTerminal = isTerminalCuba || isTerminalKarlMarks;
 
-  const effectiveLocation = isAdminCuba
+  const effectiveLocation = isAdminCuba || isTerminalCuba
     ? 'Kubenskoye-Lenina-Street'
-    : isAdminKarlMarks
+    : isAdminKarlMarks || isTerminalKarlMarks
       ? 'Vologda-Karla-Marksa-Street'
       : locationState;
 
@@ -160,6 +163,7 @@ function App() {
         userData={userData}
         location={effectiveLocation}
         isAdmin={isAdmin}
+        isTerminal={isTerminal}
         cartCount={cartCount}
         onChangeLocation={() => {
           setLocationState("");

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Header.css';
 
-export default function Header({ userData, location, isAdmin, onChangeLocation, cartCount }) {
+export default function Header({ userData, location, isAdmin, isTerminal, onChangeLocation, cartCount }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -15,7 +15,7 @@ export default function Header({ userData, location, isAdmin, onChangeLocation, 
           <img src="/logoFull.png" alt="Логотип" />
         </button>
 
-        {!isAdmin && location && (
+        {!isAdmin && !isTerminal && location && (
           <div className="current-location">
             <button className="change-location-btn" onClick={onChangeLocation}>
               <img
@@ -61,8 +61,18 @@ export default function Header({ userData, location, isAdmin, onChangeLocation, 
         {userData && (userData.role === 'adminCuba' || userData.role === 'adminKarlMarks') && (
           <NavLink to="/admin" onClick={() => setIsOpen(false)}>Админ-панель</NavLink>
         )}
+
+        {!isTerminal && userData && (
         <NavLink to="/profile" onClick={() => setIsOpen(false)}>Профиль</NavLink>
-        <NavLink to="/auth" onClick={() => setIsOpen(false)}>Вход/Регистрация</NavLink>
+        )}
+
+      {!userData && !isTerminal && (
+
+      <NavLink to="/auth" onClick={() => setIsOpen(false)}>Вход/Регистрация</NavLink>
+      )} 
+
+
+        
       </nav>
     </header>
   );

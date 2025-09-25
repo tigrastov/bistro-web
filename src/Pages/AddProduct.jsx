@@ -72,6 +72,8 @@ function AddProduct({ location }) {
           <option value="hot-dogs">Хот-Доги</option>
           <option value="combo">Комбо</option>
           <option value="new">Новинки</option>
+           <option value="delivery coupons">Купоны на доставку</option>
+            <option value="company coupons">Купоны в предприятии</option>
         </select>
 
         <input
