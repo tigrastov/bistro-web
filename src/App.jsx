@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { db } from './firebase';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, onSnapshot, query, where } from 'firebase/firestore';
 
 import Header from './Components/Header';
 import Catalog from './Pages/Catalog';
@@ -33,7 +33,14 @@ function AppWrapper() {
 function App() {
   const location = useLocation(); // безопасно, потому что внутри Router
 
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState(() => {
+    try {
+      const cached = localStorage.getItem('userData');
+      return cached ? JSON.parse(cached) : null;
+    } catch {
+      return null;
+    }
+  });
   const [locationState, setLocationState] = useState(() => localStorage.getItem("location") || "");
   const [cartCount, setCartCount] = useState(0);
 
@@ -88,6 +95,64 @@ function App() {
 
     setHasOrders(flag);
   };
+
+  // Загрузка профиля пользователя и кэширование
+  useEffect(() => {
+    const auth = getAuth();
+    const unsub = onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        setUserData(null);
+        localStorage.removeItem('userData');
+        setHasOrders(false);
+        return;
+      }
+      try {
+        const userRef = doc(db, 'users', user.uid);
+        const snap = await getDoc(userRef);
+        const profile = snap.exists() ? (snap.data() || null) : null;
+        setUserData(profile);
+        try { localStorage.setItem('userData', JSON.stringify(profile)); } catch {}
+      } catch {
+        // игнорируем сбои чтения профиля, оставляем предыдущее состояние
+      }
+      // после авторизации перепроверим заказы
+      checkHasOrders();
+    });
+    return () => unsub();
+  }, []);
+
+  // Реактивная подписка на заказы пользователя по обеим локациям
+  useEffect(() => {
+    const auth = getAuth();
+    const current = auth.currentUser;
+    if (!current) return;
+
+    const locationIds = ['Kubenskoye-Lenina-Street', 'Vologda-Karla-Marksa-Street'];
+    const unsubscribers = [];
+    let hasActive = false;
+
+    for (const locationId of locationIds) {
+      const ordersRef = collection(db, 'locations', locationId, 'orders');
+      const qy = query(ordersRef, where('userId', '==', current.uid));
+      const unsub = onSnapshot(qy, (snapshot) => {
+        let flag = false;
+        snapshot.forEach((docSnap) => {
+          const statusRaw = (docSnap.data()?.status || '').toString().trim().toLowerCase();
+          const done = statusRaw === 'завершён' || statusRaw === 'завершен' || statusRaw === 'отменён' || statusRaw === 'отменен' || statusRaw === 'completed' || statusRaw === 'cancelled' || statusRaw === 'canceled';
+          if (!done) flag = true;
+        });
+        hasActive = hasActive || flag;
+        // Если в этой локации нет активных и ранее было true из другой, оставим true
+        // Если обе локации дадут false, hasActive станет false после двух вызовов
+        setHasOrders((prev) => flag || (prev && !flag));
+      });
+      unsubscribers.push(unsub);
+    }
+
+    return () => {
+      unsubscribers.forEach((fn) => { try { fn(); } catch {} });
+    };
+  }, [getAuth().currentUser?.uid]);
 
   useEffect(() => {
     const updateCartCount = () => {
@@ -150,11 +215,14 @@ function App() {
 
   // Важное: ждём готовность auth и реактивно проверяем заказы
   useEffect(() => {
-    const auth = getAuth();
-    const unsub = onAuthStateChanged(auth, () => {
-      checkHasOrders();
-    });
-    return () => unsub();
+    const onFocus = () => checkHasOrders();
+    const onVisible = () => { if (document.visibilityState === 'visible') checkHasOrders(); };
+    window.addEventListener('focus', onFocus);
+    document.addEventListener('visibilitychange', onVisible);
+    return () => {
+      window.removeEventListener('focus', onFocus);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
   }, []);
 
   return (
