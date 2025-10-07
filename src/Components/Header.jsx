@@ -30,9 +30,6 @@ export default function Header({ userData, location, isAdmin, isTerminal, onChan
       </div>
 
 
-      {/* <div className="logo-center">
-        <img src="public/LogoText.png" alt="LogoText" />
-      </div> */}
 
 
       <div className="burger-wrap">
@@ -49,15 +46,30 @@ export default function Header({ userData, location, isAdmin, isTerminal, onChan
 
       <nav className={`nav ${isOpen ? 'open' : ''}`}>
         <NavLink to="/" end onClick={() => setIsOpen(false)}>Меню</NavLink>
-        <NavLink to="/cart" onClick={() => setIsOpen(false)} className="cart-link">
-          Корзина
-          {cartCount > 0 && <span className="cart-badge inline">{cartCount}</span>}
-        </NavLink>
-        {/* <NavLink to="/orders" onClick={() => setIsOpen(false)}>Мои заказы</NavLink> */}
+
+
+
+        
+
+{!isAdmin && (
+    <NavLink to="/cart" onClick={() => setIsOpen(false)} className="cart-link">
+      Корзина
+      {cartCount > 0 && <span className="cart-badge inline">{cartCount}</span>}
+    </NavLink>
+  )}
+
+
         {!isAdmin && (
   <NavLink to="/orders" onClick={() => setIsOpen(false)}>Мои заказы</NavLink>
 )}
-        <NavLink to="/info" onClick={() => setIsOpen(false)}>О нас</NavLink>
+
+
+{!isAdmin && !isTerminal && (
+  <NavLink to="/info" onClick={() => setIsOpen(false)}>О нас</NavLink> 
+)}
+       
+
+
         {userData && (userData.role === 'adminCuba' || userData.role === 'adminKarlMarks') && (
           <NavLink to="/admin" onClick={() => setIsOpen(false)}>Админ-панель</NavLink>
         )}
