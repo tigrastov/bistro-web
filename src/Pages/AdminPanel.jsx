@@ -8,6 +8,7 @@ import {
   orderBy,
   updateDoc,
   doc,
+  onSnapshot,
 } from 'firebase/firestore';
 import { NavLink } from 'react-router-dom';
 
@@ -34,36 +35,102 @@ function AdminPanel({ location, userData }) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      if (!location || !userData) {
-        console.warn('Нет локации или данных пользователя');
-        return;
+  
+
+
+
+//   useEffect(() => {
+//   if (!location || !userData) {
+//     console.warn('Нет локации или данных пользователя');
+//     return;
+//   }
+
+//   const ordersRef = collection(db, 'locations', location, 'orders');
+//   const q = query(ordersRef, orderBy('createdAt', 'desc'));
+
+//   // 🔥 Реальное время: обновляет заказы автоматически
+//   const unsubscribe = onSnapshot(q, (snapshot) => {
+//     const updatedOrders = snapshot.docs.map((doc) => ({
+//       id: doc.id,
+//       ...doc.data(),
+//     }));
+//     setOrders(updatedOrders);
+//     setLoading(false);
+//   }, (error) => {
+//     console.error('Ошибка при получении заказов:', error);
+//     setLoading(false);
+//   });
+
+//   // Чистим слушатель при размонтировании
+//   return () => unsubscribe();
+// }, [location, userData, db]);
+
+useEffect(() => {
+  if (!location || !userData) {
+    console.warn('Нет локации или данных пользователя');
+    return;
+  }
+
+  const ordersRef = collection(db, 'locations', location, 'orders');
+  const q = query(ordersRef, orderBy('createdAt', 'desc'));
+
+  let prevOrderIds = new Set(); // запомним старые заказы
+  let notificationActive = false;
+  const audio = new Audio('/sounds/notify.mp3');
+
+  const unsubscribe = onSnapshot(
+    q,
+    (snapshot) => {
+      const updatedOrders = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      // проверяем новые заказы
+      const newOrders = updatedOrders.filter((o) => !prevOrderIds.has(o.id));
+
+      if (prevOrderIds.size > 0 && newOrders.length > 0 && !notificationActive) {
+        notificationActive = true;
+
+        // 🔔 звук
+        audio.play().catch(() => {});
+
+        // 🔴 мигание вкладки
+        const originalTitle = document.title;
+        let flash = true;
+        const interval = setInterval(() => {
+          document.title = flash ? '🛒 Новый заказ!' : originalTitle;
+          flash = !flash;
+        }, 1000);
+
+        // прекращаем мигание при активности
+        const stopNotification = () => {
+          clearInterval(interval);
+          document.title = originalTitle;
+          notificationActive = false;
+          window.removeEventListener('focus', stopNotification);
+          window.removeEventListener('click', stopNotification);
+        };
+
+        window.addEventListener('focus', stopNotification);
+        window.addEventListener('click', stopNotification);
       }
 
-      try {
-        const ordersRef = collection(db, 'locations', location, 'orders');
-        const q = query(ordersRef, orderBy('createdAt', 'desc'));
-        const querySnapshot = await getDocs(q);
+      prevOrderIds = new Set(updatedOrders.map((o) => o.id));
+      setOrders(updatedOrders);
+      setLoading(false);
+    },
+    (error) => {
+      console.error('Ошибка при получении заказов:', error);
+      setLoading(false);
+    }
+  );
 
-        const loadedOrders = [];
-        querySnapshot.forEach((doc) => {
-          loadedOrders.push({
-            id: doc.id,
-            ...doc.data(),
-          });
-        });
+  return () => unsubscribe();
+}, [location, userData, db]);
 
-        setOrders(loadedOrders);
-      } catch (error) {
-        console.error('Ошибка при загрузке заказов:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchOrders();
-  }, [location, userData, db]);
+
 
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
