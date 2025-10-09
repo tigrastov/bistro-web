@@ -3,9 +3,9 @@ import { getAuth } from 'firebase/auth';
 import {
   getFirestore,
   collection,
-  getDocs,
   query,
   where,
+  onSnapshot, 
 } from 'firebase/firestore';
 import './Orders.css';
 
@@ -31,44 +31,94 @@ const goToPrevPage = () => {
   if (currentPage > 1) setCurrentPage(currentPage - 1);
 };
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      const user = auth.currentUser;
-      if (!user) return;
+  // useEffect(() => {
+  //   const fetchOrders = async () => {
+  //     const user = auth.currentUser;
+  //     if (!user) return;
 
-      try {
-        const locationIds = ['Kubenskoye-Lenina-Street', 'Vologda-Karla-Marksa-Street'];
-        const allOrders = [];
+  //     try {
+  //       const locationIds = ['Kubenskoye-Lenina-Street', 'Vologda-Karla-Marksa-Street'];
+  //       const allOrders = [];
 
-        for (const locationId of locationIds) {
-          const ordersRef = collection(db, 'locations', locationId, 'orders');
-          const q = query(ordersRef, where('userId', '==', user.uid));
-          const querySnapshot = await getDocs(q);
+  //       for (const locationId of locationIds) {
+  //         const ordersRef = collection(db, 'locations', locationId, 'orders');
+  //         const q = query(ordersRef, where('userId', '==', user.uid));
+  //         const querySnapshot = await getDocs(q);
 
-          querySnapshot.forEach((doc) => {
-            allOrders.push({
-              id: doc.id,
-              location: locationId,
-              ...doc.data(),
-            });
-          });
-        }
+  //         querySnapshot.forEach((doc) => {
+  //           allOrders.push({
+  //             id: doc.id,
+  //             location: locationId,
+  //             ...doc.data(),
+  //           });
+  //         });
+  //       }
 
+  //       allOrders.sort((a, b) => {
+  //         const dateA = a.createdAt?.seconds || 0;
+  //         const dateB = b.createdAt?.seconds || 0;
+  //         return dateB - dateA;
+  //       });
+
+  //       setOrders(allOrders.filter(order => order.status !== 'ожидает оплаты'));
+  //     } catch (error) {
+  //       console.error('Ошибка при получении заказов:', error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchOrders();
+  // }, [auth.currentUser, db]);
+
+   useEffect(() => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const locationIds = ['Kubenskoye-Lenina-Street', 'Vologda-Karla-Marksa-Street'];
+    const unsubscribes = [];
+
+    const allOrders = [];
+
+    locationIds.forEach((locationId) => {
+      const ordersRef = collection(db, 'locations', locationId, 'orders');
+      const q = query(ordersRef, where('userId', '==', user.uid));
+
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        snapshot.docChanges().forEach((change) => {
+          const data = { id: change.doc.id, location: locationId, ...change.doc.data() };
+
+          if (change.type === 'added') {
+            allOrders.push(data);
+          } else if (change.type === 'modified') {
+            const idx = allOrders.findIndex((o) => o.id === data.id);
+            if (idx !== -1) allOrders[idx] = data;
+          } else if (change.type === 'removed') {
+            const idx = allOrders.findIndex((o) => o.id === data.id);
+            if (idx !== -1) allOrders.splice(idx, 1);
+          }
+        });
+
+        // сортировка по дате
         allOrders.sort((a, b) => {
           const dateA = a.createdAt?.seconds || 0;
           const dateB = b.createdAt?.seconds || 0;
           return dateB - dateA;
         });
 
-        setOrders(allOrders.filter(order => order.status !== 'ожидает оплаты'));
-      } catch (error) {
-        console.error('Ошибка при получении заказов:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+        // фильтр — без "ожидает оплаты"
+        const visibleOrders = allOrders.filter(
+          (order) => order.status !== 'ожидает оплаты'
+        );
 
-    fetchOrders();
+        setOrders([...visibleOrders]);
+        setLoading(false);
+      });
+
+      unsubscribes.push(unsubscribe);
+    });
+
+    return () => unsubscribes.forEach((u) => u());
   }, [auth.currentUser, db]);
 
   if (loading) {
