@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { useWorkingHours } from '../hooks/useWorkingHours';
+
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import {
   getFirestore,
@@ -11,12 +14,18 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 import './Cart.css';
+import ClosedScreen from '../Components/ClosedScreen';
 import ConfirmModal from './ConfirmModal';
 import PaymentHandler from '../Components/PaymentHandler';
 
 
 
 function Cart({ setCartCount }) {
+
+  const { isOpen, serverTime } = useWorkingHours(9, 21.30, ); // открыто с 9:00 до 21:30 по МСК
+  const [isClosedModal, setIsClosedModal] = useState(false);
+
+
   const [cartItems, setCartItems] = useState([]);
   const [user, setUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -50,6 +59,15 @@ function Cart({ setCartCount }) {
     setCartCount(0);
   };
 
+
+  useEffect(() => {
+    if (serverTime) {
+      console.log("Серверное время Firebase:", serverTime.toLocaleString());
+      console.log("Локальное время компьютера:", new Date().toLocaleString());
+    }
+  }, [serverTime]);
+
+
   // ⚡️ заказ сохраняется локально, пока не оплачено
   const sendOrder = async () => {
     if (!user) {
@@ -62,6 +80,12 @@ function Cart({ setCartCount }) {
     if (!location) {
       alert('Локация не выбрана');
       return;
+    }
+
+    // Проверка через серверное время
+    if (!isOpen) {
+      setIsClosedModal(true);
+      return; // не продолжаем оформление заказа
     }
 
     const db = getFirestore();
@@ -90,13 +114,13 @@ function Cart({ setCartCount }) {
       location,
     };
 
-    // сохраняем заказ в состоянии и localStorage, чтобы Success.js мог его прочитать
     setCurrentOrder(order);
     localStorage.setItem('currentOrder', JSON.stringify(order));
 
     setIsModalOpen(false);
     setShowPayment(true);
   };
+
 
   // ✅ успешная оплата → заказ в Firestore
   const handlePaymentSuccess = async () => {
@@ -169,6 +193,7 @@ function Cart({ setCartCount }) {
               Оформить заказ
             </button>
 
+
             {isModalOpen && (
               <ConfirmModal
                 title={`Подтвердить оформление заказа ?`}
@@ -179,6 +204,12 @@ function Cart({ setCartCount }) {
           </>
         )}
       </div>
+
+
+      {isClosedModal && <ClosedScreen onClose={() => setIsClosedModal(false)} />}
+
+
+
     </div>
   );
 }

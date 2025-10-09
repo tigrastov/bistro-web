@@ -5,6 +5,12 @@ function ConfirmModal({ title, message, onConfirm, onCancel }) {
   return (
     <div className="modal-overlay">
       <div className="modal">
+
+      <div className="warning-note">
+        Важно! При оформлении интернет-заказа необходимо правильно выбрать 
+        ТОРГОВУЮ ТОЧКУ (красная кнопка сверху).
+      </div>
+
         <h2>{title || 'Подтверждение'}</h2>
         {/* <p>{message || 'Вы уверены?'}</p> */}
         <div className="modal-buttons">

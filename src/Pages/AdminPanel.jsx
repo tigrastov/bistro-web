@@ -30,104 +30,104 @@ function AdminPanel({ location, userData }) {
       setOrdersPerPage(window.innerWidth > 768 ? 10 : 5);
     };
 
-    handleResize(); 
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  
 
 
 
-//   useEffect(() => {
-//   if (!location || !userData) {
-//     console.warn('Нет локации или данных пользователя');
-//     return;
-//   }
 
-//   const ordersRef = collection(db, 'locations', location, 'orders');
-//   const q = query(ordersRef, orderBy('createdAt', 'desc'));
+  //   useEffect(() => {
+  //   if (!location || !userData) {
+  //     console.warn('Нет локации или данных пользователя');
+  //     return;
+  //   }
 
-//   // 🔥 Реальное время: обновляет заказы автоматически
-//   const unsubscribe = onSnapshot(q, (snapshot) => {
-//     const updatedOrders = snapshot.docs.map((doc) => ({
-//       id: doc.id,
-//       ...doc.data(),
-//     }));
-//     setOrders(updatedOrders);
-//     setLoading(false);
-//   }, (error) => {
-//     console.error('Ошибка при получении заказов:', error);
-//     setLoading(false);
-//   });
+  //   const ordersRef = collection(db, 'locations', location, 'orders');
+  //   const q = query(ordersRef, orderBy('createdAt', 'desc'));
 
-//   // Чистим слушатель при размонтировании
-//   return () => unsubscribe();
-// }, [location, userData, db]);
+  //   // 🔥 Реальное время: обновляет заказы автоматически
+  //   const unsubscribe = onSnapshot(q, (snapshot) => {
+  //     const updatedOrders = snapshot.docs.map((doc) => ({
+  //       id: doc.id,
+  //       ...doc.data(),
+  //     }));
+  //     setOrders(updatedOrders);
+  //     setLoading(false);
+  //   }, (error) => {
+  //     console.error('Ошибка при получении заказов:', error);
+  //     setLoading(false);
+  //   });
 
-useEffect(() => {
-  if (!location || !userData) {
-    console.warn('Нет локации или данных пользователя');
-    return;
-  }
+  //   // Чистим слушатель при размонтировании
+  //   return () => unsubscribe();
+  // }, [location, userData, db]);
 
-  const ordersRef = collection(db, 'locations', location, 'orders');
-  const q = query(ordersRef, orderBy('createdAt', 'desc'));
-
-  let prevOrderIds = new Set(); // запомним старые заказы
-  let notificationActive = false;
-  const audio = new Audio('/sounds/notify.mp3');
-
-  const unsubscribe = onSnapshot(
-    q,
-    (snapshot) => {
-      const updatedOrders = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
-      // проверяем новые заказы
-      const newOrders = updatedOrders.filter((o) => !prevOrderIds.has(o.id));
-
-      if (prevOrderIds.size > 0 && newOrders.length > 0 && !notificationActive) {
-        notificationActive = true;
-
-        // 🔔 звук
-        audio.play().catch(() => {});
-
-        // 🔴 мигание вкладки
-        const originalTitle = document.title;
-        let flash = true;
-        const interval = setInterval(() => {
-          document.title = flash ? '🛒 Новый заказ!' : originalTitle;
-          flash = !flash;
-        }, 1000);
-
-        // прекращаем мигание при активности
-        const stopNotification = () => {
-          clearInterval(interval);
-          document.title = originalTitle;
-          notificationActive = false;
-          window.removeEventListener('focus', stopNotification);
-          window.removeEventListener('click', stopNotification);
-        };
-
-        window.addEventListener('focus', stopNotification);
-        window.addEventListener('click', stopNotification);
-      }
-
-      prevOrderIds = new Set(updatedOrders.map((o) => o.id));
-      setOrders(updatedOrders);
-      setLoading(false);
-    },
-    (error) => {
-      console.error('Ошибка при получении заказов:', error);
-      setLoading(false);
+  useEffect(() => {
+    if (!location || !userData) {
+      console.warn('Нет локации или данных пользователя');
+      return;
     }
-  );
 
-  return () => unsubscribe();
-}, [location, userData, db]);
+    const ordersRef = collection(db, 'locations', location, 'orders');
+    const q = query(ordersRef, orderBy('createdAt', 'desc'));
+
+    let prevOrderIds = new Set(); // запомним старые заказы
+    let notificationActive = false;
+    const audio = new Audio('/sounds/notify.mp3');
+
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const updatedOrders = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        // проверяем новые заказы
+        const newOrders = updatedOrders.filter((o) => !prevOrderIds.has(o.id));
+
+        if (prevOrderIds.size > 0 && newOrders.length > 0 && !notificationActive) {
+          notificationActive = true;
+
+          // 🔔 звук
+          audio.play().catch(() => { });
+
+          // 🔴 мигание вкладки
+          const originalTitle = document.title;
+          let flash = true;
+          const interval = setInterval(() => {
+            document.title = flash ? '🛒 Новый заказ!' : originalTitle;
+            flash = !flash;
+          }, 1000);
+
+          // прекращаем мигание при активности
+          const stopNotification = () => {
+            clearInterval(interval);
+            document.title = originalTitle;
+            notificationActive = false;
+            window.removeEventListener('focus', stopNotification);
+            window.removeEventListener('click', stopNotification);
+          };
+
+          window.addEventListener('focus', stopNotification);
+          window.addEventListener('click', stopNotification);
+        }
+
+        prevOrderIds = new Set(updatedOrders.map((o) => o.id));
+        setOrders(updatedOrders);
+        setLoading(false);
+      },
+      (error) => {
+        console.error('Ошибка при получении заказов:', error);
+        setLoading(false);
+      }
+    );
+
+    return () => unsubscribe();
+  }, [location, userData, db]);
 
 
 
@@ -161,13 +161,13 @@ useEffect(() => {
   return (
     <div className="admin-orders">
       <h1 className="admin-title">Заказы вашего магазина</h1>
-      
 
-    <div className="admin-add-product-wrapper">
-  <NavLink to="/admin/add-product" className="admin-add-btn">
-    ➕ Добавить товар
-  </NavLink>
-</div>
+
+      <div className="admin-add-product-wrapper">
+        <NavLink to="/admin/add-product" className="admin-add-btn">
+          ➕ Добавить товар
+        </NavLink>
+      </div>
 
 
       <div className="admin-status-tabs">
@@ -198,9 +198,29 @@ useEffect(() => {
               <div className="admin-order-info">
                 <p>Статус: <strong>{order.status || 'новый'}</strong></p>
                 <p>Сумма: <strong>{order.total} ₽</strong></p>
+
+
                 <select
                   value={order.status || 'новый'}
                   onChange={(e) => updateOrderStatus(order.id, e.target.value)}
+                  style={{
+                    backgroundColor:
+                      order.status === 'новый'
+                        ? '#e74c3c'
+                        : order.status === 'в обработке'
+                          ? '#2ecc71'
+                          : order.status === 'доставка'
+                            ? '#f1c40f'
+                            : order.status === 'завершён'
+                              ? '#3498db'
+                              : order.status === 'отменён'
+                                ? '#7f8c8d'
+                                : '#e74c3c',
+                    color:
+                      order.status === 'доставка'
+                        ? '#0A0002'
+                        : '#fff',
+                  }}
                   className="status-select"
                 >
                   <option value="новый">новый</option>
@@ -209,6 +229,11 @@ useEffect(() => {
                   <option value="завершён">завершён</option>
                   <option value="отменён">отменён</option>
                 </select>
+
+
+
+
+
               </div>
               <ul className="admin-order-items">
                 {order.items.map((item, idx) => (

@@ -1,4 +1,5 @@
 .location-overlay {
+  flex-direction: column;
   position: fixed;
   top: 0;
   left: 0;
@@ -42,7 +43,23 @@
 
 
 .btn-location{
-  background-color: white;
-  color: #261200;
+  background-color: #DB2E27;
+  color: whitesmoke;
   font-weight: bold;
+}
+
+.info-time{
+  color: white;
+}
+
+.btn-location:hover {
+  background-color: white;
+   color: #a81c1a;
+}
+
+@media (max-width: 768px){
+  .info-time{
+    font-size: 12px;
+  }
+
 }

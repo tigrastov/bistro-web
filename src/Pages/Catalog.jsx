@@ -65,7 +65,7 @@ function Catalog({ location, cartCount, hasOrders }) {
         </motion.div>
       )}
 
-       {hasOrders && (
+       {/* {hasOrders && (
         <motion.div
           className="mini-orders"
           onClick={() => navigate('/orders')}
@@ -76,7 +76,9 @@ function Catalog({ location, cartCount, hasOrders }) {
         >
           🛍️
         </motion.div>
-      )}
+      )} */}
+
+
     </div>
   );
 }

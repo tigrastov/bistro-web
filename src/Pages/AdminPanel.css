@@ -105,10 +105,9 @@
   margin-top: 0.5rem;
   padding: 0.3rem 0.5rem;
   border-radius: 5px;
-  border: 1px solid #ccc;
+
   font-weight: bold;
-  background: #fff8c4;
-  color: #0A0002;
+
 }
 
 .admin-order-items {
@@ -192,4 +191,6 @@
 .admin-add-btn:hover {
   background: #0A0002;
 }
+
+
 

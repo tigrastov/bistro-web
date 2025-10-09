@@ -68,3 +68,11 @@
 .modal-cancel:hover {
   background-color: #c0c0c0;
 }
+
+
+
+
+.warning-note {
+  color: red;
+  font-weight: bold;
+}

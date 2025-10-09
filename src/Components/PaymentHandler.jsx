@@ -13,7 +13,7 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError }) => {
   const getNextOrderNumber = async (location) => {
     const db = getFirestore();
     const counterRef = doc(db, 'counters', `orders_${location}`);
-    
+
     try {
       const counterSnap = await getDoc(counterRef);
       if (counterSnap.exists()) {
@@ -41,7 +41,7 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError }) => {
     try {
       // 1) Получаем следующий номер заказа
       const orderNumber = await getNextOrderNumber(order.location);
-      
+
       // 2) Создаём предзаказ (pending) в Firestore, получаем его ID
       const db = getFirestore();
       const preOrderRef = await addDoc(
@@ -102,8 +102,17 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError }) => {
   return (
     <div className="payment-handler">
       <h3>Оплата заказа</h3>
+
+<div className="order-loca">
+          <p>Адрес пункта заказа: <strong>{locationNames[order.location]}</strong></p>
+        </div>
+
+
       <div className="order-summary">
-        <p>Адрес пункта заказа: <strong>{locationNames[order.location]}</strong></p>
+
+        
+
+       
         <p>Сумма к оплате: <strong>{order.totalAmount} ₽</strong></p>
         <p>Статус: <span className={`status ${order.status}`}>{order.status}</span></p>
         <div className="order-items">
