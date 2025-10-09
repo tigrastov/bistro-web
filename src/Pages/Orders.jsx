@@ -60,7 +60,7 @@ const goToPrevPage = () => {
           return dateB - dateA;
         });
 
-        setOrders(allOrders);
+        setOrders(allOrders.filter(order => order.status !== 'ожидает оплаты'));
       } catch (error) {
         console.error('Ошибка при получении заказов:', error);
       } finally {
