@@ -55,20 +55,20 @@
 }
 
 .cancellSave {
-  background-color: #FFFF00;
+  background-color: #EF7F1A;
   color: #261200 ;
   border: none;
 }
 
 .auth-btn {
-  background-color: #FFFF00;
+  background-color: #EF7F1A;
   border: none;
   border-radius: 10px;
   font-weight: bold;
   font-size: 16px;
   padding: 12px 10px;
   cursor: pointer;
-  color:  #0A0002;
+  color:  white;
   margin-top: 0.8rem;
 }
 
@@ -134,7 +134,7 @@
 }
 
 .auth-btn-yellow {
-  background-color: #FFFF00;
+  background-color: #EF7F1A;
   color: #261200;
 }
 

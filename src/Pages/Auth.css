@@ -6,7 +6,7 @@
   justify-content: flex-start;
   min-height: 100vh;
   width: 100%;
-  background-color: #FF6600;
+  background-color: #EF7F1A;
   padding-top: 100px; 
   text-align: center;
   font-family: Impact;
@@ -38,10 +38,10 @@
 .auth-btn {
   width: 200px;
   padding: 12px;
-  background: #FFFF00;
+  background: #EF7F1A;
   border: none;
   border-radius: 10px;
-  color: #0A0002;
+  color: white;
   font-weight: bold;
   cursor: pointer;
   margin-top: 0.8rem;
@@ -94,8 +94,8 @@
  
   align-items: center;     
 
-  background: #FFFF00;
-  color: #0A0002;
+  background: #EF7F1A;
+  color: white;
   text-align: center;
 }
 
@@ -152,8 +152,8 @@
 }
 
 .auth-btn-yellow {
-  background-color: #FFFF00;
-  color: #261200;
+  background-color: #EF7F1A;
+  color: white;
 }
 
 .auth-btn-green {

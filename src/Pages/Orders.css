@@ -1,5 +1,5 @@
 .orders {
-  background-color: #FFFF00;
+  background-color: #261200;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,7 +15,7 @@ border-radius: 10px;
 color: #DB2E27;
 }
 .status-field {
-  background-color: #FF6600;
+  background-color: #EF7F1A;
   padding: 8px 12px;
 border-radius: 10px;
 color: white;
@@ -53,7 +53,7 @@ color: white;
 .order-card:hover {
 
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border: #FF6600 10px solid;
+  border: #EF7F1A 10px solid;
 }
 
 .order-header {
@@ -108,7 +108,7 @@ color: white;
 }
 
 .pagination button {
-  background-color: #FF6600;
+  background-color: #EF7F1A;
   color: white;
   border: none;
   border-radius: 10px;

@@ -35,7 +35,7 @@ background-color: #261200;
 
 .detail-view {
   background: white;
-  border: 10px solid #FF6600;
+
   border-radius: 20px;
   padding: 20px 16px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
@@ -62,18 +62,18 @@ background-color: #261200;
   font-size: 1.3rem;
  font-family: Impact;
   margin: 0 0 12px 0;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.8)
+  color: #261200;
+
 ;
   padding: 10px;
   
 }
 
 .detail-price {
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   font-weight: bold;
   font-family: Impact;
-  color: #FF6600;
+  color: #261200;
   margin-bottom: 12px;
 }
 
@@ -100,8 +100,8 @@ background-color: #261200;
 }
 
 .add-to-cart-button {
-  background-color: #FFFF00;
-  color: #261200;
+  background-color: #EF7F1A;
+  color: white;
   font-weight: bold;
   border: none;
   border-radius: 10px;
@@ -113,12 +113,12 @@ background-color: #261200;
 }
 
 .add-to-cart-button:hover {
-  background-color: #FF6600;
+  background-color: #EF7F1A;
   color: white;
 }
 
 .add-to-cart-container .price {
-  color: #FF6600;
+  color: #EF7F1A;
   font-size: 1rem;
   font-weight: bold;
 }
@@ -194,7 +194,7 @@ background-color: #261200;
 }
 
 .quantity-buttons button:hover {
-  background: #FF6600;
+  background: #EF7F1A;
 }
 
 .quantity-buttons span {

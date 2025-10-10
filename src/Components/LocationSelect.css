@@ -5,7 +5,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: #FF6600;
+  background-color: #261200;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,7 +16,7 @@
 
 
 .location-modal {
-  background: #FFFF00;
+  background: #FFE3B5;
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.2);
@@ -43,7 +43,7 @@
 
 
 .btn-location{
-  background-color: #DB2E27;
+  background-color: #EF7F1A;
   color: whitesmoke;
   font-weight: bold;
 }

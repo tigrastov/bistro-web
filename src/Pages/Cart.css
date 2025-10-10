@@ -1,5 +1,5 @@
 .cart-page {
-  background-color: #FF6600;
+  background-color: #EF7F1A;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -12,7 +12,7 @@
   margin-top: 100px;
   padding: 20px 16px 60px 16px;
   width: 100%;
-  background-color: #FFFF00;
+  background-color: #FFE3B5;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -70,7 +70,7 @@
 
 .remove-item-btn {
   margin-left: auto; 
-  background-color: #DB2E27;
+  background-color: #EF7F1A;
   color: white;
   border: none;
   border-radius: 6px;
@@ -119,7 +119,7 @@
 }
 
 .checkout-btn {
-  background-color: #FF6600;
+  background-color: #EF7F1A;
   color: white;
 }
 

@@ -7,7 +7,7 @@
 }
 
 .info-div{
-  background-color: #FFFF00;
+  background-color: #FFE3B5;
   border-radius: 15px;
   padding: 20px;
   align-self: center;
@@ -16,16 +16,10 @@
 }
 
 
-
-
-
-
-
-
 .place-container {
   width: 500px;
   height: 500px;
-  background-color: rgba(233, 17, 17, 0.15);
+  background-color: #261200;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   margin-left: auto;
   margin-right: 30px;

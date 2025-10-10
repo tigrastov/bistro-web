@@ -43,7 +43,7 @@ function Catalog({ location, cartCount, hasOrders }) {
         <button className={`catalog-categories-button ${category === 'additionally' ? 'active' : ''}`} onClick={() => setCategory('additionally')}>Дополнительно</button>
         <button className={`catalog-categories-button ${category === 'new' ? 'active' : ''}`} onClick={() => setCategory('new')}>Новинки</button>
         <button className={`catalog-categories-button ${category === 'delivery-coupons' ? 'active' : ''}`} onClick={() => setCategory('delivery-coupons')}>Купоны на доставку</button>
-         <button className={`catalog-categories-button ${category === 'company-coupons' ? 'active' : ''}`} onClick={() => setCategory('company-coupons')}>Купоны в предприятии</button>
+        <button className={`catalog-categories-button ${category === 'company-coupons' ? 'active' : ''}`} onClick={() => setCategory('company-coupons')}>Купоны в предприятии</button>
       </div>
       <div className="catalog-list-outer">
         <div className="catalog-list">
@@ -61,11 +61,16 @@ function Catalog({ location, cartCount, hasOrders }) {
           exit={{ opacity: 0, scale: 0.5 }}
           transition={{ duration: 0.5, ease: [0.42, 0, 0.58, 1] }}
         >
-          🛒 {cartCount}
+          <img
+            src="/mini-cart.png"
+            alt="Корзина"
+            className="cart-icon"
+          />
+          {cartCount}
         </motion.div>
       )}
 
-       {/* {hasOrders && (
+      {/* {hasOrders && (
         <motion.div
           className="mini-orders"
           onClick={() => navigate('/orders')}
