@@ -31,45 +31,6 @@ const goToPrevPage = () => {
   if (currentPage > 1) setCurrentPage(currentPage - 1);
 };
 
-  // useEffect(() => {
-  //   const fetchOrders = async () => {
-  //     const user = auth.currentUser;
-  //     if (!user) return;
-
-  //     try {
-  //       const locationIds = ['Kubenskoye-Lenina-Street', 'Vologda-Karla-Marksa-Street'];
-  //       const allOrders = [];
-
-  //       for (const locationId of locationIds) {
-  //         const ordersRef = collection(db, 'locations', locationId, 'orders');
-  //         const q = query(ordersRef, where('userId', '==', user.uid));
-  //         const querySnapshot = await getDocs(q);
-
-  //         querySnapshot.forEach((doc) => {
-  //           allOrders.push({
-  //             id: doc.id,
-  //             location: locationId,
-  //             ...doc.data(),
-  //           });
-  //         });
-  //       }
-
-  //       allOrders.sort((a, b) => {
-  //         const dateA = a.createdAt?.seconds || 0;
-  //         const dateB = b.createdAt?.seconds || 0;
-  //         return dateB - dateA;
-  //       });
-
-  //       setOrders(allOrders.filter(order => order.status !== 'ожидает оплаты'));
-  //     } catch (error) {
-  //       console.error('Ошибка при получении заказов:', error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchOrders();
-  // }, [auth.currentUser, db]);
 
    useEffect(() => {
     const user = auth.currentUser;

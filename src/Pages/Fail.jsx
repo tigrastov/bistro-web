@@ -5,7 +5,7 @@ export default function Fail() {
 return (
     <div className='fail'>
       <h1>Оплата не прошла. Попробуйте снова</h1>
-      <button className='btn' onClick={() => naigate('/')}>К каталогу товаров</button>
+      <button className='btn-fail' onClick={() => naigate('/')}>К каталогу товаров</button>
     </div>
   );
 }

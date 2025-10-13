@@ -20,7 +20,7 @@ export default function Success() {
     <div className="success">
       <h1>Ваш заказ успешно оплачен!</h1>
       <h2>Спасибо за покупку. Мы обрабатываем ваш заказ.</h2>
-      <button className="btn" onClick={() => navigate("/")}>К каталогу товаров</button>
+      <button className="btn-success" onClick={() => navigate("/")}>К каталогу товаров</button>
     </div>
   );
 }

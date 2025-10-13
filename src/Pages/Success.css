@@ -13,17 +13,16 @@ font-family: Impact;
 padding-top: 100px;
 }
 
-.btn{
+.btn-success{
     background-color: #EF7F1A;
+    font-family: Impact;
+    color: white;
+    padding: 10px 20px;
     border-radius: 15px;
     width: 150px;
     height: 50px;
-    font-size: 16px;
-    font-weight: bold;
     cursor: pointer;
     border: none;
-  
-   
 }
 
 

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getAuth } from 'firebase/auth';
+
 import {
   getFirestore,
   collection,
@@ -24,6 +25,9 @@ function AdminPanel({ location, userData }) {
   const auth = getAuth();
   const db = getFirestore();
 
+  const [showBell, setShowBell] = useState(false);
+
+
   // Responsive orders per page
   useEffect(() => {
     const handleResize = () => {
@@ -39,7 +43,7 @@ function AdminPanel({ location, userData }) {
 
 
 
-  //   useEffect(() => {
+  // useEffect(() => {
   //   if (!location || !userData) {
   //     console.warn('Нет локации или данных пользователя');
   //     return;
@@ -48,22 +52,62 @@ function AdminPanel({ location, userData }) {
   //   const ordersRef = collection(db, 'locations', location, 'orders');
   //   const q = query(ordersRef, orderBy('createdAt', 'desc'));
 
-  //   // 🔥 Реальное время: обновляет заказы автоматически
-  //   const unsubscribe = onSnapshot(q, (snapshot) => {
-  //     const updatedOrders = snapshot.docs.map((doc) => ({
-  //       id: doc.id,
-  //       ...doc.data(),
-  //     }));
-  //     setOrders(updatedOrders);
-  //     setLoading(false);
-  //   }, (error) => {
-  //     console.error('Ошибка при получении заказов:', error);
-  //     setLoading(false);
-  //   });
+  //   let prevOrderIds = new Set(); // запомним старые заказы
+  //   let notificationActive = false;
+  //   const audio = new Audio('/sounds/notify.mp3');
 
-  //   // Чистим слушатель при размонтировании
+  //   const unsubscribe = onSnapshot(
+  //     q,
+  //     (snapshot) => {
+  //       const updatedOrders = snapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(),
+  //       }));
+
+  //       // проверяем новые заказы
+  //       const newOrders = updatedOrders.filter((o) => !prevOrderIds.has(o.id));
+
+  //       if (prevOrderIds.size > 0 && newOrders.length > 0 && !notificationActive) {
+  //         notificationActive = true;
+
+  //         // 🔔 звук
+  //         audio.play().catch(() => { });
+
+  //         // 🔴 мигание вкладки
+  //         const originalTitle = document.title;
+  //         let flash = true;
+  //         const interval = setInterval(() => {
+  //           document.title = flash ? '🛒 Новый заказ!' : originalTitle;
+  //           flash = !flash;
+  //         }, 1000);
+
+  //         // прекращаем мигание при активности
+  //         const stopNotification = () => {
+  //           clearInterval(interval);
+  //           document.title = originalTitle;
+  //           notificationActive = false;
+  //           window.removeEventListener('focus', stopNotification);
+  //           window.removeEventListener('click', stopNotification);
+  //         };
+
+  //         window.addEventListener('focus', stopNotification);
+  //         window.addEventListener('click', stopNotification);
+  //       }
+
+  //       prevOrderIds = new Set(updatedOrders.map((o) => o.id));
+  //       setOrders(updatedOrders.filter(order => order.status !== 'ожидает оплаты'));
+  //       setLoading(false);
+  //     },
+  //     (error) => {
+  //       console.error('Ошибка при получении заказов:', error);
+  //       setLoading(false);
+  //     }
+  //   );
+
   //   return () => unsubscribe();
   // }, [location, userData, db]);
+
+
 
   useEffect(() => {
     if (!location || !userData) {
@@ -74,7 +118,7 @@ function AdminPanel({ location, userData }) {
     const ordersRef = collection(db, 'locations', location, 'orders');
     const q = query(ordersRef, orderBy('createdAt', 'desc'));
 
-    let prevOrderIds = new Set(); // запомним старые заказы
+    let prevStatuses = new Map(); // 💾 id → предыдущий статус
     let notificationActive = false;
     const audio = new Audio('/sounds/notify.mp3');
 
@@ -86,38 +130,56 @@ function AdminPanel({ location, userData }) {
           ...doc.data(),
         }));
 
-        // проверяем новые заказы
-        const newOrders = updatedOrders.filter((o) => !prevOrderIds.has(o.id));
+        // 💡 Ищем заказы, у которых статус изменился на "оплачен" или "оплачено"
+        const newlyPaid = updatedOrders.filter((order) => {
+          const prevStatus = prevStatuses.get(order.id);
+          return (
+            prevStatus && // был известен предыдущий статус
+            prevStatus !== order.status && // статус изменился
+            (order.status?.toLowerCase() === 'оплачен' ||
+              order.status?.toLowerCase() === 'оплачено')
+          );
+        });
 
-        if (prevOrderIds.size > 0 && newOrders.length > 0 && !notificationActive) {
+        // 🔔 Только если появились новые "оплаченные" заказы
+        if (prevStatuses.size > 0 && newlyPaid.length > 0 && !notificationActive) {
           notificationActive = true;
 
-          // 🔔 звук
+          // 🔊 звук
           audio.play().catch(() => { });
 
-          // 🔴 мигание вкладки
+          setShowBell(true);
+
+
+          // 🪩 мигание вкладки
           const originalTitle = document.title;
           let flash = true;
           const interval = setInterval(() => {
-            document.title = flash ? '🛒 Новый заказ!' : originalTitle;
+            document.title = flash ? '💸 Новый оплаченный заказ!' : originalTitle;
             flash = !flash;
           }, 1000);
 
-          // прекращаем мигание при активности
+          // 🧩 прекращаем мигание при активности
           const stopNotification = () => {
             clearInterval(interval);
             document.title = originalTitle;
             notificationActive = false;
             window.removeEventListener('focus', stopNotification);
             window.removeEventListener('click', stopNotification);
+
+            setShowBell(false);
+
           };
 
           window.addEventListener('focus', stopNotification);
           window.addEventListener('click', stopNotification);
         }
 
-        prevOrderIds = new Set(updatedOrders.map((o) => o.id));
-        setOrders(updatedOrders);
+        // 💾 Запоминаем текущие статусы заказов
+        prevStatuses = new Map(updatedOrders.map((o) => [o.id, o.status]));
+
+        // 🧹 Показываем только заказы, не находящиеся в статусе "ожидает оплаты"
+        setOrders(updatedOrders.filter(order => order.status?.toLowerCase() !== 'ожидает оплаты'));
         setLoading(false);
       },
       (error) => {
@@ -128,7 +190,6 @@ function AdminPanel({ location, userData }) {
 
     return () => unsubscribe();
   }, [location, userData, db]);
-
 
 
 
@@ -160,6 +221,17 @@ function AdminPanel({ location, userData }) {
 
   return (
     <div className="admin-orders">
+
+
+      {showBell && (
+        <div className="admin-bell">
+          🔔 Новый оплаченный заказ!
+        </div>
+      )}
+
+
+
+
       <h1 className="admin-title">Заказы вашего магазина</h1>
 
 
@@ -208,11 +280,11 @@ function AdminPanel({ location, userData }) {
                       order.status === 'новый'
                         ? '#e74c3c'
                         : order.status === 'в обработке'
-                          ? '#2ecc71'
+                          ? '#3498db'
                           : order.status === 'доставка'
                             ? '#f1c40f'
                             : order.status === 'завершён'
-                              ? '#3498db'
+                              ? '#2ecc71'
                               : order.status === 'отменён'
                                 ? '#7f8c8d'
                                 : '#e74c3c',
