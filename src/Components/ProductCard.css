@@ -72,8 +72,9 @@
   margin-bottom: 4px;
 }
 
-.catalog-item .desc {
-  font-size: 0.95rem;
+.desc {
+  font-family: Impact;
+  font-weight: bold;
   color: #0A0002;
 }
 

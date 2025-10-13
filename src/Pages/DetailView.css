@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: center;
   padding: 20px 16px 60px 16px;
-background-color: #261200;
+  background-color: #261200;
   min-height: 100vh;
   box-sizing: border-box;
   font-family: Impact;
@@ -12,17 +12,21 @@ background-color: #261200;
 
 
 
-.back-to-catalog-button{
-  background-color: rgba(0, 0, 0, 0.8);
+.back-to-catalog-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #261200;;
   color: white;
- font-family: Impact;
+  font-weight: bold;
   border: none;
   border-radius: 10px;
   padding: 12px;
   font-size: 1rem;
+  font-family: Impact;
   cursor: pointer;
   width: 100%;
-  max-width: 400px;
 }
 
 
@@ -30,7 +34,7 @@ background-color: #261200;
 .back-to-catalog-button:hover {
   background-color: #FFFF00;
   color: #0A0002;
-   font-family: Impact;
+  font-family: Impact;
 }
 
 .detail-view {
@@ -60,13 +64,13 @@ background-color: #261200;
 
 .detail-title {
   font-size: 1.3rem;
- font-family: Impact;
+  font-family: Impact;
   margin: 0 0 12px 0;
   color: #261200;
 
-;
+  ;
   padding: 10px;
-  
+
 }
 
 .detail-price {
@@ -79,9 +83,10 @@ background-color: #261200;
 
 .detail-desc {
   font-size: 1rem;
-  color:  #0A0002 ;
+  color: #0A0002;
+  margin-top: 20px;
   margin-bottom: 20px;
-  font-family: Evolventa ;
+  font-family: Impact;
 }
 
 .add-to-cart-container {
@@ -100,6 +105,10 @@ background-color: #261200;
 }
 
 .add-to-cart-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   background-color: #EF7F1A;
   color: white;
   font-weight: bold;
@@ -110,6 +119,20 @@ background-color: #261200;
   font-family: Impact;
   cursor: pointer;
   width: 100%;
+}
+
+.add-to-cart-button:hover {
+  background-color: #DB2E27;
+  color: white;
+}
+
+.cart-icon {
+  width: 45px;
+  height: 45px;
+  padding: 6px;
+  cursor: pointer;
+  position: relative;
+  font-weight: bold;
 }
 
 .add-to-cart-button:hover {
@@ -184,7 +207,7 @@ background-color: #261200;
   border-radius: 50%;
   color: white;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;

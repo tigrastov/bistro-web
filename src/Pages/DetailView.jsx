@@ -4,6 +4,9 @@ import { doc, getDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 
 import { db } from '../firebase';
 import './DetailView.css';
+import { ShoppingCart } from 'lucide-react';
+import { BookOpen } from "lucide-react";
+
 
 function DetailView({ location, userData, setCartCount }) {
   const { id } = useParams();
@@ -56,28 +59,28 @@ function DetailView({ location, userData, setCartCount }) {
   };
 
   const handleAddToCart = () => {
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-  const existingIndex = cart.findIndex(item => item.id === product.id);
-  if (existingIndex >= 0) {
-    cart[existingIndex].quantity += Number(quantity);
-  } else {
-    cart.push({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      quantity: Number(quantity),
-    });
-  }
+    const existingIndex = cart.findIndex(item => item.id === product.id);
+    if (existingIndex >= 0) {
+      cart[existingIndex].quantity += Number(quantity);
+    } else {
+      cart.push({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: Number(quantity),
+      });
+    }
 
-  localStorage.setItem('cart', JSON.stringify(cart));
+    localStorage.setItem('cart', JSON.stringify(cart));
 
 
-  if (setCartCount) {
-    const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-    setCartCount(count);
-  }
-};
+    if (setCartCount) {
+      const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+      setCartCount(count);
+    }
+  };
 
   if (!product) {
     return (
@@ -98,7 +101,7 @@ function DetailView({ location, userData, setCartCount }) {
 
   return (
     <div className="detail-page no-header">
-      
+
 
       <div className="detail-view">
         {product.photo && (
@@ -109,7 +112,7 @@ function DetailView({ location, userData, setCartCount }) {
 
         <h2 className="detail-title">{product.name}</h2>
         <div className="detail-price">{product.price} ₽</div>
-       
+
 
         {isAdmin ? (
           <div className="admin-actions">
@@ -121,41 +124,44 @@ function DetailView({ location, userData, setCartCount }) {
             </button>
           </div>
         ) : (
+
+
+
           <div className="add-to-cart-container">
 
-            
-           
-
-           <div className="quantity-control">
-  <label className="quantity-label">Количество:</label>
-  <div className="quantity-buttons">
-    <button onClick={() => setQuantity(prev => Math.max(1, prev - 1))}>−</button>
-    <span>{quantity}</span>
-    <button onClick={() => setQuantity(prev => prev + 1)}>+</button>
-  </div>
-</div>
+            <div className="quantity-control">
+              <label className="quantity-label">Количество:</label>
+              <div className="quantity-buttons">
+                <button onClick={() => setQuantity(prev => Math.max(1, prev - 1))}>−</button>
+                <span>{quantity}</span>
+                <button onClick={() => setQuantity(prev => prev + 1)}>+</button>
+              </div>
+            </div>
 
 
             <Link to="/" replace>
-  <button className="add-to-cart-button" onClick={handleAddToCart}>
-    Добавить в корзину
-  </button>
-</Link>
+              <button className="add-to-cart-button" onClick={handleAddToCart}>
+                <ShoppingCart size={20} className='cart-icon' />
+                Добавить в корзину
+              </button>
+            </Link>
 
-     <Link to="/" replace>
-  <button className="back-to-catalog-button" >
-    Вернуться в каталог 
-  </button>
-</Link>
+            <Link to="/" replace>
+              <button className="back-to-catalog-button" >
+                <BookOpen size={20} className='cart-icon' />
+                Обратно в меню
+              </button>
+            </Link>
 
             <span className="price">Цена: {product.price * quantity} ₽</span>
+            
           </div>
         )}
-          <div className="detail-desc">{product.desc}</div>
-          {product?.paused && !isAdmin && (
-            <div className="paused-notice">Товар временно недоступен</div>
-          )}
-       
+        <div className="detail-desc">{product.desc}</div>
+        {product?.paused && !isAdmin && (
+          <div className="paused-notice">Товар временно недоступен</div>
+        )}
+
       </div>
     </div>
   );
