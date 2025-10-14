@@ -53,6 +53,7 @@
 .modal-confirm {
   background-color:  #FFFF00;
   color: #4A1504;
+  font-family: Impact;
 }
 
 .modal-confirm:hover {
@@ -63,6 +64,7 @@
 .modal-cancel {
   background-color: #e0e0e0;
   color: #261200;
+  font-family: Impact;
 }
 
 .modal-cancel:hover {

@@ -8,7 +8,7 @@ function ConfirmModal({ title, message, onConfirm, onCancel }) {
 
       <div className="warning-note">
         Важно! При оформлении интернет-заказа необходимо правильно выбрать 
-        ТОРГОВУЮ ТОЧКУ (красная кнопка сверху).
+        ТОРГОВУЮ ТОЧКУ (яркая кнопка вверху).
       </div>
 
         <h2>{title || 'Подтверждение'}</h2>

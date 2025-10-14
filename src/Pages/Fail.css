@@ -1,5 +1,5 @@
 .fail{
-background-color: #FFFF00;
+background-color: gray;
 color: #261200;
 font-size: 10px;
 min-height: 100vh;
@@ -14,14 +14,12 @@ padding-top: 100px;
 }
 
 .btn-fail{
-    background-color: #EF7F1A;
-    border-radius: 15px;
-    width: 150px;
-    height: 50px;
+   background-color: #EF7F1A;
     font-family: Impact;
+    font-size: 15px;
     color: white;
-    padding: 10px 20px;
-    font-weight: bold;
+    padding: 12px 24px;
+    border-radius: 6px;
     cursor: pointer;
     border: none;
   

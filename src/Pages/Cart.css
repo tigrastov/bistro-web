@@ -125,6 +125,40 @@
   color: #DB2E27;
 }
 
+.back-to-catalog-btn{
+   display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #261200;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 1.1rem;
+  font-family: Impact;
+  cursor: pointer;
+  width: 100%;
+  max-width: 400px;
+  margin-top: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  transition: background-color 0.2s ease, color 0.2s ease;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+.back-to-catalog-btn:hover{
+  background-color: white;
+  color: #261200;
+}
+
+.menu-icon{
+ width: 45px;
+  height: 45px;
+  padding: 6px;
+  cursor: pointer;
+  position: relative;
+  font-weight: bold;
+}
+
+
 @media (max-width: 768px) {
   .cart {
     padding: 20px 12px 60px 12px;

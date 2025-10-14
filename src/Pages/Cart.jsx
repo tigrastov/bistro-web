@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { motion, AnimatePresence } from 'framer-motion';
 import { useWorkingHours } from '../hooks/useWorkingHours';
 
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -18,25 +18,29 @@ import ClosedScreen from '../Components/ClosedScreen';
 import ConfirmModal from './ConfirmModal';
 import PaymentHandler from '../Components/PaymentHandler';
 
-
+import { BookOpen } from "lucide-react";
 
 function Cart({ setCartCount }) {
 
   const { isOpen, serverTime } = useWorkingHours(9, 21.30, ); // открыто с 9:00 до 21:30 по МСК
   const [isClosedModal, setIsClosedModal] = useState(false);
-
+  
 
   const [cartItems, setCartItems] = useState([]);
   const [user, setUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [currentOrder, setCurrentOrder] = useState(null);
+
   const navigate = useNavigate();
+  const goToCatalog = () => {
+    navigate('/');
+  }
 
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
     setCartItems(storedCart);
-
+    
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -194,6 +198,11 @@ function Cart({ setCartCount }) {
             </button>
 
 
+            <button className='back-to-catalog-btn' onClick={goToCatalog}>
+            <BookOpen size={20} className='menu-icon' /> Обратно в меню 
+            </button>
+
+
             {isModalOpen && (
               <ConfirmModal
                 title={`Подтвердить оформление заказа ?`}
@@ -207,7 +216,6 @@ function Cart({ setCartCount }) {
 
 
       {isClosedModal && <ClosedScreen onClose={() => setIsClosedModal(false)} />}
-
 
 
     </div>

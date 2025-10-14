@@ -7,6 +7,9 @@ const { onDocumentCreated } = require("firebase-functions/v2/firestore");
 
 // Переменные окружения для Telegram (настраиваются через Firebase CLI)
 
+const { onDocumentUpdated } = require("firebase-functions/v2/firestore");
+const { sendTelegramMessage } = require("./telegram");
+
 
 if (!admin.apps.length) admin.initializeApp();
 const db = admin.firestore();
@@ -230,58 +233,103 @@ exports.paymentWebhook = functions.https.onRequest(async (req, res) => {
 
 
 
-// Новый заказ → сообщение в телегу
-exports.newOrder = onDocumentCreated({
+// // Новый заказ → сообщение в телегу
+// exports.newOrder = onDocumentCreated({
+//   document: "locations/{location}/orders/{orderId}",
+//   secrets: ["TELEGRAM_BOT_TOKEN", "TELEGRAM_CHAT_ID"]
+// }, async (event) => {
+//   try {
+//     console.log("newOrder function triggered!");
+//     const snap = event.data;
+//     if (!snap) {
+//       console.log("No snapshot data, exiting");
+//       return;
+//     }
+    
+//     const order = snap.data();
+//     const location = event.params.location;
+//     const orderId = event.params.orderId;
+    
+//     // Формируем список товаров
+//     let itemsText = "";
+//     if (order.items && Array.isArray(order.items)) {
+//       itemsText = order.items.map(item => 
+//         `• ${item.name} × ${item.quantity} = ${item.price * item.quantity} ₽`
+//       ).join("\n");
+//     } else {
+//       itemsText = "Товары не указаны";
+//     }
+    
+//     // Формируем сообщение
+//     const displayOrderNumber = order.orderNumber ? `#${String(order.orderNumber).padStart(4, '0')}` : `#${orderId}`;
+//     const text = `🛒 <b>Новый заказ ${displayOrderNumber}</b>
+
+// 📍 <b>Локация:</b> ${location}
+// 👤 <b>Имя:</b> ${order.userName || order.name || "Не указано"}
+// 📞 <b>Телефон:</b> ${order.userPhone || order.phone || "Не указан"}
+// 💰 <b>Сумма:</b> ${order.total || 0} ₽
+// 📦 <b>Статус:</b> ${order.status || "новый"}
+
+// 🛍️ <b>Товары:</b>
+// ${itemsText}`;
+
+
+
+//     const { sendTelegramMessage } = require("./telegram");
+//     const success = await sendTelegramMessage(text);
+    
+//     if (success) {
+//       console.log(`Уведомление о заказе ${orderId} отправлено в Telegram`);
+//     } else {
+//       console.error(`Не удалось отправить уведомление о заказе ${orderId}`);
+//     }
+//   } catch (error) {
+//     console.error("Ошибка при отправке уведомления о новом заказе:", error);
+//   }
+// });
+
+
+exports.notifyPaidOrder = onDocumentUpdated({
   document: "locations/{location}/orders/{orderId}",
   secrets: ["TELEGRAM_BOT_TOKEN", "TELEGRAM_CHAT_ID"]
 }, async (event) => {
   try {
-    console.log("newOrder function triggered!");
-    const snap = event.data;
-    if (!snap) {
-      console.log("No snapshot data, exiting");
-      return;
-    }
-    
-    const order = snap.data();
+    const before = event.data.before?.data() || {};
+    const after = event.data.after?.data() || {};
     const location = event.params.location;
     const orderId = event.params.orderId;
-    
-    // Формируем список товаров
-    let itemsText = "";
-    if (order.items && Array.isArray(order.items)) {
-      itemsText = order.items.map(item => 
-        `• ${item.name} × ${item.quantity} = ${item.price * item.quantity} ₽`
-      ).join("\n");
-    } else {
-      itemsText = "Товары не указаны";
-    }
-    
-    // Формируем сообщение
-    const displayOrderNumber = order.orderNumber ? `#${String(order.orderNumber).padStart(4, '0')}` : `#${orderId}`;
-    const text = `🛒 <b>Новый заказ ${displayOrderNumber}</b>
+
+    // Проверяем, что статус изменился на "Оплачено"
+    const prevStatus = before.status;
+    const newStatus = after.status;
+
+    if (prevStatus !== newStatus && newStatus === "Оплачено") {
+      let itemsText = "";
+      if (after.items && Array.isArray(after.items)) {
+        itemsText = after.items.map(item =>
+          `• ${item.name} × ${item.quantity} = ${item.price * item.quantity} ₽`
+        ).join("\n");
+      } else {
+        itemsText = "Товары не указаны";
+      }
+
+      const displayOrderNumber = after.orderNumber ? `#${String(after.orderNumber).padStart(4, '0')}` : `#${orderId}`;
+      const text = `💸 <b>Оплаченный заказ ${displayOrderNumber}</b>
 
 📍 <b>Локация:</b> ${location}
-👤 <b>Имя:</b> ${order.userName || order.name || "Не указано"}
-📞 <b>Телефон:</b> ${order.userPhone || order.phone || "Не указан"}
-💰 <b>Сумма:</b> ${order.total || 0} ₽
-📦 <b>Статус:</b> ${order.status || "новый"}
+👤 <b>Имя:</b> ${after.userName || after.name || "Не указано"}
+📞 <b>Телефон:</b> ${after.userPhone || after.phone || "Не указан"}
+💰 <b>Сумма:</b> ${after.total || 0} ₽
+📦 <b>Статус:</b> ${newStatus}
 
 🛍️ <b>Товары:</b>
 ${itemsText}`;
 
-
-
-    const { sendTelegramMessage } = require("./telegram");
-    const success = await sendTelegramMessage(text);
-    
-    if (success) {
-      console.log(`Уведомление о заказе ${orderId} отправлено в Telegram`);
-    } else {
-      console.error(`Не удалось отправить уведомление о заказе ${orderId}`);
+      const success = await sendTelegramMessage(text);
+      if (success) console.log(`Уведомление о заказе ${orderId} отправлено в Telegram`);
+      else console.error(`Не удалось отправить уведомление о заказе ${orderId}`);
     }
   } catch (error) {
-    console.error("Ошибка при отправке уведомления о новом заказе:", error);
+    console.error("Ошибка при отправке уведомления об оплате:", error);
   }
 });
-
