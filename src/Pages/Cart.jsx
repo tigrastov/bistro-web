@@ -150,6 +150,8 @@ function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
             onPaymentSuccess={handlePaymentSuccess}
             onPaymentError={handlePaymentError}
 
+            clearCart={clearCart}
+
 
             userData={userData}
             isAdmin={isAdmin}

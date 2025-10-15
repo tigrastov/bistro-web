@@ -4,7 +4,7 @@ import { locationNames } from './locationNames';
 import './PaymentHandler.css';
 import { getFirestore, addDoc, collection, serverTimestamp, doc, updateDoc, getDoc, increment, setDoc } from 'firebase/firestore';
 
-const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal }) => {
+const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, clearCart }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -126,7 +126,8 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal })
         orderNumber: orderNumber,
         createdAt: serverTimestamp(),
       });
-
+      
+      clearCart?.();
       navigate('/success-cash', { state: { orderNumber } });
 
     } catch (err) {
