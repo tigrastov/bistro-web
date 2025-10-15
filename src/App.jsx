@@ -20,6 +20,8 @@ import AddProduct from './Pages/AddProduct.jsx';
 import Success from './Pages/Success.jsx';
 import Fail from './Pages/Fail.jsx';
 import LocationSelect from './Components/LocationSelect.jsx';
+import SuccessCash from './Pages/SuccessCash.jsx';  
+import FailCash from './Pages/FailCash.jsx';
 import './App.css';
 
 function AppWrapper() {
@@ -285,7 +287,10 @@ function App() {
                   exit={{ opacity: 0, y: -40, scale: 0.95 }}
                   transition={{ duration: 0.6, ease: [0.42, 0, 0.58, 1] }}
                 >
-                  <Cart location={effectiveLocation} setCartCount={setCartCount} />
+                  <Cart location={effectiveLocation} setCartCount={setCartCount}  
+                  isAdmin={isAdmin}
+                  isTerminal={isTerminal}
+                  userData={userData}/>
                 </motion.div>
               }
             />
@@ -332,6 +337,8 @@ function App() {
             <Route path="/admin" element={<AdminPanel location={effectiveLocation} userData={userData} />} />
             <Route path="/success" element={<Success />} />
             <Route path="/fail" element={<Fail />} />
+            <Route path="/success-cash" element={<SuccessCash />} />
+            <Route path="/fail-cash" element={<FailCash />} />
             <Route path="/admin/add-product" element={<AddProduct location={effectiveLocation} />} />
           </Routes>
         </AnimatePresence>

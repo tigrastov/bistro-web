@@ -20,11 +20,11 @@ import PaymentHandler from '../Components/PaymentHandler';
 
 import { BookOpen } from "lucide-react";
 
-function Cart({ setCartCount }) {
+function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
 
-  const { isOpen, serverTime } = useWorkingHours(9, 21.30, ); // открыто с 9:00 до 21:30 по МСК
+  const { isOpen, serverTime } = useWorkingHours(0, 23.59,); // открыто с 9:00 до 21:30 по МСК
   const [isClosedModal, setIsClosedModal] = useState(false);
-  
+
 
   const [cartItems, setCartItems] = useState([]);
   const [user, setUser] = useState(null);
@@ -40,7 +40,7 @@ function Cart({ setCartCount }) {
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
     setCartItems(storedCart);
-    
+
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -149,6 +149,12 @@ function Cart({ setCartCount }) {
             order={currentOrder}
             onPaymentSuccess={handlePaymentSuccess}
             onPaymentError={handlePaymentError}
+
+
+            userData={userData}
+            isAdmin={isAdmin}
+            isTerminal={isTerminal}
+            location={location}
           />
         </div>
       </div>
@@ -199,7 +205,7 @@ function Cart({ setCartCount }) {
 
 
             <button className='back-to-catalog-btn' onClick={goToCatalog}>
-            <BookOpen size={20} className='menu-icon' /> Обратно в меню 
+              <BookOpen size={20} className='menu-icon' /> Обратно в меню
             </button>
 
 
@@ -208,6 +214,13 @@ function Cart({ setCartCount }) {
                 title={`Подтвердить оформление заказа ?`}
                 onConfirm={sendOrder}
                 onCancel={() => setIsModalOpen(false)}
+
+
+                userData={userData}
+                isAdmin={isAdmin}
+                isTerminal={isTerminal}
+                location={location}
+
               />
             )}
           </>

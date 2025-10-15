@@ -1,15 +1,20 @@
 
 import './ConfirmModal.css';
 
-function ConfirmModal({ title, message, onConfirm, onCancel }) {
+function ConfirmModal({ title, message, onConfirm, onCancel, isTerminal, isAdmin, location }) {
   return (
     <div className="modal-overlay">
       <div className="modal">
 
-      <div className="warning-note">
-        Важно! При оформлении интернет-заказа необходимо правильно выбрать 
-        ТОРГОВУЮ ТОЧКУ (яркая кнопка вверху).
-      </div>
+
+        {!isTerminal && (
+          <div className="warning-note">
+            Важно! При оформлении интернет-заказа необходимо правильно выбрать
+            ТОРГОВУЮ ТОЧКУ (яркая кнопка вверху).
+          </div>
+        )}
+
+
 
         <h2>{title || 'Подтверждение'}</h2>
         {/* <p>{message || 'Вы уверены?'}</p> */}

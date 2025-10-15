@@ -1,5 +1,5 @@
 .success{
-background-color: #FFFF00;
+background-color: #EF7F1A;
 color: #261200;
 font-size: 10px;
 min-height: 100vh;
@@ -13,15 +13,27 @@ font-family: Impact;
 padding-top: 100px;
 }
 
+.info{
+  font-size: 30px;
+  color: white;
+  margin: 0 20px;
+}
+
+.success p{
+  font-size: 20px;
+  margin: 0 20px;
+  color: white;
+}
 .btn-success{
-    background-color: #EF7F1A;
+    background-color: white;
     font-family: Impact;
     font-size: 15px;
-    color: white;
+    color: black;
     padding: 12px 24px;
     border-radius: 6px;
     cursor: pointer;
     border: none;
+    margin-top: 30px;
 }
 
 .success-message {
@@ -48,3 +60,11 @@ padding-top: 100px;
 
 
 
+.number-text{
+  font-size: 20px;
+}
+
+.number{
+  color: white;
+  font-size: 40px;
+}

@@ -43,7 +43,65 @@
   color: #155724;
 }
 
-.pay-button {
+
+
+.error-message {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+
+
+.user-pay{
+display: flex;
+flex-direction: column;
+gap: 6px;
+}
+
+.terminal-pay{
+display: flex;
+flex-direction: column;
+gap: 6px;
+  
+}
+
+
+
+
+
+.cash-pay-button{
+   width: 100%;
+  padding: 16px;
+  background: #EF7F1A;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: Impact;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.pay-button-delivery{
+  width: 100%;
+  padding: 16px;
+  background: green;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: Impact;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.pay-button-self-pickup{
   width: 100%;
   padding: 16px;
   background: #EF7F1A;
@@ -57,24 +115,19 @@
   transition: background 0.2s;
 }
 
-.pay-button:hover:not(:disabled) {
-  background: #e55a00;
+.pay-button-online-terminal{
+ width: 100%;
+  padding: 16px;
+  background: green;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: Impact;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
 }
-
-.pay-button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
-
-.error-message {
-  background: #f8d7da;
-  color: #721c24;
-  padding: 12px;
-  border-radius: 6px;
-  margin-bottom: 16px;
-  text-align: center;
-}
-
 
 
 
@@ -93,9 +146,8 @@
   transition: background 0.2s;
 }
 
-.cancel-button:hover:not(:disabled) {
-  background: #261200;
-}
+
+
 .order-loca {
   background-color: #DB2E27;
   padding: 12px;

@@ -1,0 +1,45 @@
+.payment-result {
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.payment-result h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.payment-result p {
+  font-size: 25px;
+  margin-bottom: 25px;
+  color: white;
+}
+
+.payment-result button {
+  background-color: white;
+  color: #000;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.payment-result button:hover {
+  background-color: #ffaa00;
+}
+
+.payment-result.success {
+  color: black;
+  background-color: #ffaa00;
+}
+
+.payment-result.fail {
+  color: red;
+}
+
+.number{
+color: white;
+font-size: 50px;
+}
+

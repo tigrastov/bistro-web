@@ -4,7 +4,7 @@ import { locationNames } from './locationNames';
 import './PaymentHandler.css';
 import { getFirestore, addDoc, collection, serverTimestamp, doc, updateDoc, getDoc, increment, setDoc } from 'firebase/firestore';
 
-const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError }) => {
+const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -86,6 +86,11 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError }) => {
 
       if (data.success && data.paymentUrl) {
 
+        localStorage.setItem('lastOrderId', preOrderId);
+        localStorage.setItem('lastOrderNumber', orderNumber);
+        localStorage.setItem('lastOrderLocation', order.location);
+
+
         window.location.href = data.paymentUrl;
 
       } else {
@@ -99,20 +104,65 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError }) => {
     }
   };
 
+
+
+
+  const handleCashPayment = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const orderNumber = await getNextOrderNumber(order.location);
+
+      const db = getFirestore();
+      await addDoc(collection(db, 'locations', order.location, 'orders'), {
+        userId: order.userId,
+        userName: order.clientName,
+        userPhone: order.userPhone,
+        items: order.items,
+        total: order.totalAmount,
+        status: 'Оплата наличными',
+        paymentMethod: 'cash',
+        orderNumber: orderNumber,
+        createdAt: serverTimestamp(),
+      });
+
+      navigate('/success-cash', { state: { orderNumber } });
+
+    } catch (err) {
+      console.error('Ошибка при оплате наличными:', err);
+      setError(err.message);
+      onPaymentError?.(err.message);
+      navigate('/fail-cash');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+
+
+
+
+
+
   return (
     <div className="payment-handler">
       <h3>Оплата заказа</h3>
 
-<div className="order-loca">
+      {!isTerminal && (
+        <div className="order-loca">
           <p>Адрес пункта заказа: <strong>{locationNames[order.location]}</strong></p>
         </div>
+
+      )}
+
 
 
       <div className="order-summary">
 
-        
 
-       
+
+
         <p>Сумма к оплате: <strong>{order.totalAmount} ₽</strong></p>
         <p>Статус: <span className={`status ${order.status}`}>{order.status}</span></p>
         <div className="order-items">
@@ -128,13 +178,56 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError }) => {
 
       {error && <div className="error-message">{error}</div>}
 
-      <button
-        className="pay-button"
-        onClick={handlePayment}
-        disabled={isLoading}
-      >
-        {isLoading ? 'Создание платежа...' : 'Оплатить заказ'}
-      </button>
+
+      {!isTerminal && (
+        <div className="user-pay">
+          <button
+            className="pay-button-delivery"
+            onClick={handlePayment}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Создание платежа...' : 'Оплатить заказ с доставкой'}
+          </button>
+
+
+          <button
+            className="pay-button-self-pickup"
+            onClick={handlePayment}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Создание платежа...' : 'Оплатить заказ самовывозом'}
+          </button>
+
+        </div>
+      )}
+
+
+
+      {isTerminal && (
+
+        <div className='terminal-pay'>
+
+          <button
+            className="pay-button-online-terminal"
+            onClick={handlePayment}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Создание платежа...' : 'Оплатить заказ онлайн (СБП)'}
+          </button>
+
+          <button
+            className="cash-pay-button"
+            onClick={handleCashPayment}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Создание платежа...' : 'Оплата наличными на кассе'}
+          </button>
+
+
+
+        </div>
+
+      )}
 
       <button
         className="cancel-button"
