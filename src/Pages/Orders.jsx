@@ -5,7 +5,7 @@ import {
   collection,
   query,
   where,
-  onSnapshot, 
+  onSnapshot,
 } from 'firebase/firestore';
 import './Orders.css';
 
@@ -23,16 +23,16 @@ function Orders() {
 
   const totalPages = Math.ceil(orders.length / itemsPerPage);
 
-const goToNextPage = () => {
-  if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-};
+  const goToNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
 
-const goToPrevPage = () => {
-  if (currentPage > 1) setCurrentPage(currentPage - 1);
-};
+  const goToPrevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
 
 
-   useEffect(() => {
+  useEffect(() => {
     const user = auth.currentUser;
     if (!user) return;
 
@@ -92,47 +92,58 @@ const goToPrevPage = () => {
 
 
   return (
-  <div className="orders">
+    <div className="orders">
 
 
-    <ul className="orders-list">
-      {currentOrders.map((order) => (
-        <li key={order.id} className="order-card">
-          <div className="order-header">
-            <span className="order-number"><strong>Заказ #{order.orderNumber ? String(order.orderNumber).padStart(4, '0') : order.id}</strong></span>
-            <span className="order-location">Торговая точка: {order.location}</span>
-            <span className="order-date">
-              {order.createdAt
-                ? new Date(order.createdAt.seconds * 1000).toLocaleString()
-                : 'Дата неизвестна'}
-            </span>
-          </div>
-          <div className="order-info">
-            <p className='status-field'>Статус: <strong >{order.status || 'новый'}</strong></p>
-            <p>Сумма: <strong>{order.total} ₽</strong></p>
-          </div>
-          <ul className="order-items">
-            {order.items.map((item, index) => (
-              <li key={index} className="order-item">
-                {item.name} × {item.quantity} — {item.price * item.quantity} ₽
-              </li>
-            ))}
-          </ul>
-        </li>
-      ))}
-    </ul>
+      <ul className="orders-list">
+        {currentOrders.map((order) => (
+          <li key={order.id} className="order-card">
+            <div className="order-header">
+              <span className="order-number"><strong>Заказ #{order.orderNumber ? String(order.orderNumber).padStart(4, '0') : order.id}</strong></span>
+              <span className="order-location">Торговая точка: {order.location}</span>
+              <span className="order-date">
+                {order.createdAt
+                  ? new Date(order.createdAt.seconds * 1000).toLocaleString()
+                  : 'Дата неизвестна'}
+              </span>
+            </div>
+            <div className="order-info">
+              <p className='status-field'>Статус: <strong >{order.status || 'новый'}</strong></p>
+              <p>Сумма: <strong>{order.total} ₽</strong></p>
+            </div>
+            <ul className="order-items">
+              {order.items.map((item, index) => (
+                <li key={index} className="order-item">
+                  {item.name} × {item.quantity} — {item.price * item.quantity} ₽
+                </li>
+              ))}
+            </ul>
 
-    <div className="pagination">
-      <button onClick={goToPrevPage} disabled={currentPage === 1}>
-        Назад
-      </button>
-      <span>Страница {currentPage} из {totalPages}</span>
-      <button onClick={goToNextPage} disabled={currentPage === totalPages}>
-        Вперёд
-      </button>
+
+            <div className='address'>
+              <p>
+                Адрес доставки: {order.deliveryAddress
+                  ? `${order.deliveryAddress.city || ''}, ${order.deliveryAddress.street || ''} ${order.deliveryAddress.house || ''}${order.deliveryAddress.apartment ? ', кв. ' + order.deliveryAddress.apartment : ''}`
+                  : 'Самовывоз'}
+              </p>
+            </div>
+
+
+          </li>
+        ))}
+      </ul>
+
+      <div className="pagination">
+        <button onClick={goToPrevPage} disabled={currentPage === 1}>
+          Назад
+        </button>
+        <span>Страница {currentPage} из {totalPages}</span>
+        <button onClick={goToNextPage} disabled={currentPage === totalPages}>
+          Вперёд
+        </button>
+      </div>
     </div>
-  </div>
-);
+  );
 
 }
 export default Orders;

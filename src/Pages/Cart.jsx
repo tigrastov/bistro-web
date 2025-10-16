@@ -24,13 +24,19 @@ import { Trash } from "lucide-react";
 function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
 
 
+  // function calculateDelivery(total) {
+  //   if (total >= 1400) return 0;
+  //   if (total >= 1100) return 69;
+  //   if (total >= 900) return 109;
+  //   if (total >= 600) return 159;
+  //   if (total >= 299) return 209;
+  //   if (total <= 299) return null;
+  //   return 0;
+  // }
   function calculateDelivery(total) {
-    if (total >= 1400) return 0;
-    if (total >= 1100) return 69;
-    if (total >= 900) return 109;
-    if (total >= 600) return 159;
-    if (total >= 299) return 209;
-    if (total <= 299) return null;
+    if (total >= 2) return 1;
+    
+    if (total <= 1) return null;
     return 0;
   }
 
@@ -53,7 +59,9 @@ function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
 
   const deliveryCost = calculateDelivery(total);
   const finalAmount = total + deliveryCost;
-  const canDeliver = total >= 300;
+
+  // const canDeliver = total >= 300;
+  const canDeliver = deliveryCost !== null;
 
   const [isDelivery, setIsDelivery] = useState(false);
 

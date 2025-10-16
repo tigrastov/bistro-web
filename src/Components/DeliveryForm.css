@@ -1,0 +1,75 @@
+.delivery-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #fafafa;
+}
+
+/* Каждое поле — отдельная колонка с подписью */
+.delivery-form div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Подписи */
+.delivery-form label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+/* Основные поля ввода */
+.delivery-form input {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 15px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* При фокусе */
+.delivery-form input:focus {
+  border-color: #0078d7;
+  box-shadow: 0 0 0 2px rgba(0, 120, 215, 0.15);
+  outline: none;
+  background-color: #fff;
+}
+
+/* Неактивные (disabled) поля */
+.delivery-form input:disabled {
+  background-color: #f3f3f3;
+  color: #888;
+  border-color: #ddd;
+  cursor: not-allowed;
+}
+
+/* Ошибки валидации */
+.delivery-form .error {
+  color: #d93025;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* Адаптив */
+@media (max-width: 600px) {
+  .delivery-form {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .delivery-form input {
+    font-size: 14px;
+  }
+}
+
+
+.readonly{
+color: black;
+}

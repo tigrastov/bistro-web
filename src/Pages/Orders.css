@@ -127,3 +127,12 @@ color: white;
 .pagination button:hover:not(:disabled) {
   background-color: #DB2E27;
 }
+
+
+
+.address{
+  color: black;
+  width: 80%;
+  height: 30px;
+  font-size: 14px;
+}

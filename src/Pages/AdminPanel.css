@@ -241,3 +241,9 @@
   padding: 6px 10px;
   border-radius: 6px;
 }
+
+
+.address{
+  font-size: 14px;
+  font-weight: bold;
+}

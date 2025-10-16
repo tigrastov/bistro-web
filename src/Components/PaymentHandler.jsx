@@ -1,13 +1,22 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { locationNames } from './locationNames';
+import DeliveryForm from "./DeliveryForm";
 import './PaymentHandler.css';
 import { getFirestore, addDoc, collection, serverTimestamp, doc, updateDoc, getDoc, increment, setDoc } from 'firebase/firestore';
+
+
+
+
+
 
 const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, clearCart, isDelivery, cartPrice, totalPrice, deliveryPrice }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [deliveryAddress, setDeliveryAddress] = useState({});
+  const [showError, setShowError] = useState(false);
+
 
   // Функция для получения следующего номера заказа
   const getNextOrderNumber = async (location) => {
@@ -44,6 +53,19 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, c
 
       // 2) Создаём предзаказ (pending) в Firestore, получаем его ID
       const db = getFirestore();
+
+      const total = isDelivery ? totalPrice : cartPrice;
+
+      // Проверка обязательных полей доставки
+      if (isDelivery) {
+        if (!deliveryAddress || !deliveryAddress.street || !deliveryAddress.house) {
+          setShowError(true);
+          setIsLoading(false);
+          return;
+        }
+      }
+
+
       const preOrderRef = await addDoc(
         collection(db, 'locations', order.location, 'orders'),
         {
@@ -51,10 +73,11 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, c
           userName: order.clientName,
           userPhone: order.userPhone,
           items: order.items,
-          total: order.totalAmount,
+          total,
           status: 'ожидает оплаты',
           orderNumber: orderNumber,
           isDelivery: isDelivery,
+          deliveryAddress: isDelivery ? deliveryAddress : null,
           createdAt: serverTimestamp(),
         }
       );
@@ -70,8 +93,8 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, c
           body: JSON.stringify({
             orderId: preOrderId,
             location: order.location,
-            amount: order.totalAmount,
-            description: `Заказ на ${order.totalAmount} ₽`,
+            amount: total,
+            description: `Заказ на ${total} ₽`,
             clientEmail: order.clientEmail,
             clientName: order.clientName,
             items: order.items.map(item => ({
@@ -236,6 +259,8 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, c
 
       )}
 
+
+
       <div className="order-summary">
 
 
@@ -261,6 +286,26 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, c
 
       {!isTerminal && (
         <div className="user-pay">
+
+          {isDelivery && (
+
+            <DeliveryForm onChange={setDeliveryAddress} location={order.location}/>
+
+          )}
+
+
+
+
+          {showError && (
+            <div className="error-popup">
+              <div className="error-popup-content">
+                <p>Необходимо заполнить форму доставки </p>
+                <button onClick={() => setShowError(false)}>OK</button>
+              </div>
+            </div>
+          )}
+
+
 
           {isDelivery && (
             <button

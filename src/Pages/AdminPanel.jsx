@@ -224,7 +224,23 @@ function AdminPanel({ location, userData }) {
                   </strong>
                 </p>
 
-                <p>Адрес: <strong>{order.address || 'Не указан'}</strong></p>
+                <div className='address'>
+                  <p>
+                    Адрес доставки: {order.deliveryAddress && Object.keys(order.deliveryAddress).length > 0
+                      ? [
+                        order.deliveryAddress.phone,
+                        order.deliveryAddress.city,
+                        order.deliveryAddress.street ? `ул. ${order.deliveryAddress.street}` : null,
+                        order.deliveryAddress.house ? `д. ${order.deliveryAddress.house}` : null,
+                        order.deliveryAddress.apartment ? `кв. ${order.deliveryAddress.apartment}` : null,
+                        order.deliveryAddress.floor ? `эт. ${order.deliveryAddress.floor}` : null,
+                        order.deliveryAddress.entrance ? `подъезд ${order.deliveryAddress.entrance}` : null,
+                      ].filter(Boolean).join(', ')
+                      : 'Самовывоз'}
+                  </p>
+                </div>
+
+
 
 
                 <select
