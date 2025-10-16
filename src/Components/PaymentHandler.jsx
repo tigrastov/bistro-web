@@ -4,7 +4,7 @@ import { locationNames } from './locationNames';
 import './PaymentHandler.css';
 import { getFirestore, addDoc, collection, serverTimestamp, doc, updateDoc, getDoc, increment, setDoc } from 'firebase/firestore';
 
-const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, clearCart }) => {
+const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, clearCart, isDelivery, cartPrice, totalPrice, deliveryPrice }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -54,6 +54,7 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, c
           total: order.totalAmount,
           status: 'ожидает оплаты',
           orderNumber: orderNumber,
+          isDelivery: isDelivery,
           createdAt: serverTimestamp(),
         }
       );
@@ -106,6 +107,84 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, c
 
 
 
+  //   const handlePaymentDelivery = async () => {
+  //   setIsLoading(true);
+  //   setError(null);
+
+  //   try {
+  //     // 1) Получаем следующий номер заказа
+  //     const orderNumber = await getNextOrderNumber(order.location);
+
+  //     // 2) Рассчитываем цену с доставкой
+  //     let totalAmount = order.totalAmount;
+  //     if (totalAmount < 2000) {
+  //       totalAmount += 3; // доставка платная
+  //     }
+  //     // иначе доставка бесплатная, totalAmount не меняем
+
+  //     // 3) Создаём заказ с доставкой
+  //     const db = getFirestore();
+  //     const preOrderRef = await addDoc(
+  //       collection(db, 'locations', order.location, 'orders'),
+  //       {
+  //         userId: order.userId,
+  //         userName: order.clientName,
+  //         userPhone: order.userPhone,
+  //         items: order.items,
+  //         total: totalAmount,
+  //         status: 'ожидает оплаты',
+  //         orderNumber: orderNumber,
+  //         delivery: true, // пометка заказа с доставкой
+  //         createdAt: serverTimestamp(),
+  //       }
+  //     );
+
+  //     const preOrderId = preOrderRef.id;
+
+  //     // 4) Создаём платёж через Cloud Function
+  //     const response = await fetch(
+  //       'https://us-central1-bistro-app-acfb4.cloudfunctions.net/createPayment',
+  //       {
+  //         method: 'POST',
+  //         headers: { 'Content-Type': 'application/json' },
+  //         body: JSON.stringify({
+  //           orderId: preOrderId,
+  //           location: order.location,
+  //           amount: totalAmount,
+  //           description: `Заказ на ${totalAmount} ₽ (с доставкой)`,
+  //           clientEmail: order.clientEmail,
+  //           clientName: order.clientName,
+  //           items: order.items.map(item => ({
+  //             name: item.name,
+  //             price: item.price,
+  //             quantity: item.quantity
+  //           }))
+  //         }),
+  //       }
+  //     );
+
+  //     const data = await response.json();
+
+  //     if (data.success && data.paymentUrl) {
+  //       localStorage.setItem('lastOrderId', preOrderId);
+  //       localStorage.setItem('lastOrderNumber', orderNumber);
+  //       localStorage.setItem('lastOrderLocation', order.location);
+
+  //       window.location.href = data.paymentUrl;
+  //     } else {
+  //       throw new Error(data.message || 'Ошибка создания платежа');
+  //     }
+  //   } catch (err) {
+  //     setError(err.message);
+  //     onPaymentError?.(err.message);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+
+
+
 
   const handleCashPayment = async () => {
     setIsLoading(true);
@@ -126,7 +205,7 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, c
         orderNumber: orderNumber,
         createdAt: serverTimestamp(),
       });
-      
+
       clearCart?.();
       navigate('/success-cash', { state: { orderNumber } });
 
@@ -157,14 +236,13 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, c
 
       )}
 
-
-
       <div className="order-summary">
 
 
 
 
-        <p>Сумма к оплате: <strong>{order.totalAmount} ₽</strong></p>
+        <p>Сумма к оплате: <strong>{isDelivery ? totalPrice : cartPrice}
+          ₽</strong></p>
         <p>Статус: <span className={`status ${order.status}`}>{order.status}</span></p>
         <div className="order-items">
           <h4>Товары в заказе:</h4>
@@ -174,6 +252,7 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, c
               <span>{item.quantity} x {item.price} ₽</span>
             </div>
           ))}
+          <span> {isDelivery ? `Доставка - ${deliveryPrice}₽` : "Самовывоз"}</span>
         </div>
       </div>
 
@@ -182,22 +261,30 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, c
 
       {!isTerminal && (
         <div className="user-pay">
-          <button
-            className="pay-button-delivery"
-            onClick={handlePayment}
-            disabled={isLoading}
-          >
-            {isLoading ? 'Создание платежа...' : 'Оплатить заказ с доставкой'}
-          </button>
+
+          {isDelivery && (
+            <button
+              className="pay-button-delivery"
+              onClick={handlePayment}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Создание платежа...' : `Оплатить ${totalPrice} заказ с доставкой`}
+            </button>
+
+          )}
 
 
-          <button
-            className="pay-button-self-pickup"
-            onClick={handlePayment}
-            disabled={isLoading}
-          >
-            {isLoading ? 'Создание платежа...' : 'Оплатить заказ самовывозом'}
-          </button>
+
+          {!isDelivery && (
+            <button
+              className="pay-button-self-pickup"
+              onClick={handlePayment}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Создание платежа...' : `Оплатить ${cartPrice}₽ заказ самовывозом`}
+            </button>
+          )}
+
 
         </div>
       )}

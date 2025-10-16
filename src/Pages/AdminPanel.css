@@ -221,3 +221,23 @@
     transform: scale(1.1);
   }
 }
+
+
+
+
+
+.delivery-yes {
+  color: white;
+  background-color: red;
+  font-weight: bold;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.delivery-no {
+   color: white;
+  background-color: green;
+  font-weight: bold;
+  padding: 6px 10px;
+  border-radius: 6px;
+}

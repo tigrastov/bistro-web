@@ -19,8 +19,21 @@ import ConfirmModal from './ConfirmModal';
 import PaymentHandler from '../Components/PaymentHandler';
 
 import { BookOpen } from "lucide-react";
+import { Trash } from "lucide-react";
 
 function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
+
+
+  function calculateDelivery(total) {
+    if (total >= 1400) return 0;
+    if (total >= 1100) return 69;
+    if (total >= 900) return 109;
+    if (total >= 600) return 159;
+    if (total >= 299) return 209;
+    if (total <= 299) return null;
+    return 0; 
+  }
+
 
   const { isOpen, serverTime } = useWorkingHours(0, 23.59,); // открыто с 9:00 до 21:30 по МСК
   const [isClosedModal, setIsClosedModal] = useState(false);
@@ -31,6 +44,21 @@ function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [currentOrder, setCurrentOrder] = useState(null);
+
+
+  const total = cartItems.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+
+  const deliveryCost = calculateDelivery(total);
+  const finalAmount = total + deliveryCost;
+  const canDeliver = total >= 300;
+
+  const [isDelivery, setIsDelivery] = useState(false);
+
+
+
 
   const navigate = useNavigate();
   const goToCatalog = () => {
@@ -157,11 +185,22 @@ function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
             isAdmin={isAdmin}
             isTerminal={isTerminal}
             location={location}
+            isDelivery={isDelivery}
+            cartPrice={total}
+            totalPrice ={finalAmount}
+            deliveryPrice={deliveryCost}
+
+
           />
         </div>
       </div>
     );
   }
+
+
+
+
+
 
   return (
     <div className="cart-page">
@@ -172,6 +211,19 @@ function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
         ) : (
           <>
             <ul className="cart-list">
+
+
+              <div className='delivery-price'>
+                <p className='price'>Стоимость доставки:</p>
+                <p> от 299 до 599 ₽ - 209 ₽</p>
+                <p> от 600 до 899 ₽ - 159 ₽</p>
+                <p> от 900 до 1099 ₽ - 109 ₽</p>
+                <p> от 1100 до 1399 ₽ - 69 ₽</p>
+                <p> от 1400 ₽ - Бесплатно ₽</p>
+              </div>
+
+
+
               {cartItems.map((item) => (
                 <li key={item.id} className="cart-item">
                   <div className="left-space" />
@@ -183,27 +235,91 @@ function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
                   </button>
                 </li>
               ))}
+
+              <div>
+
+
+                <p className="cart-total">
+                  Общая стоимость без доставки:{' '}
+                  {/* {cartItems.reduce(
+                    (acc, item) => acc + item.price * item.quantity,
+                    0
+                  )}{' '} */}
+                  {total}
+                  ₽
+                </p>
+
+
+                {canDeliver ? (<p className="cart-delivery">
+                  Стоимость доставки:{" "}
+                  {deliveryCost === 0 ? (
+                    <strong style={{ color: "green" }}>Бесплатно</strong>
+                  ) : (
+                    <strong>{deliveryCost} ₽</strong>
+                  )}
+                </p>) : (<p className="cart-delivery"> 🚫 Доставка доступна только для заказов от 300₽</p>)}
+
+
+
+
+                {canDeliver && (
+                  <p className="cart-final">
+                    Итого с доставкой: <strong>{finalAmount} ₽</strong>
+                  </p>
+                )}
+
+
+
+
+
+
+              </div>
+
             </ul>
 
-            <p className="cart-total">
-              Общая стоимость:{' '}
-              {cartItems.reduce(
-                (acc, item) => acc + item.price * item.quantity,
-                0
-              )}{' '}
-              ₽
-            </p>
 
-            <button onClick={clearCart} className="clear-cart-btn">
-              Очистить корзину
-            </button>
+            {canDeliver && (
+              <button
+                onClick={() => {
+                  setIsModalOpen(true);
+                  setIsDelivery(true);
+                }}
+
+
+                className="checkout-btn-delivery"
+              >
+                <strong>{finalAmount} ₽</strong> - Оформить заказ c доставкой
+              </button>
+            )}
+
+
+
+
 
             <button
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => {
+                setIsDelivery(false);
+                setIsModalOpen(true)}}
               className="checkout-btn"
             >
-              Оформить заказ
+              <strong> {cartItems.reduce(
+                (acc, item) => acc + item.price * item.quantity,
+                0
+              )}{' '} ₽</strong> - Заберу сам Оформить заказ
+
             </button>
+
+
+
+
+
+
+
+            <button onClick={clearCart} className="clear-cart-btn">
+              <Trash size={20} className='trash-icon' /> Очистить корзину
+            </button>
+
+
 
 
             <button className='back-to-catalog-btn' onClick={goToCatalog}>

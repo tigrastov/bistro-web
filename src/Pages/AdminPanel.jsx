@@ -27,6 +27,9 @@ function AdminPanel({ location, userData }) {
 
   const [showBell, setShowBell] = useState(false);
 
+  const deliveryText = (delivery) => delivery ? 'Да' : 'Нет';
+  const deliveryClass = (delivery) => delivery ? 'delivery-yes' : 'delivery-no';
+
 
   // Responsive orders per page
   useEffect(() => {
@@ -270,6 +273,13 @@ function AdminPanel({ location, userData }) {
               <div className="admin-order-info">
                 <p>Статус: <strong>{order.status || 'новый'}</strong></p>
                 <p>Сумма: <strong>{order.total} ₽</strong></p>
+                <p>
+                  Доставка: <strong className={deliveryClass(order.delivery)}>
+                    {deliveryText(order.delivery)}
+                  </strong>
+                </p>
+
+                <p>Адрес: <strong>{order.address || 'Не указан'}</strong></p>
 
 
                 <select
