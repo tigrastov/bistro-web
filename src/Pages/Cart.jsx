@@ -31,7 +31,7 @@ function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
     if (total >= 600) return 159;
     if (total >= 299) return 209;
     if (total <= 299) return null;
-    return 0; 
+    return 0;
   }
 
 
@@ -187,7 +187,7 @@ function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
             location={location}
             isDelivery={isDelivery}
             cartPrice={total}
-            totalPrice ={finalAmount}
+            totalPrice={finalAmount}
             deliveryPrice={deliveryCost}
 
 
@@ -299,7 +299,8 @@ function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
             <button
               onClick={() => {
                 setIsDelivery(false);
-                setIsModalOpen(true)}}
+                setIsModalOpen(true)
+              }}
               className="checkout-btn"
             >
               <strong> {cartItems.reduce(
@@ -314,17 +315,17 @@ function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
 
 
 
+            <div className='cart-btn-group'>
+              <button onClick={clearCart} className="clean">
+                <Trash size={20} className='trash-icon' /> Очистить корзину
+              </button>
 
-            <button onClick={clearCart} className="clear-cart-btn">
-              <Trash size={20} className='trash-icon' /> Очистить корзину
-            </button>
+              <button className='back' onClick={goToCatalog}>
+                <BookOpen size={20} className='menu-icon' /> Обратно в меню
+              </button>
+            </div>
 
 
-
-
-            <button className='back-to-catalog-btn' onClick={goToCatalog}>
-              <BookOpen size={20} className='menu-icon' /> Обратно в меню
-            </button>
 
 
             {isModalOpen && (

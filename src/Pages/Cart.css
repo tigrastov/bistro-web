@@ -101,43 +101,6 @@
 
 }
 
-
-.checkout-btn {
-   background-color: #EF7F1A;
-  font-weight: bold;
-  border-radius: 10px;
-  padding: 14px;
-  font-size: 1.1rem;
-  font-family: Impact;
-  cursor: pointer;
-  width: 100%;
-  max-width: 400px;
-  margin-top: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-  transition: background-color 0.2s ease, color 0.2s ease;
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  color: white;
-}
-
-.clear-cart-btn {
-   background-color: #EF7F1A;
-  font-weight: bold;
-  border-radius: 10px;
-  padding: 14px;
-  font-size: 1.1rem;
-  font-family: Impact;
-  cursor: pointer;
-  width: 100%;
-  max-width: 400px;
-  margin-top: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-  transition: background-color 0.2s ease, color 0.2s ease;
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  color: white;
-}
-
-
-
 .checkout-btn-delivery {
   background-color: #EF7F1A;
   font-weight: bold;
@@ -155,16 +118,8 @@
   color: white;
 }
 
-
-
-
-
-
-
-
-
-.back-to-catalog-btn{
-    background-color: #EF7F1A;
+.checkout-btn {
+   background-color: #FFE3B5;
   font-weight: bold;
   border-radius: 10px;
   padding: 14px;
@@ -177,34 +132,62 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
   transition: background-color 0.2s ease, color 0.2s ease;
   border: 1px solid rgba(0, 0, 0, 0.5);
-  color: white;
+  color: #261200;
 }
+
+
+.cart-btn-group {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+  max-width: 400px;
+  margin-top: 20px;
+}
+
+.clean{
+background-color: white;
+color: #261200;
+font-family: Impact;
+display: flex;
+justify-content: center;
+align-items: center;
+
+}
+.back{
+background-color: #261200;
+color: white;
+font-family: Impact;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+
+
+
+
+
+
+
+
+
 
 .checkout-btn:hover {
   background-color: white;
   color: #DB2E27;
 }
 
-.back-to-catalog-btn:hover{
-  background-color: white;
-  color: #261200;
-}
 .checkout-btn-delivery:hover {
   background-color: white;
   color: #EF7F1A;
 }
 
 
-.clear-cart-btn:hover {
-  background-color: #DB2E27;
-  color: white;
-}
-
-
 .menu-icon{
  width: 45px;
   height: 45px;
-  padding: 6px;
+  padding: 4px;
   cursor: pointer;
   position: relative;
   font-weight: bold;
@@ -213,7 +196,7 @@
 .trash-icon{
   width: 45px;
   height: 45px;
-  padding: 6px;
+  padding: 4px;
   cursor: pointer;
   position: relative;
   font-weight: bold;

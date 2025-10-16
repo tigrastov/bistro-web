@@ -46,69 +46,6 @@ function AdminPanel({ location, userData }) {
 
 
 
-  // useEffect(() => {
-  //   if (!location || !userData) {
-  //     console.warn('Нет локации или данных пользователя');
-  //     return;
-  //   }
-
-  //   const ordersRef = collection(db, 'locations', location, 'orders');
-  //   const q = query(ordersRef, orderBy('createdAt', 'desc'));
-
-  //   let prevOrderIds = new Set(); // запомним старые заказы
-  //   let notificationActive = false;
-  //   const audio = new Audio('/sounds/notify.mp3');
-
-  //   const unsubscribe = onSnapshot(
-  //     q,
-  //     (snapshot) => {
-  //       const updatedOrders = snapshot.docs.map((doc) => ({
-  //         id: doc.id,
-  //         ...doc.data(),
-  //       }));
-
-  //       // проверяем новые заказы
-  //       const newOrders = updatedOrders.filter((o) => !prevOrderIds.has(o.id));
-
-  //       if (prevOrderIds.size > 0 && newOrders.length > 0 && !notificationActive) {
-  //         notificationActive = true;
-
-  //         // 🔔 звук
-  //         audio.play().catch(() => { });
-
-  //         // 🔴 мигание вкладки
-  //         const originalTitle = document.title;
-  //         let flash = true;
-  //         const interval = setInterval(() => {
-  //           document.title = flash ? '🛒 Новый заказ!' : originalTitle;
-  //           flash = !flash;
-  //         }, 1000);
-
-  //         // прекращаем мигание при активности
-  //         const stopNotification = () => {
-  //           clearInterval(interval);
-  //           document.title = originalTitle;
-  //           notificationActive = false;
-  //           window.removeEventListener('focus', stopNotification);
-  //           window.removeEventListener('click', stopNotification);
-  //         };
-
-  //         window.addEventListener('focus', stopNotification);
-  //         window.addEventListener('click', stopNotification);
-  //       }
-
-  //       prevOrderIds = new Set(updatedOrders.map((o) => o.id));
-  //       setOrders(updatedOrders.filter(order => order.status !== 'ожидает оплаты'));
-  //       setLoading(false);
-  //     },
-  //     (error) => {
-  //       console.error('Ошибка при получении заказов:', error);
-  //       setLoading(false);
-  //     }
-  //   );
-
-  //   return () => unsubscribe();
-  // }, [location, userData, db]);
 
 
 
@@ -273,9 +210,17 @@ function AdminPanel({ location, userData }) {
               <div className="admin-order-info">
                 <p>Статус: <strong>{order.status || 'новый'}</strong></p>
                 <p>Сумма: <strong>{order.total} ₽</strong></p>
-                <p>
+                {/* <p>
                   Доставка: <strong className={deliveryClass(order.delivery)}>
                     {deliveryText(order.delivery)}
+                  </strong>
+                </p> */}
+                <p>
+                  Доставка:{' '}
+                  <strong
+                    className={order.isDelivery ? 'delivery-yes' : 'delivery-no'}
+                  >
+                    {order.isDelivery ? 'Да' : 'Нет'}
                   </strong>
                 </p>
 

@@ -268,7 +268,7 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, c
               onClick={handlePayment}
               disabled={isLoading}
             >
-              {isLoading ? 'Создание платежа...' : `Оплатить ${totalPrice} заказ с доставкой`}
+              {isLoading ? 'Создание платежа...' : `Оплатить ${totalPrice}₽ заказ с доставкой`}
             </button>
 
           )}
