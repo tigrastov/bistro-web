@@ -233,61 +233,6 @@ exports.paymentWebhook = functions.https.onRequest(async (req, res) => {
 
 
 
-// // Новый заказ → сообщение в телегу
-// exports.newOrder = onDocumentCreated({
-//   document: "locations/{location}/orders/{orderId}",
-//   secrets: ["TELEGRAM_BOT_TOKEN", "TELEGRAM_CHAT_ID"]
-// }, async (event) => {
-//   try {
-//     console.log("newOrder function triggered!");
-//     const snap = event.data;
-//     if (!snap) {
-//       console.log("No snapshot data, exiting");
-//       return;
-//     }
-    
-//     const order = snap.data();
-//     const location = event.params.location;
-//     const orderId = event.params.orderId;
-    
-//     // Формируем список товаров
-//     let itemsText = "";
-//     if (order.items && Array.isArray(order.items)) {
-//       itemsText = order.items.map(item => 
-//         `• ${item.name} × ${item.quantity} = ${item.price * item.quantity} ₽`
-//       ).join("\n");
-//     } else {
-//       itemsText = "Товары не указаны";
-//     }
-    
-//     // Формируем сообщение
-//     const displayOrderNumber = order.orderNumber ? `#${String(order.orderNumber).padStart(4, '0')}` : `#${orderId}`;
-//     const text = `🛒 <b>Новый заказ ${displayOrderNumber}</b>
-
-// 📍 <b>Локация:</b> ${location}
-// 👤 <b>Имя:</b> ${order.userName || order.name || "Не указано"}
-// 📞 <b>Телефон:</b> ${order.userPhone || order.phone || "Не указан"}
-// 💰 <b>Сумма:</b> ${order.total || 0} ₽
-// 📦 <b>Статус:</b> ${order.status || "новый"}
-
-// 🛍️ <b>Товары:</b>
-// ${itemsText}`;
-
-
-
-//     const { sendTelegramMessage } = require("./telegram");
-//     const success = await sendTelegramMessage(text);
-    
-//     if (success) {
-//       console.log(`Уведомление о заказе ${orderId} отправлено в Telegram`);
-//     } else {
-//       console.error(`Не удалось отправить уведомление о заказе ${orderId}`);
-//     }
-//   } catch (error) {
-//     console.error("Ошибка при отправке уведомления о новом заказе:", error);
-//   }
-// });
-
 
 exports.notifyPaidOrder = onDocumentUpdated({
   document: "locations/{location}/orders/{orderId}",
@@ -304,6 +249,10 @@ exports.notifyPaidOrder = onDocumentUpdated({
     const newStatus = after.status;
 
     if (prevStatus !== newStatus && newStatus === "Оплачено") {
+
+
+     const deliveryFlag = after.isDelivery ? "🚚 С доставкой" : "🏪 Без доставки";
+
       let itemsText = "";
       if (after.items && Array.isArray(after.items)) {
         itemsText = after.items.map(item =>
@@ -321,7 +270,7 @@ exports.notifyPaidOrder = onDocumentUpdated({
 📞 <b>Телефон:</b> ${after.userPhone || after.phone || "Не указан"}
 💰 <b>Сумма:</b> ${after.total || 0} ₽
 📦 <b>Статус:</b> ${newStatus}
-
+${deliveryFlag}
 🛍️ <b>Товары:</b>
 ${itemsText}`;
 
