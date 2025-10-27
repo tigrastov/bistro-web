@@ -7,9 +7,6 @@ import { getFirestore, addDoc, collection, serverTimestamp, doc, updateDoc, getD
 
 
 
-
-
-
 const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, clearCart, isDelivery, cartPrice, totalPrice, deliveryPrice }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -289,7 +286,7 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, c
 
           {isDelivery && (
 
-            <DeliveryForm onChange={setDeliveryAddress} location={order.location}/>
+            <DeliveryForm onChange={setDeliveryAddress} location={order.location} />
 
           )}
 
@@ -313,10 +310,17 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, c
               onClick={handlePayment}
               disabled={isLoading}
             >
-              {isLoading ? 'Создание платежа...' : `Оплатить ${totalPrice}₽ заказ с доставкой`}
+              {isLoading ? (
+                <>
+                  <div className="spinner"></div>
+                  Создание платежа...
+                </>
+              ) : (
+                `Оплатить ${totalPrice}₽ заказ с доставкой`
+              )}
             </button>
-
           )}
+
 
 
 
@@ -326,15 +330,19 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, c
               onClick={handlePayment}
               disabled={isLoading}
             >
-              {isLoading ? 'Создание платежа...' : `Оплатить ${cartPrice}₽ заказ самовывозом`}
+              {isLoading ? (
+                <>
+                  <div className="spinner"></div>
+                  Создание платежа...
+                </>
+              ) : (
+                `Оплатить ${cartPrice}₽ заказ самовывозом`
+              )}
             </button>
           )}
 
-
         </div>
       )}
-
-
 
       {isTerminal && (
 

@@ -99,8 +99,25 @@ gap: 6px;
   font-weight: bold;
   cursor: pointer;
   transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid transparent;
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin-right: 8px;
 }
 
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 .pay-button-self-pickup{
   width: 100%;
   padding: 16px;

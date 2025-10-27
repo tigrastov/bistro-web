@@ -87,7 +87,7 @@
   }
 
   .catalog-item img {
-    height: 28vw; /* масштабируется по ширине экрана */
+    height: 28vw; 
     min-height: 90px;
     max-height: 140px;
   }

@@ -1,10 +1,10 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import './PaymentResult.css'; // можно один общий стиль для обеих страниц
+import './PaymentResult.css'; 
 
 export default function SuccessCash() {
   const navigate = useNavigate();
   const location = useLocation();
-  const orderNumber = location.state?.orderNumber || 'N/A'; // Получаем номер заказа из состояния навигации
+  const orderNumber = location.state?.orderNumber || 'N/A'; 
 
   return (
     <div className="payment-result success">

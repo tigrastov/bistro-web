@@ -33,7 +33,7 @@ function AppWrapper() {
 }
 
 function App() {
-  const location = useLocation(); // безопасно, потому что внутри Router
+  const location = useLocation(); 
 
   const [userData, setUserData] = useState(() => {
     try {
@@ -215,7 +215,7 @@ function App() {
     return () => window.removeEventListener('orders-changed', listener);
   }, []);
 
-  // Важное: ждём готовность auth и реактивно проверяем заказы
+  // При монтировании ждём готовность auth и реактивно проверяем заказы
   useEffect(() => {
     const onFocus = () => checkHasOrders();
     const onVisible = () => { if (document.visibilityState === 'visible') checkHasOrders(); };

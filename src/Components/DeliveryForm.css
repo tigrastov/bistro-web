@@ -50,14 +50,14 @@
   cursor: not-allowed;
 }
 
-/* Ошибки валидации */
+/* При ошибке */
 .delivery-form .error {
   color: #d93025;
   font-size: 13px;
   margin-top: 4px;
 }
 
-/* Адаптив */
+
 @media (max-width: 600px) {
   .delivery-form {
     padding: 12px;
@@ -68,7 +68,6 @@
     font-size: 14px;
   }
 }
-
 
 .readonly{
 color: black;

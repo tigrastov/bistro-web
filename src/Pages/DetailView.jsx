@@ -154,7 +154,7 @@ function DetailView({ location, userData, setCartCount }) {
             </Link>
 
             <span className="price">Цена: {product.price * quantity} ₽</span>
-            
+
           </div>
         )}
         <div className="detail-desc">{product.desc}</div>

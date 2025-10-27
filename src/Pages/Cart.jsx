@@ -24,24 +24,26 @@ import { Trash } from "lucide-react";
 function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
 
 
-  // function calculateDelivery(total) {
-  //   if (total >= 1400) return 0;
-  //   if (total >= 1100) return 69;
-  //   if (total >= 900) return 109;
-  //   if (total >= 600) return 159;
-  //   if (total >= 299) return 209;
-  //   if (total <= 299) return null;
-  //   return 0;
-  // }
   function calculateDelivery(total) {
-    if (total >= 2) return 1;
-    
-    if (total <= 1) return null;
+    if (total >= 1400) return 0;
+    if (total >= 1100) return 69;
+    if (total >= 900) return 109;
+    if (total >= 600) return 159;
+    if (total >= 299) return 209;
+    if (total <= 299) return null;
     return 0;
   }
 
 
-  const { isOpen, serverTime } = useWorkingHours(0, 23.59,); // открыто с 9:00 до 21:30 по МСК
+  // function calculateDelivery(total) {
+  //   if (total >= 2) return 1;
+    
+  //   if (total <= 1) return null;
+  //   return 0;
+  // }
+
+
+  const { isOpen, serverTime } = useWorkingHours(0, 23.59,); 
   const [isClosedModal, setIsClosedModal] = useState(false);
 
 

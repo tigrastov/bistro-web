@@ -9,7 +9,7 @@ function ProductCard({ product }) {
       {product.photo && <img src={product.photo} alt={product.name} />}
       <h2>{product.name}</h2>
       <div className="price">{product.price} ₽</div>
-      {/* <div className="desc">{product.desc}</div> */}
+
        {product.paused ? (
          <div className="desc paused-label">Временно недоступен</div>
        ) : (

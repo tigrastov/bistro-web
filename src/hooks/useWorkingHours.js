@@ -1,4 +1,4 @@
-// import { useEffect, useState } from "react";
+
 import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
 import { useState, useEffect } from "react";
 export function useWorkingHours(openHour = 9, closeHour = 22, timezoneOffset = 3) {

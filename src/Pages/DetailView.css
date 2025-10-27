@@ -17,7 +17,8 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: #261200;;
+  background-color: #261200;
+  ;
   color: white;
   font-weight: bold;
   border: none;
@@ -150,17 +151,30 @@
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  gap: 10px;
+
+
 }
 
 .delete-button {
   background-color: #e00000;
-  color: white;
-  font-weight: bold;
+  font-family: Impact;
+
   padding: 12px 20px;
   border: none;
   border-radius: 10px;
-  cursor: pointer;
-  font-size: 1rem;
+
+
+}
+
+.pause-button {
+  background-color: black;
+
+  font-family: Impact;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+
 }
 
 .delete-button:hover {
