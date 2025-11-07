@@ -43,7 +43,7 @@ function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
   // }
 
 
-  const { isOpen, serverTime } = useWorkingHours(0, 23.59,); 
+  const { isOpen, serverTime } = useWorkingHours(10.00, 21.30,); 
   const [isClosedModal, setIsClosedModal] = useState(false);
 
 
