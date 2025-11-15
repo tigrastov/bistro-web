@@ -4,8 +4,8 @@ import { locationNames } from './locationNames';
 import DeliveryForm from "./DeliveryForm";
 import './PaymentHandler.css';
 import { getFirestore, addDoc, collection, serverTimestamp, doc, updateDoc, getDoc, increment, setDoc } from 'firebase/firestore';
-
-
+import { useWorkingHours } from '../hooks/useWorkingHours';
+import ClosedScreen from '../Components/ClosedScreen';
 
 const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, clearCart, isDelivery, cartPrice, totalPrice, deliveryPrice }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,6 +13,18 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, c
   const navigate = useNavigate();
   const [deliveryAddress, setDeliveryAddress] = useState({});
   const [showError, setShowError] = useState(false);
+
+  const { isOpen, serverTime } = useWorkingHours({
+    open: "10:00",
+    close: "21:30",
+    timezone: 3
+  });
+
+  if (!isOpen) {
+    navigate('/closed');
+    return null; 
+  }
+
 
 
   // Функция для получения следующего номера заказа
@@ -43,6 +55,11 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, c
   const handlePayment = async () => {
     setIsLoading(true);
     setError(null);
+
+  if(!isOpen) {
+    navigate('/closed');
+    return;
+  }
 
     try {
       // 1) Получаем следующий номер заказа

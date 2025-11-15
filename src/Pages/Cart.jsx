@@ -37,13 +37,24 @@ function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
 
   // function calculateDelivery(total) {
   //   if (total >= 2) return 1;
-    
+
   //   if (total <= 1) return null;
   //   return 0;
   // }
 
 
-  const { isOpen, serverTime } = useWorkingHours(10.00, 21.30,); 
+  // const { isOpen, serverTime } = useWorkingHours(10.00, 21.30,); 
+
+
+  const { isOpen, serverTime } = useWorkingHours({
+    open: "10:00",
+    close: "21:30",
+    timezone: 3
+  });
+
+
+  
+
   const [isClosedModal, setIsClosedModal] = useState(false);
 
 
@@ -277,11 +288,6 @@ function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
                     Итого с доставкой: <strong>{finalAmount} ₽</strong>
                   </p>
                 )}
-
-
-
-
-
 
               </div>
 

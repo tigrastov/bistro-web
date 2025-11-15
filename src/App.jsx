@@ -22,6 +22,7 @@ import Fail from './Pages/Fail.jsx';
 import LocationSelect from './Components/LocationSelect.jsx';
 import SuccessCash from './Pages/SuccessCash.jsx';  
 import FailCash from './Pages/FailCash.jsx';
+import ClosedScreen from './Components/ClosedScreen';
 import './App.css';
 
 function AppWrapper() {
@@ -340,6 +341,7 @@ function App() {
             <Route path="/success-cash" element={<SuccessCash />} />
             <Route path="/fail-cash" element={<FailCash />} />
             <Route path="/admin/add-product" element={<AddProduct location={effectiveLocation} />} />
+            <Route path="/closed" element={<ClosedScreen onClose={() => window.history.back()} />} />
           </Routes>
         </AnimatePresence>
       )}
