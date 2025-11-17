@@ -8,13 +8,13 @@ import { ShoppingCart } from 'lucide-react';
 import { BookOpen } from "lucide-react";
 
 
-function DetailView({ location, userData, setCartCount }) {
+function DetailView({ location, userData, setCartCount, isAdmin }) {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
 
 
-  const isAdmin = userData?.role === 'adminCuba' || userData?.role === 'adminKarlMarks';
+  // const isAdmin = userData?.role === 'adminCuba' || userData?.role === 'adminKarlMarks' || userData?.role === 'adminFrz';
 
   useEffect(() => {
     async function fetchProduct() {

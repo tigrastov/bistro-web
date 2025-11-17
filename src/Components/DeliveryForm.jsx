@@ -19,7 +19,7 @@ export default function DeliveryForm({ onChange, location }) {
             let displayCity = "";
             if (location === "Kubenskoye-Lenina-Street") displayCity = "с. Кубенское(Песочное)";
             if (location === "Vologda-Karla-Marksa-Street") displayCity = "г. Вологда";
-
+            if (location === "Vologda-Fryazinovskaya-Street") displayCity = "г. Вологда";
             setCity(displayCity);
             onChange?.((prev) => ({ ...prev, city: displayCity }));
         }

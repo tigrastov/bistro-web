@@ -49,18 +49,40 @@ function App() {
 
   const [hasOrders, setHasOrders] = useState(!!localStorage.getItem('hasOrders'));
 
-  const isAdminCuba = userData?.role === 'adminCuba';
-  const isTerminalCuba = userData?.role === 'terminalCuba';
-  const isTerminalKarlMarks = userData?.role === 'terminalKarlMarks';
-  const isAdminKarlMarks = userData?.role === 'adminKarlMarks';
-  const isAdmin = isAdminCuba || isAdminKarlMarks;
-  const isTerminal = isTerminalCuba || isTerminalKarlMarks;
+  // const isAdminCuba = userData?.role === 'adminCuba';
+  // const isTerminalCuba = userData?.role === 'terminalCuba';
+  // const isTerminalKarlMarks = userData?.role === 'terminalKarlMarks';
+  // const isAdminKarlMarks = userData?.role === 'adminKarlMarks';
+  // const isAdmin = isAdminCuba || isAdminKarlMarks;
+  // const isTerminal = isTerminalCuba || isTerminalKarlMarks ;
 
-  const effectiveLocation = isAdminCuba || isTerminalCuba
-    ? 'Kubenskoye-Lenina-Street'
-    : isAdminKarlMarks || isTerminalKarlMarks
-      ? 'Vologda-Karla-Marksa-Street'
-      : locationState;
+  // const effectiveLocation = isAdminCuba || isTerminalCuba
+  //   ? 'Kubenskoye-Lenina-Street'
+  //   : isAdminKarlMarks || isTerminalKarlMarks
+  //     ? 'Vologda-Karla-Marksa-Street'
+  //     : locationState;
+
+  // словарь: роли → рабочие локации
+const roleToLocation = {
+  adminCuba: 'Kubenskoye-Lenina-Street',
+  terminalCuba: 'Kubenskoye-Lenina-Street',
+  adminKarlMarks: 'Vologda-Karla-Marksa-Street',
+  terminalKarlMarks: 'Vologda-Karla-Marksa-Street',
+  adminFrz: 'Vologda-Fryazinovskaya-Street', 
+  terminalFrz: 'Vologda-Fryazinovskaya-Street'
+};
+
+// массивы ролей для проверки прав
+const adminRoles = ['adminCuba', 'adminKarlMarks', 'adminFrz'];
+const terminalRoles = ['terminalCuba', 'terminalKarlMarks', 'terminalFrz'];
+
+// проверка роли
+const isAdmin = adminRoles.includes(userData?.role);
+const isTerminal = terminalRoles.includes(userData?.role);
+
+// определяем рабочую локацию
+const effectiveLocation = roleToLocation[userData?.role] || locationState;
+
 
   const handleLocationSelect = (loc) => {
     setLocationState(loc);
@@ -74,7 +96,7 @@ function App() {
       return;
     }
 
-    const locationIds = ['Kubenskoye-Lenina-Street', 'Vologda-Karla-Marksa-Street'];
+    const locationIds = ['Kubenskoye-Lenina-Street', 'Vologda-Karla-Marksa-Street', 'Vologda-Fryazinovskaya-Street'];
     const doneStatuses = new Set(['завершён', 'завершен', 'отменён', 'отменен', 'completed', 'cancelled', 'canceled']);
 
     let flag = false;
@@ -130,7 +152,7 @@ function App() {
     const current = auth.currentUser;
     if (!current) return;
 
-    const locationIds = ['Kubenskoye-Lenina-Street', 'Vologda-Karla-Marksa-Street'];
+    const locationIds = ['Kubenskoye-Lenina-Street', 'Vologda-Karla-Marksa-Street', 'Vologda-Fryazinovskaya-Street'];
     const unsubscribers = [];
     let hasActive = false;
 
@@ -236,6 +258,7 @@ function App() {
         isAdmin={isAdmin}
         isTerminal={isTerminal}
         cartCount={cartCount}
+        adminRoles={adminRoles}
         onChangeLocation={() => {
           setLocationState("");
           localStorage.removeItem("location");
@@ -275,6 +298,7 @@ function App() {
                     location={effectiveLocation}
                     userData={userData}
                     setCartCount={setCartCount}
+                    isAdmin={isAdmin}  
                   />
                 </motion.div>
               }

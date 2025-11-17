@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Header.css';
+import { locationNames } from './locationNames';
 
-export default function Header({ userData, location, isAdmin, isTerminal, onChangeLocation, cartCount }) {
+
+export default function Header({ userData, location, isAdmin, isTerminal, adminRoles, onChangeLocation, cartCount }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -20,7 +22,7 @@ export default function Header({ userData, location, isAdmin, isTerminal, onChan
         <div className="logotype">
           <img src="/logoFull.png" alt="Логотип" />
         </div>
-       
+
 
         {!isAdmin && !isTerminal && location && (
           <div className="current-location">
@@ -30,7 +32,8 @@ export default function Header({ userData, location, isAdmin, isTerminal, onChan
                 alt="Геолокация"
                 style={{ width: 20, height: 20, marginRight: 8, verticalAlign: 'middle' }}
               />
-              {location === 'Kubenskoye-Lenina-Street' ? 'c.Кубенское, Ленина, 10' : 'г.Вологда, Карла Маркса, 17'}
+              {/* {location === 'Kubenskoye-Lenina-Street' ? 'c.Кубенское, Ленина, 10' : 'г.Вологда, Карла Маркса, 17'} */}
+              {locationNames[location]}
             </button>
           </div>
         )}
@@ -76,9 +79,15 @@ export default function Header({ userData, location, isAdmin, isTerminal, onChan
 
 
 
-        {userData && (userData.role === 'adminCuba' || userData.role === 'adminKarlMarks') && (
+        {/* {userData && (userData.role === 'adminCuba' || userData.role === 'adminKarlMarks') && (
           <NavLink to="/admin" onClick={() => setIsOpen(false)}>Админ-панель</NavLink>
+        )} */}
+        {userData && adminRoles.includes(userData.role) && (
+          <NavLink to="/admin" onClick={() => setIsOpen(false)}>
+            Админ-панель
+          </NavLink>
         )}
+
 
         {!isTerminal && userData && (
           <NavLink to="/profile" onClick={() => setIsOpen(false)}>Профиль</NavLink>
