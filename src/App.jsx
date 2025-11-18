@@ -23,6 +23,7 @@ import LocationSelect from './Components/LocationSelect.jsx';
 import SuccessCash from './Pages/SuccessCash.jsx';  
 import FailCash from './Pages/FailCash.jsx';
 import ClosedScreen from './Components/ClosedScreen';
+import StopMarket from './Pages/StopMarkert.jsx';
 import './App.css';
 
 function AppWrapper() {
@@ -49,18 +50,9 @@ function App() {
 
   const [hasOrders, setHasOrders] = useState(!!localStorage.getItem('hasOrders'));
 
-  // const isAdminCuba = userData?.role === 'adminCuba';
-  // const isTerminalCuba = userData?.role === 'terminalCuba';
-  // const isTerminalKarlMarks = userData?.role === 'terminalKarlMarks';
-  // const isAdminKarlMarks = userData?.role === 'adminKarlMarks';
-  // const isAdmin = isAdminCuba || isAdminKarlMarks;
-  // const isTerminal = isTerminalCuba || isTerminalKarlMarks ;
+  const [isStopMarket, setIsStopMarket] = useState(false);
 
-  // const effectiveLocation = isAdminCuba || isTerminalCuba
-  //   ? 'Kubenskoye-Lenina-Street'
-  //   : isAdminKarlMarks || isTerminalKarlMarks
-  //     ? 'Vologda-Karla-Marksa-Street'
-  //     : locationState;
+  
 
   // словарь: роли → рабочие локации
 const roleToLocation = {
@@ -83,6 +75,28 @@ const isTerminal = terminalRoles.includes(userData?.role);
 // определяем рабочую локацию
 const effectiveLocation = roleToLocation[userData?.role] || locationState;
 
+// подписка на стоп-маркет для текущей локации
+useEffect(() => {
+  if (!effectiveLocation) {
+    setIsStopMarket(false);
+    return;
+  }
+
+  const locationRef = doc(db, 'locations', effectiveLocation);
+  const unsub = onSnapshot(
+    locationRef,
+    (snap) => {
+      const data = snap.data() || {};
+      setIsStopMarket(!!data.stopMarket);
+    },
+    () => {
+      // при ошибке подписки не блокируем работу приложения
+      setIsStopMarket(false);
+    }
+  );
+
+  return () => unsub();
+}, [effectiveLocation]);
 
   const handleLocationSelect = (loc) => {
     setLocationState(loc);
@@ -281,7 +295,15 @@ const effectiveLocation = roleToLocation[userData?.role] || locationState;
                   exit={{ opacity: 0, scale: 0.8 }}
                   transition={{ duration: 0.2, ease: [1, 0, 1, 1] }}
                 >
-                  <Catalog location={effectiveLocation} cartCount={cartCount} hasOrders={hasOrders} />
+                  {isStopMarket && !isAdmin && !isTerminal ? (
+                    <StopMarket />
+                  ) : (
+                    <Catalog
+                      location={effectiveLocation}
+                      cartCount={cartCount}
+                      hasOrders={hasOrders}
+                    />
+                  )}
                 </motion.div>
               }
             />
@@ -312,10 +334,17 @@ const effectiveLocation = roleToLocation[userData?.role] || locationState;
                   exit={{ opacity: 0, y: -40, scale: 0.95 }}
                   transition={{ duration: 0.6, ease: [0.42, 0, 0.58, 1] }}
                 >
-                  <Cart location={effectiveLocation} setCartCount={setCartCount}  
-                  isAdmin={isAdmin}
-                  isTerminal={isTerminal}
-                  userData={userData}/>
+                  {isStopMarket && !isAdmin && !isTerminal ? (
+                    <StopMarket />
+                  ) : (
+                    <Cart
+                      location={effectiveLocation}
+                      setCartCount={setCartCount}
+                      isAdmin={isAdmin}
+                      isTerminal={isTerminal}
+                      userData={userData}
+                    />
+                  )}
                 </motion.div>
               }
             />

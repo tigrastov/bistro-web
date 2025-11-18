@@ -10,6 +10,8 @@ import {
   updateDoc,
   doc,
   onSnapshot,
+  setDoc,
+  getDoc,
 } from 'firebase/firestore';
 import { NavLink } from 'react-router-dom';
 
@@ -27,9 +29,46 @@ function AdminPanel({ location, userData }) {
 
   const [showBell, setShowBell] = useState(false);
 
+  const [isStopMarket, setIsStopMarket] = useState(false);
+
   const deliveryText = (delivery) => delivery ? 'Да' : 'Нет';
   const deliveryClass = (delivery) => delivery ? 'delivery-yes' : 'delivery-no';
 
+
+  // загрузка флага стоп-маркета для текущей локации
+  useEffect(() => {
+    if (!location) return;
+
+    const loadFlag = async () => {
+      try {
+        const locRef = doc(db, 'locations', location);
+        const snap = await getDoc(locRef);
+        const data = snap.exists() ? snap.data() : {};
+        setIsStopMarket(!!data.stopMarket);
+      } catch (e) {
+        console.warn('Не удалось загрузить стоп-маркет для локации', location, e);
+      }
+    };
+
+    loadFlag();
+  }, [db, location]);
+
+  const toggleStopMarket = async () => {
+    if (!location) return;
+    const newValue = !isStopMarket;
+    setIsStopMarket(newValue);
+    try {
+      const locRef = doc(db, 'locations', location);
+      await setDoc(
+        locRef,
+        { stopMarket: newValue },
+        { merge: true }
+      );
+    } catch (e) {
+      console.error('Ошибка при смене статуса стоп-маркета:', e);
+      setIsStopMarket(!newValue);
+    }
+  };
 
   // Responsive orders per page
   useEffect(() => {
@@ -173,6 +212,16 @@ function AdminPanel({ location, userData }) {
 
 
       <h1 className="admin-title">Заказы вашего магазина</h1>
+
+      <div className="admin-stopmarket-wrapper">
+        <button
+          type="button"
+          className={`admin-add-btn ${isStopMarket ? 'active' : ''}`}
+          onClick={toggleStopMarket}
+        >
+          {isStopMarket ? '🔴 Стоп-маркет включён' : '🟢 Маркет работает'}
+        </button>
+      </div>
 
 
       <div className="admin-add-product-wrapper">
