@@ -53,7 +53,7 @@ function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
   });
 
 
-  
+
 
   const [isClosedModal, setIsClosedModal] = useState(false);
 
@@ -234,14 +234,18 @@ function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
             <ul className="cart-list">
 
 
-              <div className='delivery-price'>
-                <p className='price'>Стоимость доставки:</p>
-                <p> от 299 до 599 ₽ - 209 ₽</p>
-                <p> от 600 до 899 ₽ - 159 ₽</p>
-                <p> от 900 до 1099 ₽ - 109 ₽</p>
-                <p> от 1100 до 1399 ₽ - 69 ₽</p>
-                <p> от 1400 ₽ - Бесплатно ₽</p>
-              </div>
+              {!isTerminal && (
+                <div className='delivery-price'>
+                  <p className='price'>Стоимость доставки:</p>
+                  <p> от 299 до 599 ₽ - 209 ₽</p>
+                  <p> от 600 до 899 ₽ - 159 ₽</p>
+                  <p> от 900 до 1099 ₽ - 109 ₽</p>
+                  <p> от 1100 до 1399 ₽ - 69 ₽</p>
+                  <p> от 1400 ₽ - Бесплатно ₽</p>
+                </div>
+
+              )}
+
 
 
 
@@ -262,28 +266,39 @@ function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
 
                 <p className="cart-total">
                   Общая стоимость без доставки:{' '}
-                  {/* {cartItems.reduce(
-                    (acc, item) => acc + item.price * item.quantity,
-                    0
-                  )}{' '} */}
+
                   {total}
                   ₽
                 </p>
 
 
-                {canDeliver ? (<p className="cart-delivery">
-                  Стоимость доставки:{" "}
-                  {deliveryCost === 0 ? (
-                    <strong style={{ color: "green" }}>Бесплатно</strong>
+
+
+
+
+
+                {!isTerminal && (
+                  canDeliver ? (
+                    <p className="cart-delivery">
+                      Стоимость доставки:{" "}
+                      {deliveryCost === 0 ? (
+                        <strong style={{ color: "green" }}>Бесплатно</strong>
+                      ) : (
+                        <strong>{deliveryCost} ₽</strong>
+                      )}
+                    </p>
                   ) : (
-                    <strong>{deliveryCost} ₽</strong>
-                  )}
-                </p>) : (<p className="cart-delivery"> 🚫 Доставка доступна только для заказов от 300₽</p>)}
+                    <p className="cart-delivery">
+                      🚫 Доставка доступна только для заказов от 300₽
+                    </p>
+                  )
+                )}
 
 
 
 
-                {canDeliver && (
+
+                {canDeliver && !isTerminal && (
                   <p className="cart-final">
                     Итого с доставкой: <strong>{finalAmount} ₽</strong>
                   </p>
@@ -294,7 +309,7 @@ function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
             </ul>
 
 
-            {canDeliver && (
+            {canDeliver && !isTerminal && (
               <button
                 onClick={() => {
                   setIsModalOpen(true);
@@ -311,20 +326,25 @@ function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
 
 
 
-
             <button
               onClick={() => {
                 setIsDelivery(false);
-                setIsModalOpen(true)
+                setIsModalOpen(true);
               }}
               className="checkout-btn"
             >
-              <strong> {cartItems.reduce(
-                (acc, item) => acc + item.price * item.quantity,
-                0
-              )}{' '} ₽</strong> - Заберу сам Оформить заказ
-
+              <strong>
+                {cartItems.reduce(
+                  (acc, item) => acc + item.price * item.quantity,
+                  0
+                )}{' '}₽
+              </strong>
+              {' '}
+              {!isTerminal && ' - Заберу сам'}
+              {' '}
+              - Оформить заказ
             </button>
+
 
 
 
