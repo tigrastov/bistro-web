@@ -61,16 +61,52 @@
     <key>UIViewControllerBasedStatusBarAppearance</key>
     <true/>
 
+    
+    
     <!-- Разрешаем сетевые запросы из WebView -->
     <key>NSAppTransportSecurity</key>
     <dict>
-        <key>NSAllowsArbitraryLoads</key>
-        <true/>
-        <key>NSAllowsArbitraryLoadsInWebContent</key>
-        <true/>
-        <key>NSAllowsLocalNetworking</key>
-        <true/>
+      <key>NSAllowsArbitraryLoads</key><true/>
+      <key>NSAllowsLocalNetworking</key><true/>
+
+      <key>NSExceptionDomains</key>
+      <dict>
+        <key>googleapis.com</key>
+        <dict>
+          <key>NSIncludesSubdomains</key><true/>
+          <key>NSExceptionAllowsInsecureHTTPLoads</key><true/>
+        </dict>
+        <key>firebaseapp.com</key>
+        <dict>
+          <key>NSIncludesSubdomains</key><true/>
+          <key>NSExceptionAllowsInsecureHTTPLoads</key><true/>
+        </dict>
+        <key>googleusercontent.com</key>
+        <dict>
+          <key>NSIncludesSubdomains</key><true/>
+          <key>NSExceptionAllowsInsecureHTTPLoads</key><true/>
+        </dict>
+      </dict>
     </dict>
+
+    <key>WKAppBoundDomains</key>
+    <array>
+        <!-- Firebase Hosting -->
+        <string>bistro-app-acfb4.web.app</string>
+        <string>bistro-app-acfb4.firebaseapp.com</string>
+
+        <!-- Твои домены -->
+        <string>vkusno-market.online</string>
+        <string>xn--b1aqjenl.online</string>
+        <string>vkusno-market.ru</string>
+
+        <!-- Firebase API домены -->
+        <string>firestore.googleapis.com</string>
+        <string>firebasestorage.googleapis.com</string>
+        <string>identitytoolkit.googleapis.com</string>
+        <string>securetoken.googleapis.com</string>
+        <string>www.googleapis.com</string>
+    </array>
 
     <!-- Разрешения на доступ к устройству -->
     <key>NSCameraUsageDescription</key>

@@ -1,5 +1,9 @@
 {
   "appId": "online.bistro.app",
   "appName": "bistro-mobile",
-  "webDir": "dist"
+  "webDir": "dist",
+  "server": {
+    "url": "https://vkusno-market.ru",
+    "cleartext": false
+  }
 }
