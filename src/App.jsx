@@ -264,6 +264,25 @@ useEffect(() => {
     };
   }, []);
 
+// Обработка событий оплаты
+
+useEffect(() => {
+  const successHandler = () => navigate("/success");
+  const failHandler = () => navigate("/fail");
+
+  window.addEventListener("payment-success", successHandler);
+  window.addEventListener("payment-fail", failHandler);
+
+  return () => {
+    window.removeEventListener("payment-success", successHandler);
+    window.removeEventListener("payment-fail", failHandler);
+  };
+}, []);
+
+
+
+
+
   return (
     <div className='app-container'>
       <Header

@@ -218,11 +218,6 @@ function Cart({ setCartCount, isAdmin, isTerminal, userData, location }) {
     );
   }
 
-
-
-
-
-
   return (
     <div className="cart-page">
       <div className="cart">

@@ -2,121 +2,107 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>CFBundleDevelopmentRegion</key>
-    <string>en</string>
-
-    <key>CFBundleDisplayName</key>
-    <string>App</string>
-
-    <key>CFBundleExecutable</key>
-    <string>$(EXECUTABLE_NAME)</string>
-
-    <key>CFBundleIdentifier</key>
-    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-
-    <key>CFBundleInfoDictionaryVersion</key>
-    <string>6.0</string>
-
-    <key>CFBundleName</key>
-    <string>$(PRODUCT_NAME)</string>
-
-    <key>CFBundlePackageType</key>
-    <string>APPL</string>
-
-    <key>CFBundleShortVersionString</key>
-    <string>$(MARKETING_VERSION)</string>
-
-    <key>CFBundleVersion</key>
-    <string>$(CURRENT_PROJECT_VERSION)</string>
-
-    <key>LSRequiresIPhoneOS</key>
-    <true/>
-
-    <key>UILaunchStoryboardName</key>
-    <string>LaunchScreen</string>
-
-    <key>UIMainStoryboardFile</key>
-    <string>Main</string>
-
-    <key>UIRequiredDeviceCapabilities</key>
-    <array>
-        <string>armv7</string>
-    </array>
-
-    <key>UISupportedInterfaceOrientations</key>
-    <array>
-        <string>UIInterfaceOrientationPortrait</string>
-        <string>UIInterfaceOrientationLandscapeLeft</string>
-        <string>UIInterfaceOrientationLandscapeRight</string>
-    </array>
-
-    <key>UISupportedInterfaceOrientations~ipad</key>
-    <array>
-        <string>UIInterfaceOrientationPortrait</string>
-        <string>UIInterfaceOrientationPortraitUpsideDown</string>
-        <string>UIInterfaceOrientationLandscapeLeft</string>
-        <string>UIInterfaceOrientationLandscapeRight</string>
-    </array>
-
-    <key>UIViewControllerBasedStatusBarAppearance</key>
-    <true/>
-
-    
-    
-    <!-- Разрешаем сетевые запросы из WebView -->
-    <key>NSAppTransportSecurity</key>
-    <dict>
-      <key>NSAllowsArbitraryLoads</key><true/>
-      <key>NSAllowsLocalNetworking</key><true/>
-
-      <key>NSExceptionDomains</key>
-      <dict>
-        <key>googleapis.com</key>
-        <dict>
-          <key>NSIncludesSubdomains</key><true/>
-          <key>NSExceptionAllowsInsecureHTTPLoads</key><true/>
-        </dict>
-        <key>firebaseapp.com</key>
-        <dict>
-          <key>NSIncludesSubdomains</key><true/>
-          <key>NSExceptionAllowsInsecureHTTPLoads</key><true/>
-        </dict>
-        <key>googleusercontent.com</key>
-        <dict>
-          <key>NSIncludesSubdomains</key><true/>
-          <key>NSExceptionAllowsInsecureHTTPLoads</key><true/>
-        </dict>
-      </dict>
-    </dict>
-
-    <key>WKAppBoundDomains</key>
-    <array>
-        <!-- Firebase Hosting -->
-        <string>bistro-app-acfb4.web.app</string>
-        <string>bistro-app-acfb4.firebaseapp.com</string>
-
-        <!-- Твои домены -->
-        <string>vkusno-market.online</string>
-        <string>xn--b1aqjenl.online</string>
-        <string>vkusno-market.ru</string>
-
-        <!-- Firebase API домены -->
-        <string>firestore.googleapis.com</string>
-        <string>firebasestorage.googleapis.com</string>
-        <string>identitytoolkit.googleapis.com</string>
-        <string>securetoken.googleapis.com</string>
-        <string>www.googleapis.com</string>
-    </array>
-
-    <!-- Разрешения на доступ к устройству -->
-    <key>NSCameraUsageDescription</key>
-    <string>Нужно для доступа к камере</string>
-
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>Нужно для доступа к фото</string>
-
-    <key>NSMicrophoneUsageDescription</key>
-    <string>Нужно для записи звука</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>App</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>myapp</string>
+		</dict>
+	</array>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>firebaseapp.com</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+			<key>googleapis.com</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+			<key>googleusercontent.com</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Нужно для доступа к камере</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Нужно для записи звука</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Нужно для доступа к фото</string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<true/>
+	<key>WKAppBoundDomains</key>
+	<array>
+		<string>bistro-app-acfb4.web.app</string>
+		<string>bistro-app-acfb4.firebaseapp.com</string>
+		<string>vkusno-market.online</string>
+		<string>xn--b1aqjenl.online</string>
+		<string>vkusno-market.ru</string>
+		<string>firestore.googleapis.com</string>
+		<string>firebasestorage.googleapis.com</string>
+		<string>identitytoolkit.googleapis.com</string>
+		<string>securetoken.googleapis.com</string>
+		<string>www.googleapis.com</string>
+	</array>
 </dict>
 </plist>
-
