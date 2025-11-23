@@ -10,8 +10,8 @@
   padding-top: 100px; 
   text-align: center;
   font-family: Impact;
-
 }
+
 
 .auth h2 {
   color: #0A0002;
@@ -165,12 +165,10 @@
 @media (max-width: 480px) {
   .auth {
     width: 100%;
-    padding: 20px;
+    padding-top: calc(100px + env(safe-area-inset-top, 0px));
     margin: 0;
     box-sizing: border-box;
     min-height: 100vh;
-   margin-top: 100px;
-    
     left: 0;
   }
 

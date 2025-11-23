@@ -8,6 +8,14 @@
   z-index: 999;
 }
 
+/* Safe-area для мобильных */
+@media (max-width: 1200px) {
+  .closed-overlay {
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+}
+
 .closed-modal {
   background: white;
   color: black;

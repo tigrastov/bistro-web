@@ -58,8 +58,10 @@ exports.createPayment = functions.https.onRequest(async (req, res) => {
         password: ALFA_PASSWORD,
         orderNumber: orderId,
         amount: amount * 100, // в копейках
-        returnUrl: "https://xn--b1aqjenl.online/success",
-        failUrl: "https://xn--b1aqjenl.online/fail",
+        // returnUrl: "https://xn--b1aqjenl.online/success",
+        // failUrl: "https://xn--b1aqjenl.online/fail",
+        returnUrl: "https://vkusno-market.ru/success",
+        failUrl: "https://vkusno-market.ru/fail",
         description: description || `Заказ #${orderId}`,
         clientEmail: clientEmail || "",
       }),

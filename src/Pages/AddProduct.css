@@ -9,6 +9,13 @@
   margin-top: 100px;
 }
 
+/* Safe-area для мобильных webview */
+@media (max-width: 1200px) {
+  .add-product {
+    margin-top: calc(100px + env(safe-area-inset-top, 0px));
+  }
+}
+
 .add-product h1 {
   color: #FFFF00;
   margin-bottom: 32px;

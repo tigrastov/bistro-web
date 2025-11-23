@@ -10,17 +10,17 @@ export default function Success() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-  const savedOrderNumber = localStorage.getItem("lastOrderNumber");
-  if (savedOrderNumber) setOrderNumber(savedOrderNumber);
+    const savedOrderNumber = localStorage.getItem("lastOrderNumber");
+    if (savedOrderNumber) setOrderNumber(savedOrderNumber);
 
-  localStorage.removeItem("cart");
-  localStorage.removeItem("lastOrderNumber");
+    localStorage.removeItem("cart");
+    localStorage.removeItem("lastOrderNumber");
 
-  localStorage.setItem("hasOrders", "1");
-  window.dispatchEvent(new Event("orders-changed"));
+    localStorage.setItem("hasOrders", "1");
+    window.dispatchEvent(new Event("orders-changed"));
 
-  setLoading(false);
-}, []);
+    setLoading(false);
+  }, []);
 
 
 
@@ -45,6 +45,20 @@ export default function Success() {
       <button className="btn-success" onClick={() => navigate("/")}>
         Вернуться на главную
       </button>
+
+      <div className="success-message">
+        <div className="success-message-inner">
+          <h1>
+            Не оплачивайте заказ повторно, он уже оплачен!!!
+          </h1>
+        </div>
+        <p>
+          Если вы сделали заказ в мобильном приложении, и вас перебросило на сайт, то не перживайте
+          - ваш заказ обрабатыватся. Вы можете снова открыть приложение Нажать: "Отменить оплату",  "Очистить корзину". А в разделе "мои заказы" отслеживать статус заказа.
+        </p>
+
+      </div>
+
     </div>
   );
 }

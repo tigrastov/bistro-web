@@ -8,6 +8,13 @@
   box-sizing: border-box;
   font-family: Impact;
 }
+
+@media (max-width: 1200px) {
+  .orders {
+    padding-top: calc(100px + env(safe-area-inset-top, 0px));
+  }
+}
+
 .order-location{
 
 font-size: 15px;

@@ -20,6 +20,13 @@
   border-top-left-radius: 800px;
 }
 
+/* Safe-area для мобильных webview */
+@media (max-width: 1200px) {
+  .cart {
+    margin-top: calc(100px + env(safe-area-inset-top, 0px));
+  }
+}
+
 
 
 
@@ -152,7 +159,8 @@ font-family: Impact;
 display: flex;
 justify-content: center;
 align-items: center;
-
+border-radius: 10px;
+width: 100%;
 }
 .back{
 background-color: #261200;
@@ -161,6 +169,8 @@ font-family: Impact;
 display: flex;
 justify-content: center;
 align-items: center;
+border-radius: 10px;
+width: 100%;
 }
 
 
