@@ -279,6 +279,19 @@ useEffect(() => {
   };
 }, []);
 
+useEffect(() => {
+  const handleReturn = () => {
+    console.log("iOS вернулся из банка → закрываем модалки");
+
+    setIsModalOpen(false);
+    setModalStep(0);
+  };
+
+  window.addEventListener("iosReturnFromBank", handleReturn);
+
+  return () =>
+    window.removeEventListener("iosReturnFromBank", handleReturn);
+}, []);
 
 
 
