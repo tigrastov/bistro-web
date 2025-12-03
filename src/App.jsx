@@ -24,6 +24,7 @@ import SuccessCash from './Pages/SuccessCash.jsx';
 import FailCash from './Pages/FailCash.jsx';
 import ClosedScreen from './Components/ClosedScreen';
 import StopMarket from './Pages/StopMarkert.jsx';
+import { usePaymentStatusCheck } from './hooks/usePaymentStatusCheck';
 import './App.css';
 
 function AppWrapper() {
@@ -36,6 +37,9 @@ function AppWrapper() {
 
 function App() {
   const location = useLocation(); 
+  
+  // Проверка статуса оплаты при возврате в приложение
+  usePaymentStatusCheck();
 
   const [userData, setUserData] = useState(() => {
     try {
