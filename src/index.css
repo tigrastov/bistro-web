@@ -42,3 +42,20 @@ body {
 #root {
   min-height: calc(100vh - var(--safe-area-top) - var(--safe-area-bottom));
 }
+
+/* Предотвращение автоматического масштабирования на iOS при фокусе на input */
+input,
+textarea,
+select {
+  font-size: 16px !important; /* iOS не будет зумить если font-size >= 16px */
+}
+
+/* Дополнительная защита от zoom на iOS */
+@media screen and (max-width: 768px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+    transform: scale(1);
+  }
+}

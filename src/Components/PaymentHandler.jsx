@@ -9,6 +9,7 @@ import ClosedScreen from '../Components/ClosedScreen';
 
 const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, clearCart, isDelivery, cartPrice, totalPrice, deliveryPrice }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false); // Флаг для показа сообщения о редиректе
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const [deliveryAddress, setDeliveryAddress] = useState({});
@@ -128,8 +129,13 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, c
         localStorage.setItem('lastOrderNumber', orderNumber);
         localStorage.setItem('lastOrderLocation', order.location);
 
-
-        window.location.href = data.paymentUrl;
+        // Показываем сообщение о переходе на оплату
+        setIsRedirecting(true);
+        
+        // Небольшая задержка, чтобы пользователь увидел сообщение
+        setTimeout(() => {
+          window.location.href = data.paymentUrl;
+        }, 500);
 
       } else {
         throw new Error(data.message || 'Ошибка создания платежа');
@@ -184,8 +190,20 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, c
 
 
   return (
-    <div className="payment-handler">
-      <h3>Оплата заказа</h3>
+    <>
+      {/* Overlay с сообщением о переходе на оплату */}
+      {isRedirecting && (
+        <div className="payment-redirect-overlay">
+          <div className="payment-redirect-content">
+            <div className="payment-redirect-spinner"></div>
+            <h2>Переход на страницу оплаты...</h2>
+            <p>Пожалуйста, подождите. Вы будете перенаправлены на безопасную страницу банка для оплаты заказа.</p>
+          </div>
+        </div>
+      )}
+
+      <div className="payment-handler">
+        <h3>Оплата заказа</h3>
 
       {!isTerminal && (
         <div className="order-loca">
@@ -315,7 +333,8 @@ const PaymentHandler = ({ order, onPaymentSuccess, onPaymentError, isTerminal, c
         Отменить оплату
       </button>
 
-    </div>
+      </div>
+    </>
   );
 };
 
