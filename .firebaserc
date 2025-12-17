@@ -1,6 +1,7 @@
 {
   "projects": {
-    "default": "bistro-app-acfb4"
+    "default": "bistro-app-acfb4",
+    "bistro": "bistro-app-acfb4"
   },
   "targets": {},
   "etags": {}
