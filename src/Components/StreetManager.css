@@ -1,0 +1,408 @@
+/* StreetManager.css */
+.street-manager {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ШАПКА */
+.street-manager-header {
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.header-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 15px;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #4a6fa5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  text-decoration: none;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.back-btn:hover {
+  background: #3a5a8a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.location-display {
+  padding: 8px 16px;
+  background: #f0f7ff;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #333;
+  border: 1px solid #d1e3ff;
+}
+
+.street-manager-header h1 {
+  margin: 0;
+  color: #333;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+/* ОСНОВНОЙ КОНТЕНТ */
+.street-manager-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  gap: 20px;
+}
+
+/* ФОРМА ДОБАВЛЕНИЯ */
+.add-street-section {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.add-street-input-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.street-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.street-input:focus {
+  outline: none;
+  border-color: #4a6fa5;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
+}
+
+.duplicate-warning {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 5px;
+  padding: 8px 12px;
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 6px;
+  color: #856404;
+  font-size: 13px;
+  animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.add-btn {
+  padding: 14px 24px;
+  background: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+  font-weight: 500;
+  min-width: 140px;
+}
+
+.add-btn:hover:not(:disabled) {
+  background: #27ae60;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(39, 174, 96, 0.2);
+}
+
+.add-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ПОИСК */
+.search-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  color: #666;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 16px 12px 42px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #4a6fa5;
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clear-search-btn:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.search-stats {
+  font-size: 14px;
+  color: #666;
+  text-align: right;
+}
+
+/* СПИСОК УЛИЦ */
+.streets-list-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-shrink: 0;
+}
+
+.list-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.3rem;
+}
+
+.no-results {
+  padding: 8px 16px;
+  background: #fff3cd;
+  border-radius: 6px;
+  color: #856404;
+  font-size: 14px;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.empty-list {
+  color: #888;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.empty-hint {
+  color: #aaa;
+  font-size: 14px;
+}
+
+/* КОНТЕЙНЕР ДЛЯ СКРОЛЛА */
+.streets-grid-container {
+  flex: 1;
+  overflow-y: auto;
+  border: 2px solid #eaeaea;
+  border-radius: 12px;
+  background: #fcfcfc;
+  padding: 15px;
+}
+
+.streets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+  padding-right: 5px;
+}
+
+/* СТИЛИ ДЛЯ СКРОЛЛБАРА */
+.streets-grid-container::-webkit-scrollbar {
+  width: 10px;
+}
+
+.streets-grid-container::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 6px;
+  margin: 5px 0;
+}
+
+.streets-grid-container::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 6px;
+  border: 2px solid #f5f5f5;
+}
+
+.streets-grid-container::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* КАРТОЧКА УЛИЦЫ */
+.street-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  transition: all 0.25s ease;
+  min-height: 56px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.street-card:hover {
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+  border-color: #4a6fa5;
+  background: #f8fbff;
+}
+
+.street-name {
+  font-size: 16px;
+  color: #333;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 12px;
+  font-weight: 500;
+}
+
+.remove-btn {
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.remove-btn:hover {
+  background: #ff5252;
+  transform: scale(1.15);
+  box-shadow: 0 4px 8px rgba(255, 82, 82, 0.3);
+}
+
+/* ЗАГРУЗКА */
+.street-manager-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 18px;
+  color: #666;
+  background: #fafafa;
+}
+
+/* АДАПТИВНОСТЬ */
+@media (max-width: 768px) {
+  .street-manager {
+    padding: 15px;
+    height: calc(100vh - 20px);
+  }
+  
+  .header-top-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  
+  .add-street-section {
+    flex-direction: column;
+  }
+  
+  .add-btn {
+    width: 100%;
+    min-width: auto;
+  }
+  
+  .streets-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .back-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .location-display {
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .street-manager {
+    padding: 10px;
+  }
+  
+  .street-card {
+    padding: 12px 15px;
+  }
+  
+  .streets-grid-container {
+    padding: 10px;
+  }
+}

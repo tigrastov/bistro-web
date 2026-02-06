@@ -16,11 +16,12 @@ import Profile from './Pages/Profile';
 import DetailView from './Pages/DetailView.jsx';
 import Auth from './Pages/Auth.jsx';
 import AdminPanel from './Pages/AdminPanel.jsx';
+import StreetManager from './Components/StreetManager.jsx';
 import AddProduct from './Pages/AddProduct.jsx';
 import Success from './Pages/Success.jsx';
 import Fail from './Pages/Fail.jsx';
 import LocationSelect from './Components/LocationSelect.jsx';
-import SuccessCash from './Pages/SuccessCash.jsx';  
+import SuccessCash from './Pages/SuccessCash.jsx';
 import FailCash from './Pages/FailCash.jsx';
 import ClosedScreen from './Components/ClosedScreen';
 import StopMarket from './Pages/StopMarkert.jsx';
@@ -36,8 +37,8 @@ function AppWrapper() {
 }
 
 function App() {
-  const location = useLocation(); 
-  
+  const location = useLocation();
+
   // Проверка статуса оплаты при возврате в приложение
   usePaymentStatusCheck();
 
@@ -56,51 +57,51 @@ function App() {
 
   const [isStopMarket, setIsStopMarket] = useState(false);
 
-  
+
 
   // словарь: роли → рабочие локации
-const roleToLocation = {
-  adminCuba: 'Kubenskoye-Lenina-Street',
-  terminalCuba: 'Kubenskoye-Lenina-Street',
-  adminKarlMarks: 'Vologda-Karla-Marksa-Street',
-  terminalKarlMarks: 'Vologda-Karla-Marksa-Street',
-  adminFrz: 'Vologda-Fryazinovskaya-Street', 
-  terminalFrz: 'Vologda-Fryazinovskaya-Street'
-};
+  const roleToLocation = {
+    adminCuba: 'Kubenskoye-Lenina-Street',
+    terminalCuba: 'Kubenskoye-Lenina-Street',
+    adminKarlMarks: 'Vologda-Karla-Marksa-Street',
+    terminalKarlMarks: 'Vologda-Karla-Marksa-Street',
+    adminFrz: 'Vologda-Fryazinovskaya-Street',
+    terminalFrz: 'Vologda-Fryazinovskaya-Street'
+  };
 
-// массивы ролей для проверки прав
-const adminRoles = ['adminCuba', 'adminKarlMarks', 'adminFrz'];
-const terminalRoles = ['terminalCuba', 'terminalKarlMarks', 'terminalFrz'];
+  // массивы ролей для проверки прав
+  const adminRoles = ['adminCuba', 'adminKarlMarks', 'adminFrz'];
+  const terminalRoles = ['terminalCuba', 'terminalKarlMarks', 'terminalFrz'];
 
-// проверка роли
-const isAdmin = adminRoles.includes(userData?.role);
-const isTerminal = terminalRoles.includes(userData?.role);
+  // проверка роли
+  const isAdmin = adminRoles.includes(userData?.role);
+  const isTerminal = terminalRoles.includes(userData?.role);
 
-// определяем рабочую локацию
-const effectiveLocation = roleToLocation[userData?.role] || locationState;
+  // определяем рабочую локацию
+  const effectiveLocation = roleToLocation[userData?.role] || locationState;
 
-// подписка на стоп-маркет для текущей локации
-useEffect(() => {
-  if (!effectiveLocation) {
-    setIsStopMarket(false);
-    return;
-  }
-
-  const locationRef = doc(db, 'locations', effectiveLocation);
-  const unsub = onSnapshot(
-    locationRef,
-    (snap) => {
-      const data = snap.data() || {};
-      setIsStopMarket(!!data.stopMarket);
-    },
-    () => {
-      // при ошибке подписки не блокируем работу приложения
+  // подписка на стоп-маркет для текущей локации
+  useEffect(() => {
+    if (!effectiveLocation) {
       setIsStopMarket(false);
+      return;
     }
-  );
 
-  return () => unsub();
-}, [effectiveLocation]);
+    const locationRef = doc(db, 'locations', effectiveLocation);
+    const unsub = onSnapshot(
+      locationRef,
+      (snap) => {
+        const data = snap.data() || {};
+        setIsStopMarket(!!data.stopMarket);
+      },
+      () => {
+        // при ошибке подписки не блокируем работу приложения
+        setIsStopMarket(false);
+      }
+    );
+
+    return () => unsub();
+  }, [effectiveLocation]);
 
   const handleLocationSelect = (loc) => {
     setLocationState(loc);
@@ -154,7 +155,7 @@ useEffect(() => {
         const snap = await getDoc(userRef);
         const profile = snap.exists() ? (snap.data() || null) : null;
         setUserData(profile);
-        try { localStorage.setItem('userData', JSON.stringify(profile)); } catch {}
+        try { localStorage.setItem('userData', JSON.stringify(profile)); } catch { }
       } catch {
         // игнорируем сбои чтения профиля, оставляем предыдущее состояние
       }
@@ -193,7 +194,7 @@ useEffect(() => {
     }
 
     return () => {
-      unsubscribers.forEach((fn) => { try { fn(); } catch {} });
+      unsubscribers.forEach((fn) => { try { fn(); } catch { } });
     };
   }, [getAuth().currentUser?.uid]);
 
@@ -268,34 +269,34 @@ useEffect(() => {
     };
   }, []);
 
-// Обработка событий оплаты
+  // Обработка событий оплаты
 
-useEffect(() => {
-  const successHandler = () => navigate("/success");
-  const failHandler = () => navigate("/fail");
+  useEffect(() => {
+    const successHandler = () => navigate("/success");
+    const failHandler = () => navigate("/fail");
 
-  window.addEventListener("payment-success", successHandler);
-  window.addEventListener("payment-fail", failHandler);
+    window.addEventListener("payment-success", successHandler);
+    window.addEventListener("payment-fail", failHandler);
 
-  return () => {
-    window.removeEventListener("payment-success", successHandler);
-    window.removeEventListener("payment-fail", failHandler);
-  };
-}, []);
+    return () => {
+      window.removeEventListener("payment-success", successHandler);
+      window.removeEventListener("payment-fail", failHandler);
+    };
+  }, []);
 
-useEffect(() => {
-  const handleReturn = () => {
-    console.log("iOS вернулся из банка → закрываем модалки");
+  useEffect(() => {
+    const handleReturn = () => {
+      console.log("iOS вернулся из банка → закрываем модалки");
 
-    setIsModalOpen(false);
-    setModalStep(0);
-  };
+      setIsModalOpen(false);
+      setModalStep(0);
+    };
 
-  window.addEventListener("iosReturnFromBank", handleReturn);
+    window.addEventListener("iosReturnFromBank", handleReturn);
 
-  return () =>
-    window.removeEventListener("iosReturnFromBank", handleReturn);
-}, []);
+    return () =>
+      window.removeEventListener("iosReturnFromBank", handleReturn);
+  }, []);
 
 
 
@@ -356,7 +357,7 @@ useEffect(() => {
                     location={effectiveLocation}
                     userData={userData}
                     setCartCount={setCartCount}
-                    isAdmin={isAdmin}  
+                    isAdmin={isAdmin}
                   />
                 </motion.div>
               }
@@ -423,6 +424,13 @@ useEffect(() => {
                 </motion.div>
               }
             />
+            <Route
+              path="/admin/streets"
+              element={<StreetManager location={effectiveLocation} />}
+            />
+
+
+
             <Route path="/auth" element={<Auth setUserData={setUserData} />} />
             <Route path="/admin" element={<AdminPanel location={effectiveLocation} userData={userData} />} />
             <Route path="/success" element={<Success />} />

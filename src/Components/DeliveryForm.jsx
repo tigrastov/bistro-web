@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import Select from "react-select";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
 import { locationNames } from "./locationNames"; // ← импортируем словарь
 import "./DeliveryForm.css";
 
@@ -6,12 +9,12 @@ export default function DeliveryForm({ onChange, location }) {
     const [phone, setPhone] = useState("");
     const [city, setCity] = useState(""); // ← сюда будем подставлять короткое имя
     const [street, setStreet] = useState("");
+    const [streetOptions, setStreetOptions] = useState([]);
     const [house, setHouse] = useState("");
     const [apartment, setApartment] = useState("");
     const [entrance, setEntrance] = useState("");
     const [floor, setFloor] = useState("");
     const [errors, setErrors] = useState({});
-
 
     useEffect(() => {
         if (location) {
@@ -51,7 +54,27 @@ export default function DeliveryForm({ onChange, location }) {
         setPhone(value);
     };
 
+    useEffect(() => {
+        const loadStreets = async () => {
+            if (!location) return;
 
+            try {
+                const locRef = doc(db, "locations", location);
+                const snap = await getDoc(locRef);
+                const streets = snap.data()?.streets || [];
+
+                const options = streets.map(street => ({
+                    value: street,
+                    label: street
+                }));
+                setStreetOptions(options);
+            } catch (error) {
+                console.error("Ошибка загрузки улиц:", error);
+            }
+        };
+
+        loadStreets();
+    }, [location]);
 
 
 
@@ -98,11 +121,33 @@ export default function DeliveryForm({ onChange, location }) {
 
             <div>
                 <label>Улица*</label>
-                <input
-                    type="text"
-                    value={street}
-                    onChange={(e) => setStreet(e.target.value)}
+                <Select
+                    options={streetOptions}
+                    value={streetOptions.find(opt => opt.value === street)}
+                    onChange={(selectedOption) => {
+                        setStreet(selectedOption?.value || "");
+                    }}
                     onBlur={handleBlur}
+                    placeholder="Выберите улицу..."
+                    isSearchable
+                    noOptionsMessage={() => "Улица не найдена"}
+                    className="street-select"
+                    classNamePrefix="select"
+                    // Добавьте эти пропсы:
+                    styles={{
+                        menu: (provided) => ({
+                            ...provided,
+                            maxHeight: '200px',     // Фиксируем высоту
+                            overflowY: 'auto',      // Включаем скролл
+                            zIndex: 1000            // Поверх других элементов
+                        }),
+                        control: (provided) => ({
+                            ...provided,
+                            minHeight: '40px',      // Фиксированная высота
+                            height: '40px'
+                        })
+                    }}
+                    menuPlacement="auto"            // Умное позиционирование
                 />
                 {errors.street && <span className="error">{errors.street}</span>}
             </div>

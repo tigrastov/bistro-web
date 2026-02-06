@@ -72,3 +72,66 @@
 .readonly{
 color: black;
 }
+
+
+
+
+.street-select {
+    margin-bottom: 10px;
+    color: black;
+}
+
+.select__control {
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+
+/* В DeliveryForm.css добавьте: */
+.street-select {
+  margin-bottom: 10px;
+}
+
+.select__control {
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.select__menu {
+  max-height: 200px; /* Ограничиваем высоту меню */
+  overflow-y: auto;  /* Включаем скролл */
+  z-index: 1000;     /* Чтобы было поверх других элементов */
+}
+
+/* Стили для скролла в выпадающем списке */
+.select__menu {
+    max-height: 200px !important;
+    overflow-y: auto !important;
+    z-index: 1000 !important;
+}
+
+/* Опционально: стилизация скроллбара */
+.select__menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.select__menu::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.select__menu::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.select__menu::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Фиксируем высоту поля ввода */
+.select__control {
+    min-height: 40px !important;
+    height: 40px !important;
+}

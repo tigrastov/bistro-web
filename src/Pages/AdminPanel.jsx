@@ -13,6 +13,7 @@ import {
   setDoc,
   getDoc,
 } from 'firebase/firestore';
+
 import { NavLink } from 'react-router-dom';
 
 import './AdminPanel.css';
@@ -28,6 +29,7 @@ function AdminPanel({ location, userData }) {
   const db = getFirestore();
 
   const [showBell, setShowBell] = useState(false);
+
 
   const [isStopMarket, setIsStopMarket] = useState(false);
   const [isStopDelivery, setIsStopDelivery] = useState(false);
@@ -47,6 +49,7 @@ function AdminPanel({ location, userData }) {
         const data = snap.exists() ? snap.data() : {};
         setIsStopMarket(!!data.stopMarket);
         setIsStopDelivery(!!data.stopDelivery);
+
       } catch (e) {
         console.warn('Не удалось загрузить стоп-маркет для локации', location, e);
       }
@@ -88,6 +91,8 @@ function AdminPanel({ location, userData }) {
       setIsStopDelivery(!newValue);
     }
   };
+
+
 
 
 
@@ -248,7 +253,13 @@ function AdminPanel({ location, userData }) {
         </button>
       </div>
 
-      
+      <div className="admin-streets-wrapper">
+        <NavLink to="/admin/streets" className="admin-add-btn">
+          🗺️ Управление улицами
+        </NavLink>
+      </div>
+
+
 
 
       <div className="admin-add-product-wrapper">
