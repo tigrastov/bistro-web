@@ -30,6 +30,7 @@ function AdminPanel({ location, userData }) {
   const [showBell, setShowBell] = useState(false);
 
   const [isStopMarket, setIsStopMarket] = useState(false);
+  const [isStopDelivery, setIsStopDelivery] = useState(false);
 
   const deliveryText = (delivery) => delivery ? 'Да' : 'Нет';
   const deliveryClass = (delivery) => delivery ? 'delivery-yes' : 'delivery-no';
@@ -45,6 +46,7 @@ function AdminPanel({ location, userData }) {
         const snap = await getDoc(locRef);
         const data = snap.exists() ? snap.data() : {};
         setIsStopMarket(!!data.stopMarket);
+        setIsStopDelivery(!!data.stopDelivery);
       } catch (e) {
         console.warn('Не удалось загрузить стоп-маркет для локации', location, e);
       }
@@ -70,7 +72,25 @@ function AdminPanel({ location, userData }) {
     }
   };
 
-  // Responsive orders per page
+  const toggleStopDelivery = async () => {
+    if (!location) return;
+    const newValue = !isStopDelivery;
+    setIsStopDelivery(newValue);
+    try {
+      const locRef = doc(db, 'locations', location);
+      await setDoc(
+        locRef,
+        { stopDelivery: newValue },
+        { merge: true }
+      );
+    } catch (e) {
+      console.error('Ошибка при смене статуса стоп-доставки:', e);
+      setIsStopDelivery(!newValue);
+    }
+  };
+
+
+
   useEffect(() => {
     const handleResize = () => {
       setOrdersPerPage(window.innerWidth > 768 ? 10 : 5);
@@ -80,11 +100,6 @@ function AdminPanel({ location, userData }) {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-
-
-
-
 
 
 
@@ -222,6 +237,18 @@ function AdminPanel({ location, userData }) {
           {isStopMarket ? '🔴 Стоп-маркет включён' : '🟢 Маркет работает'}
         </button>
       </div>
+
+      <div className="admin-delivery-wrapper">
+        <button
+          type="button"
+          className={`admin-add-btn ${isStopDelivery ? 'active' : ''}`}
+          onClick={toggleStopDelivery}
+        >
+          {isStopDelivery ? '🔴 Стоп-доставка включена' : '🟢 Доставка работает'}
+        </button>
+      </div>
+
+      
 
 
       <div className="admin-add-product-wrapper">
